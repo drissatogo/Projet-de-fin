@@ -3,7 +3,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 void main() {
   runApp(const MaterialApp(
-    home: Contrat(),
+    home: Entretien(),
   ));
 }
 
@@ -279,8 +279,7 @@ class _PrincipalState extends State<Principal> {
                 username: 'username',
                 numero: 'numero',
                 email: 'email',
-                motDePasse: 'motDePasse'
-                )));
+                motDePasse: 'motDePasse')));
   }
 
   void _onModifier() {
@@ -426,7 +425,10 @@ class _PrincipalState extends State<Principal> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (context) => Cv()));
+                  },
                   child: Column(
                     children: [
                       Image.asset(
@@ -442,7 +444,10 @@ class _PrincipalState extends State<Principal> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Motivation()));
+                  },
                   child: Column(
                     children: [
                       Image.asset(
@@ -458,8 +463,6 @@ class _PrincipalState extends State<Principal> {
                   ),
                 ),
               ],
-              // alignment: WrapAlignment.center,
-              // crossAxisAlignment: WrapCrossAlignment.center,
             ),
           ),
         ],
@@ -482,13 +485,6 @@ class _ContratsState extends State<Contrats> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // GestureDetector(
-        //   child: IconButton(
-        //       onPressed: () {
-        //         Navigator.of(context).pop();
-        //       },
-        //       icon: Icon(Icons.keyboard_backspace_outlined)),
-        // ),
         Image(
           image: AssetImage('assets/images/entretien.jpg'),
           width: 200,
@@ -764,6 +760,606 @@ class _DetailProfilState extends State<DetailProfil> {
           ),
         ]),
       ),
+    );
+  }
+}
+
+//Document CV et lettre de motivation
+
+class Cv extends StatefulWidget {
+  const Cv({super.key});
+
+  @override
+  State<Cv> createState() => _CvState();
+}
+
+class _CvState extends State<Cv> {
+  TextStyle mesTextes = const TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+      color: Colors.black);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back),
+            ),
+            Image.asset(
+              'assets/images/Cvs.webp',
+              width: 100,
+              height: 100,
+            ),
+            Container()
+          ],
+        ),
+        Text(
+          'Cv',
+          style: mesTextes,
+        ),
+        SizedBox(
+          height: 40,
+        ),
+        Container(
+          width: 250,
+          height: 300,
+          decoration: ShapeDecoration(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 0.50),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                width: 200,
+                height: 60,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0x3F000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Image.asset('assets/images/Cvs.webp'),
+                      Text(
+                        'Généralité',
+                        style: mesTextes,
+                      )
+                    ]),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 200,
+                  height: 60,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset('assets/images/Cvs.webp'),
+                        Text(
+                          'Structure',
+                          style: mesTextes,
+                        )
+                      ]),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 200,
+                  height: 60,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset('assets/images/Cvs.webp'),
+                        Text(
+                          'Exemplaire',
+                          style: mesTextes,
+                        )
+                      ]),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 200,
+                  height: 60,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset('assets/images/Cvs.webp'),
+                        Text(
+                          'Rédaction',
+                          style: mesTextes,
+                        )
+                      ]),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+//Document lettre de motivation
+
+class Motivation extends StatefulWidget {
+  const Motivation({super.key});
+
+  @override
+  State<Motivation> createState() => _MotivationState();
+}
+
+class _MotivationState extends State<Motivation> {
+  TextStyle mesTextes = const TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+      color: Colors.black);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back),
+            ),
+            Image.asset(
+              'assets/images/Cvs.webp',
+              width: 100,
+              height: 100,
+            ),
+            Container()
+          ],
+        ),
+        Text(
+          'Lettre de Motivation',
+          style: mesTextes,
+        ),
+        SizedBox(
+          height: 40,
+        ),
+        Container(
+          width: 250,
+          height: 300,
+          decoration: ShapeDecoration(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 0.50),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                width: 200,
+                height: 60,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  shadows: [
+                    BoxShadow(
+                      color: Color(0x3F000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                      spreadRadius: 0,
+                    )
+                  ],
+                ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Image.asset('assets/images/Cvs.webp'),
+                      Text(
+                        'Généralité',
+                        style: mesTextes,
+                      )
+                    ]),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 200,
+                  height: 60,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset('assets/images/Cvs.webp'),
+                        Text(
+                          'Structure',
+                          style: mesTextes,
+                        )
+                      ]),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 200,
+                  height: 60,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset('assets/images/Cvs.webp'),
+                        Text(
+                          'Exemplaire',
+                          style: mesTextes,
+                        )
+                      ]),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 200,
+                  height: 60,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Image.asset('assets/images/Cvs.webp'),
+                        Text(
+                          'Rédaction',
+                          style: mesTextes,
+                        )
+                      ]),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+//Entretien
+
+class Entretien extends StatefulWidget {
+  const Entretien({super.key});
+
+  @override
+  State<Entretien> createState() => _EntretienState();
+}
+
+class _EntretienState extends State<Entretien> {
+  TextStyle mesTextes = const TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+      color: Colors.black);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(Icons.arrow_back),
+            ),
+            Container(
+              width: 120,
+              height: 120,
+              decoration: ShapeDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/entretien.jpg'),
+                  fit: BoxFit.fill,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            Container()
+          ],
+        ),
+        Text(
+          'Entretien',
+          style: mesTextes,
+        ),
+        SizedBox(
+          height: 40,
+        ),
+        Container(
+          width: 350,
+          height: 400,
+          decoration: ShapeDecoration(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 0.50),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 275,
+                  height: 84,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(children: [
+                    Container(
+                      width: 79,
+                      height: 61,
+                      decoration: ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/entretien.jpg'),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'Préparation',
+                      style: mesTextes,
+                    )
+                  ]),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 275,
+                  height: 84,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(children: [
+                    Container(
+                      width: 79,
+                      height: 61,
+                      decoration: ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/entretien.jpg'),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'Préparation',
+                      style: mesTextes,
+                    )
+                  ]),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 275,
+                  height: 84,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(children: [
+                    Container(
+                      width: 79,
+                      height: 61,
+                      decoration: ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/entretien.jpg'),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'Préparation',
+                      style: mesTextes,
+                    )
+                  ]),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 275,
+                  height: 84,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(children: [
+                    Container(
+                      width: 79,
+                      height: 61,
+                      decoration: ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/entretien.jpg'),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'Préparation',
+                      style: mesTextes,
+                    )
+                  ]),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
     );
   }
 }
