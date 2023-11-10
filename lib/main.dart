@@ -1,11 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:mongrh/firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MaterialApp(
-    home: Entretien(),
+    home: Coach(),
   ));
 }
+
 
 class PremierePage extends StatelessWidget {
   const PremierePage({Key? key}) : super(key: key);
@@ -1360,6 +1367,583 @@ class _EntretienState extends State<Entretien> {
           ),
         )
       ],
+    );
+  }
+}
+
+//Coach
+class Coach extends StatefulWidget {
+  const Coach({super.key});
+
+  @override
+  State<Coach> createState() => _CoachState();
+}
+
+class _CoachState extends State<Coach> {
+  TextStyle mesTextes = const TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
+      color: Colors.black);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Icon(Icons.arrow_back,
+                    color: Color.fromARGB(255, 54, 2, 65)),
+              ),
+              Container(
+                width: 120,
+                height: 120,
+                decoration: ShapeDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/profil.png"),
+                    fit: BoxFit.fill,
+                  ),
+                  shape: OvalBorder(
+                    side: BorderSide(width: 4, color: Color(0xFF9D9D9D)),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},
+                child: Icon(Icons.home, color: Color.fromARGB(255, 54, 2, 65)),
+              )
+            ],
+          ),
+          Text(
+            'TOURE',
+            style: mesTextes,
+          ),
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: 300,
+                  height: 80,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/profil.png"),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: OvalBorder(
+                            side:
+                                BorderSide(width: 4, color: Color(0xFF9D9D9D)),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'DIARRA',
+                            style: mesTextes,
+                          ),
+                          // GridView.count(
+                          //   shrinkWrap: true,
+                          //   crossAxisCount: 2,
+                          //   children: List.generate(10, (index) {
+                          //     return Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.star,
+                          //           color: Colors.amber,
+                          //         )
+                          //       ],
+                          //     );
+                          //   }),
+                          // ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              )
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 300,
+                  height: 80,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/profil.png"),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: OvalBorder(
+                            side:
+                                BorderSide(width: 4, color: Color(0xFF9D9D9D)),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'DIARRA',
+                            style: mesTextes,
+                          ),
+                          // GridView.count(
+                          //   shrinkWrap: true,
+                          //   crossAxisCount: 2,
+                          //   children: List.generate(10, (index) {
+                          //     return Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.star,
+                          //           color: Colors.amber,
+                          //         )
+                          //       ],
+                          //     );
+                          //   }),
+                          // ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              )
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 300,
+                  height: 80,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/profil.png"),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: OvalBorder(
+                            side:
+                                BorderSide(width: 4, color: Color(0xFF9D9D9D)),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'DIARRA',
+                            style: mesTextes,
+                          ),
+                          // GridView.count(
+                          //   shrinkWrap: true,
+                          //   crossAxisCount: 2,
+                          //   children: List.generate(10, (index) {
+                          //     return Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.star,
+                          //           color: Colors.amber,
+                          //         )
+                          //       ],
+                          //     );
+                          //   }),
+                          // ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              )
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 300,
+                  height: 80,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/profil.png"),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: OvalBorder(
+                            side:
+                                BorderSide(width: 4, color: Color(0xFF9D9D9D)),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'DIARRA',
+                            style: mesTextes,
+                          ),
+                          // GridView.count(
+                          //   shrinkWrap: true,
+                          //   crossAxisCount: 2,
+                          //   children: List.generate(10, (index) {
+                          //     return Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.star,
+                          //           color: Colors.amber,
+                          //         )
+                          //       ],
+                          //     );
+                          //   }),
+                          // ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              )
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 300,
+                  height: 80,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/profil.png"),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: OvalBorder(
+                            side:
+                                BorderSide(width: 4, color: Color(0xFF9D9D9D)),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'DIARRA',
+                            style: mesTextes,
+                          ),
+                          // GridView.count(
+                          //   shrinkWrap: true,
+                          //   crossAxisCount: 2,
+                          //   children: List.generate(10, (index) {
+                          //     return Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.star,
+                          //           color: Colors.amber,
+                          //         )
+                          //       ],
+                          //     );
+                          //   }),
+                          // ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              )
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 300,
+                  height: 80,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(1, 1),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/profil.png"),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: OvalBorder(
+                            side:
+                                BorderSide(width: 4, color: Color(0xFF9D9D9D)),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'DIARRA',
+                            style: mesTextes,
+                          ),
+                          // GridView.count(
+                          //   shrinkWrap: true,
+                          //   crossAxisCount: 2,
+                          //   children: List.generate(10, (index) {
+                          //     return Row(
+                          //       children: [
+                          //         Icon(
+                          //           Icons.star,
+                          //           color: Colors.amber,
+                          //         )
+                          //       ],
+                          //     );
+                          //   }),
+                          // ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              )
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

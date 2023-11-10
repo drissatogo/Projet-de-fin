@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "204689348332",
+    "project_id": "mongrh-b54b0",
+    "storage_bucket": "mongrh-b54b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:204689348332:android:71348523947b2619ac37c9",
+        "android_client_info": {
+          "package_name": "com.example.mongrh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs0psAMwuZj78-1Ia70ax-2FR15dHfjRE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
