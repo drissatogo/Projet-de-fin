@@ -7,12 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mongrh/inscription.dart';
 import 'package:mongrh/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const PageInscription());
+    await tester.pumpWidget(const PremierePage());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

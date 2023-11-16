@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -44,37 +47,28 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDaDNcoS-aXC8AFmBG92qF_SDLxFEoK3Mg',
-    appId: '1:204689348332:web:f3744fc8f824e32bac37c9',
-    messagingSenderId: '204689348332',
-    projectId: 'mongrh-b54b0',
-    authDomain: 'mongrh-b54b0.firebaseapp.com',
-    storageBucket: 'mongrh-b54b0.appspot.com',
+    apiKey: 'AIzaSyBOWd4hQes9558e4TBKO8zD0BxCr0sOxpM',
+    appId: '1:1077700334515:web:bdc542fa1d8e8921d931c6',
+    messagingSenderId: '1077700334515',
+    projectId: 'mongrh2',
+    authDomain: 'mongrh2.firebaseapp.com',
+    storageBucket: 'mongrh2.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBs0psAMwuZj78-1Ia70ax-2FR15dHfjRE',
-    appId: '1:204689348332:android:71348523947b2619ac37c9',
-    messagingSenderId: '204689348332',
-    projectId: 'mongrh-b54b0',
-    storageBucket: 'mongrh-b54b0.appspot.com',
+    apiKey: 'AIzaSyAXAUFO_LtQuGJb44j_c1AaroO1SsSDiCo',
+    appId: '1:1077700334515:android:15f76598a6a05d5ad931c6',
+    messagingSenderId: '1077700334515',
+    projectId: 'mongrh2',
+    storageBucket: 'mongrh2.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCqQMRF33_aqIWJBpBIIff2VojvwF4YFRY',
-    appId: '1:204689348332:ios:89cdf9433abd8c57ac37c9',
-    messagingSenderId: '204689348332',
-    projectId: 'mongrh-b54b0',
-    storageBucket: 'mongrh-b54b0.appspot.com',
+    apiKey: 'AIzaSyAWbCnZYOyLnPpSK2MD0tG4XtANgiieFe0',
+    appId: '1:1077700334515:ios:9fc49188460806b0d931c6',
+    messagingSenderId: '1077700334515',
+    projectId: 'mongrh2',
+    storageBucket: 'mongrh2.appspot.com',
     iosBundleId: 'com.example.mongrh',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCqQMRF33_aqIWJBpBIIff2VojvwF4YFRY',
-    appId: '1:204689348332:ios:5121b2f102daf5a5ac37c9',
-    messagingSenderId: '204689348332',
-    projectId: 'mongrh-b54b0',
-    storageBucket: 'mongrh-b54b0.appspot.com',
-    iosBundleId: 'com.example.mongrh.RunnerTests',
   );
 }
