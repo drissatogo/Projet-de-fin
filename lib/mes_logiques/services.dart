@@ -3,7 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:mongrh/mes_logiques/mes_classes.dart';
 
 class ElementEntretienService {
-  Future<String> ajouterElementEntretien(ElementEntretien elementEntretien) async {
+  Future<String> ajouterElementEntretien(
+      ElementEntretien elementEntretien) async {
     // Initialisez Firebase.
     print("test");
     await Firebase.initializeApp();

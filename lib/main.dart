@@ -73,23 +73,25 @@
 // }
 
 // import 'package:myapp/home.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mongrh/Controller/pageController.dart';
 import 'package:mongrh/admin.dart';
+import 'package:mongrh/firebase_options.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(
-    ChangeNotifierProvider<MyAppState>(
-      create: (_) => MyAppState(),
+    ChangeNotifierProvider<EntretienAdminController>(
+      create: (_) => EntretienAdminController(),
       child: const MaterialApp(
         home: MyHomePage(),
       ),
     ),
   );
-}
-
-class MyAppState extends ChangeNotifier {
-  var selectedIndex = 0;
 }
 
 class MyHomePage extends StatefulWidget {
@@ -110,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = const ContratAdmin();
         break;
       case 1:
-        page = const EntretienAdmin();
+        page = const EntretienPage();
         break;
       case 2:
         page = const CoachsAdmin();

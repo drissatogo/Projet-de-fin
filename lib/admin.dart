@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mongrh/Controller/pageController.dart';
 import 'package:mongrh/mes_logiques/mes_classes.dart';
 import 'package:mongrh/mes_logiques/services.dart';
+import 'package:provider/provider.dart';
 
 class Bienvenu extends StatefulWidget {
   const Bienvenu({super.key});
@@ -16,7 +18,7 @@ class _BienvenuState extends State<Bienvenu> {
       width: 1359,
       height: 600,
       clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Stack(
         children: [
           Positioned(
@@ -25,7 +27,7 @@ class _BienvenuState extends State<Bienvenu> {
               child: Container(
                 width: 589,
                 height: 348,
-                decoration: ShapeDecoration(
+                decoration: const ShapeDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/milieu.png"),
                     fit: BoxFit.fill,
@@ -35,7 +37,7 @@ class _BienvenuState extends State<Bienvenu> {
                       ),
                 ),
               )),
-          Positioned(
+          const Positioned(
             left: 702,
             top: 41,
             child: SizedBox(
@@ -57,7 +59,7 @@ class _BienvenuState extends State<Bienvenu> {
           Positioned(
             left: 176.57,
             top: 433,
-            child: Container(
+            child: SizedBox(
               width: 261.15,
               height: 49.16,
               child: Stack(
@@ -69,7 +71,7 @@ class _BienvenuState extends State<Bienvenu> {
                       width: 180,
                       height: 42,
                       decoration: ShapeDecoration(
-                        color: Color(0xFF4E5394),
+                        color: const Color(0xFF4E5394),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -87,9 +89,10 @@ class _BienvenuState extends State<Bienvenu> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => DashboardFirst()));
+                                    builder: (context) =>
+                                        const DashboardFirst()));
                           },
-                          child: Text(
+                          child: const Text(
                             'Commencer',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -112,7 +115,7 @@ class _BienvenuState extends State<Bienvenu> {
             child: Container(
               width: 325,
               height: 320,
-              decoration: ShapeDecoration(
+              decoration: const ShapeDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/images/logo.png"),
                   fit: BoxFit.fill,
@@ -183,7 +186,7 @@ class _DashboardFirstState extends State<DashboardFirst> {
       decoration: ShapeDecoration(
         color: Colors.white,
         shape: RoundedRectangleBorder(
-          side: BorderSide(width: 3, color: Color(0xFF4E5394)),
+          side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
           borderRadius: BorderRadius.circular(20),
         ),
       ),
@@ -318,19 +321,28 @@ class _DashboardFirstState extends State<DashboardFirst> {
 }
 
 class NavigationRailExample extends StatefulWidget {
+  const NavigationRailExample({super.key});
+
+  @override
   _NavigationRailExampleState createState() => _NavigationRailExampleState();
 }
 
 class _NavigationRailExampleState extends State<NavigationRailExample> {
   late int _selectedIndex;
-  List<Widget> listPage = [ContratAdmin(), DashboardFirst(), CvAdmin()];
+  List<Widget> listPage = [
+    const ContratAdmin(),
+    const DashboardFirst(),
+    const CvAdmin()
+  ];
 
+  @override
   initState() {
     super.initState();
 
     _selectedIndex = 0;
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -348,7 +360,7 @@ class _NavigationRailExampleState extends State<NavigationRailExample> {
                 });
               },
             ),
-            VerticalDivider(),
+            const VerticalDivider(),
             Expanded(
               child: listPage[_selectedIndex],
             ),
@@ -359,20 +371,20 @@ class _NavigationRailExampleState extends State<NavigationRailExample> {
   }
 
   List<NavigationRailDestination> _buildDestinations() {
-    Icon icon = Icon(Icons.check_circle_outline);
+    Icon icon = const Icon(Icons.check_circle_outline);
 
     return [
       NavigationRailDestination(
         icon: icon,
-        label: Text('Contrat'),
+        label: const Text('Contrat'),
       ),
       NavigationRailDestination(
         icon: icon,
-        label: Text('Menu 2'),
+        label: const Text('Menu 2'),
       ),
       NavigationRailDestination(
         icon: icon,
-        label: Text('Menu 3'),
+        label: const Text('Menu 3'),
       ),
     ];
   }
@@ -568,22 +580,22 @@ class _ContratAdminState extends State<ContratAdmin> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.ltr,
-      child: Container(
+      child: SizedBox(
         width: 1300,
         height: 600,
         child: Column(
           children: [
             Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 3, 46, 82),
                   child: Icon(
                     Icons.arrow_back,
                     size: 40,
-                    color: const Color.fromARGB(255, 238, 235, 235),
+                    color: Color.fromARGB(255, 238, 235, 235),
                   ),
-                  backgroundColor: const Color.fromARGB(255, 3, 46, 82),
                 ),
-                Expanded(
+                const Expanded(
                   child: Text(
                     'Les types de contrat du travail',
                     textAlign: TextAlign.center,
@@ -599,7 +611,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                 Container(
                   width: 172,
                   height: 173,
-                  decoration: ShapeDecoration(
+                  decoration: const ShapeDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/logo.png"),
                       fit: BoxFit.fill,
@@ -616,7 +628,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
@@ -630,7 +642,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/contrat.jpg"),
@@ -638,7 +650,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'CDD',
@@ -662,7 +674,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/contrat.jpg"),
@@ -670,7 +682,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'CDD',
@@ -694,7 +706,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/contrat.jpg"),
@@ -702,7 +714,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'CDD',
@@ -731,7 +743,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/contrat.jpg"),
@@ -739,7 +751,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'CDD',
@@ -763,7 +775,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/contrat.jpg"),
@@ -771,7 +783,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'CDD',
@@ -795,7 +807,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/contrat.jpg"),
@@ -803,7 +815,7 @@ class _ContratAdminState extends State<ContratAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'CDD',
@@ -829,9 +841,9 @@ class _ContratAdminState extends State<ContratAdmin> {
                       children: [
                         GestureDetector(
                           onTap: () {},
-                          child: Icon(
+                          child: const Icon(
                             Icons.add_circle,
-                            color: const Color.fromARGB(255, 3, 57, 102),
+                            color: Color.fromARGB(255, 3, 57, 102),
                             size: 40,
                           ),
                         )
@@ -860,22 +872,22 @@ class _CvAdminState extends State<CvAdmin> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.ltr,
-      child: Container(
+      child: SizedBox(
         width: 1300,
         height: 600,
         child: Column(
           children: [
             Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 3, 46, 82),
                   child: Icon(
                     Icons.arrow_back,
                     size: 40,
-                    color: const Color.fromARGB(255, 238, 235, 235),
+                    color: Color.fromARGB(255, 238, 235, 235),
                   ),
-                  backgroundColor: const Color.fromARGB(255, 3, 46, 82),
                 ),
-                Expanded(
+                const Expanded(
                   child: Text(
                     'Curriculum vitae',
                     textAlign: TextAlign.center,
@@ -891,7 +903,7 @@ class _CvAdminState extends State<CvAdmin> {
                 Container(
                   width: 172,
                   height: 173,
-                  decoration: ShapeDecoration(
+                  decoration: const ShapeDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/logo.png"),
                       fit: BoxFit.fill,
@@ -908,7 +920,7 @@ class _CvAdminState extends State<CvAdmin> {
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
@@ -922,14 +934,14 @@ class _CvAdminState extends State<CvAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Généralité',
@@ -953,14 +965,14 @@ class _CvAdminState extends State<CvAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Structure',
@@ -984,14 +996,14 @@ class _CvAdminState extends State<CvAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Contenu',
@@ -1020,14 +1032,14 @@ class _CvAdminState extends State<CvAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Exemplaire',
@@ -1051,14 +1063,14 @@ class _CvAdminState extends State<CvAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Rédaction',
@@ -1079,12 +1091,12 @@ class _CvAdminState extends State<CvAdmin> {
                         )
                       ],
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Icon(
                           Icons.add_circle,
-                          color: const Color.fromARGB(255, 3, 57, 102),
+                          color: Color.fromARGB(255, 3, 57, 102),
                           size: 40,
                         )
                       ],
@@ -1112,22 +1124,22 @@ class _MotivationAdminState extends State<MotivationAdmin> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.ltr,
-      child: Container(
+      child: SizedBox(
         width: 1300,
         height: 600,
         child: Column(
           children: [
             Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 3, 46, 82),
                   child: Icon(
                     Icons.arrow_back,
                     size: 40,
-                    color: const Color.fromARGB(255, 238, 235, 235),
+                    color: Color.fromARGB(255, 238, 235, 235),
                   ),
-                  backgroundColor: const Color.fromARGB(255, 3, 46, 82),
                 ),
-                Expanded(
+                const Expanded(
                   child: Text(
                     'Curriculum vitae',
                     textAlign: TextAlign.center,
@@ -1143,7 +1155,7 @@ class _MotivationAdminState extends State<MotivationAdmin> {
                 Container(
                   width: 172,
                   height: 173,
-                  decoration: ShapeDecoration(
+                  decoration: const ShapeDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/logo.png"),
                       fit: BoxFit.fill,
@@ -1160,7 +1172,7 @@ class _MotivationAdminState extends State<MotivationAdmin> {
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
@@ -1174,14 +1186,14 @@ class _MotivationAdminState extends State<MotivationAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Généralité',
@@ -1205,14 +1217,14 @@ class _MotivationAdminState extends State<MotivationAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Structure',
@@ -1236,14 +1248,14 @@ class _MotivationAdminState extends State<MotivationAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Contenu',
@@ -1272,14 +1284,14 @@ class _MotivationAdminState extends State<MotivationAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Exemplaire',
@@ -1303,14 +1315,14 @@ class _MotivationAdminState extends State<MotivationAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage("assets/images/Cvs.Webp"),
                                   fit: BoxFit.fill,
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Rédaction',
@@ -1331,12 +1343,12 @@ class _MotivationAdminState extends State<MotivationAdmin> {
                         )
                       ],
                     ),
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Icon(
                           Icons.add_circle,
-                          color: const Color.fromARGB(255, 3, 57, 102),
+                          color: Color.fromARGB(255, 3, 57, 102),
                           size: 40,
                         )
                       ],
@@ -1362,26 +1374,28 @@ class EntretienAdmin extends StatefulWidget {
 class _EntretienAdminState extends State<EntretienAdmin> {
   @override
   Widget build(BuildContext context) {
+    final entretienAdminController = context.watch<EntretienAdminController>();
+
     return Directionality(
       textDirection: TextDirection.ltr,
-      child: Container(
+      child: SizedBox(
         width: 1300,
         height: 600,
         child: Column(
           children: [
             Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 3, 46, 82),
                   child: Icon(
                     Icons.arrow_back,
                     size: 40,
-                    color: const Color.fromARGB(255, 238, 235, 235),
+                    color: Color.fromARGB(255, 238, 235, 235),
                   ),
-                  backgroundColor: const Color.fromARGB(255, 3, 46, 82),
                 ),
-                Expanded(
+                const Expanded(
                   child: Text(
-                    'Curriculum vitae',
+                    'Entretien',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF4E5394),
@@ -1395,7 +1409,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                 Container(
                   width: 172,
                   height: 173,
-                  decoration: ShapeDecoration(
+                  decoration: const ShapeDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/logo.png"),
                       fit: BoxFit.fill,
@@ -1412,7 +1426,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
@@ -1426,7 +1440,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/entretien.jpg"),
@@ -1434,7 +1448,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Généralité',
@@ -1458,7 +1472,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/entretien.jpg"),
@@ -1466,7 +1480,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Préparation',
@@ -1495,7 +1509,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/entretien.jpg"),
@@ -1503,7 +1517,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Questions',
@@ -1527,7 +1541,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                             Container(
                               width: 138,
                               height: 152,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 image: DecorationImage(
                                   image:
                                       AssetImage("assets/images/entretien.jpg"),
@@ -1535,7 +1549,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                                 ),
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Text(
                                   'Coachs',
@@ -1560,10 +1574,17 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
-                          onTap: () {},
-                          child: Icon(
+                          onTap: () {
+                            entretienAdminController.gotoAddEntretien();
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             const AjoutEntretien()));
+                          },
+                          child: const Icon(
                             Icons.add_circle,
-                            color: const Color.fromARGB(255, 3, 57, 102),
+                            color: Color.fromARGB(255, 3, 57, 102),
                             size: 40,
                           ),
                         )
@@ -1594,34 +1615,34 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
     // Future<void> _initFirebase() async {
     //   await Firebase.initializeApp();
     // }
-
+    final enregistrer = context.watch<EntretienAdminController>();
     final service = ElementEntretienService();
     // Créez les champs de saisie
-    final _titreController = TextEditingController();
-    final _contenuController = TextEditingController();
+    final titreController = TextEditingController();
+    final contenuController = TextEditingController();
 
 // Récupérez les valeurs saisies par l'utilisateur
-    final titre = _titreController.text;
-    final contenu = _contenuController.text;
+    final titre = titreController.text;
+    final contenu = contenuController.text;
 
     return MaterialApp(
       home: Scaffold(
         body: Column(
           children: [
-            Container(
+            SizedBox(
               width: 900,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
+                    backgroundColor: Color.fromARGB(255, 3, 46, 82),
                     child: Icon(
                       Icons.arrow_back,
                       size: 40,
-                      color: const Color.fromARGB(255, 238, 235, 235),
+                      color: Color.fromARGB(255, 238, 235, 235),
                     ),
-                    backgroundColor: const Color.fromARGB(255, 3, 46, 82),
                   ),
-                  Text(
+                  const Text(
                     'Ajouter la préparation d’un entretien',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -1635,7 +1656,7 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                   Container(
                     width: 172,
                     height: 173,
-                    decoration: ShapeDecoration(
+                    decoration: const ShapeDecoration(
                       image: DecorationImage(
                         image: AssetImage("assets/images/logo.png"),
                         fit: BoxFit.fill,
@@ -1652,7 +1673,7 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
               decoration: ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 3, color: Color(0xFF4E5394)),
+                  side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),
@@ -1660,14 +1681,14 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Nom'),
+                        const Text('Nom'),
                         Container(
                           width: 849,
                           height: 78,
@@ -1676,7 +1697,7 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            shadows: [
+                            shadows: const [
                               BoxShadow(
                                 color: Color(0x3F000000),
                                 blurRadius: 4,
@@ -1689,8 +1710,8 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: TextField(
-                              controller: _titreController,
-                              decoration: InputDecoration(
+                              controller: titreController,
+                              decoration: const InputDecoration(
                                 hintText: 'Saisissez ici',
                                 border: InputBorder.none,
                               ),
@@ -1701,14 +1722,14 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   Container(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Contenu'),
+                        const Text('Contenu'),
                         Container(
                           width: 849,
                           height: 150,
@@ -1717,7 +1738,7 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            shadows: [
+                            shadows: const [
                               BoxShadow(
                                 color: Color(0x3F000000),
                                 blurRadius: 4,
@@ -1730,8 +1751,8 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: TextField(
-                              controller: _contenuController,
-                              decoration: InputDecoration(
+                              controller: contenuController,
+                              decoration: const InputDecoration(
                                 hintText: 'Saisissez ici',
                                 border: InputBorder.none,
                               ),
@@ -1745,10 +1766,10 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Container(
+            SizedBox(
               width: 800,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1758,9 +1779,9 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.red, // Couleur de fond du bouton
+                      backgroundColor: Colors.red, // Couleur de fond du bouton
                     ),
-                    child: Text(
+                    child: const Text(
                       "Annuler",
                       style: TextStyle(
                         color: Colors.white, // Couleur du texte du bouton
@@ -1772,17 +1793,19 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                       print("hello");
                       // Créez l'objet ElementEntretien
                       final elementEntretien = ElementEntretien(
-                        titre: _titreController.text,
-                        contenu: _contenuController.text,
+                        titre: titreController.text,
+                        contenu: contenuController.text,
                       );
                       print("half");
                       await service.ajouterElementEntretien(elementEntretien);
                       print("hell");
+                      enregistrer.gotoListEntretien();
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF4E5394), // Couleur de fond du bouton
+                      backgroundColor:
+                          const Color(0xFF4E5394), // Couleur de fond du bouton
                     ),
-                    child: Text(
+                    child: const Text(
                       "Enregistrer",
                       style: TextStyle(
                         color: Colors.white, // Couleur du texte du bouton
@@ -1813,20 +1836,20 @@ class _CoachsAdminState extends State<CoachsAdmin> {
       textDirection: TextDirection.ltr,
       child: Column(
         children: [
-          Container(
+          SizedBox(
             width: 953,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
+                  backgroundColor: Color.fromARGB(255, 3, 46, 82),
                   child: Icon(
                     Icons.arrow_back,
                     size: 40,
-                    color: const Color.fromARGB(255, 238, 235, 235),
+                    color: Color.fromARGB(255, 238, 235, 235),
                   ),
-                  backgroundColor: const Color.fromARGB(255, 3, 46, 82),
                 ),
-                Text(
+                const Text(
                   'Liste des coachs',
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -1840,7 +1863,7 @@ class _CoachsAdminState extends State<CoachsAdmin> {
                 Container(
                   width: 161,
                   height: 161,
-                  decoration: ShapeDecoration(
+                  decoration: const ShapeDecoration(
                     image: DecorationImage(
                       image: AssetImage("assets/images/logo.png"),
                       fit: BoxFit.fill,
@@ -1851,7 +1874,7 @@ class _CoachsAdminState extends State<CoachsAdmin> {
               ],
             ),
           ),
-          Container(
+          const SizedBox(
             width: 900,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1909,7 +1932,7 @@ class _CoachsAdminState extends State<CoachsAdmin> {
             decoration: ShapeDecoration(
               color: Colors.white,
               shape: RoundedRectangleBorder(
-                side: BorderSide(width: 3, color: Color(0xFF4E5394)),
+                side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
@@ -1923,7 +1946,7 @@ class _CoachsAdminState extends State<CoachsAdmin> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1938,7 +1961,7 @@ class _CoachsAdminState extends State<CoachsAdmin> {
                       Container(
                         width: 80,
                         height: 80,
-                        decoration: ShapeDecoration(
+                        decoration: const ShapeDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/profil.png"),
                             fit: BoxFit.fill,
@@ -1971,7 +1994,7 @@ class _CoachsAdminState extends State<CoachsAdmin> {
                           height: 0,
                         ),
                       ),
-                      Container(
+                      const SizedBox(
                         width: 50,
                         child: Row(
                           children: [
