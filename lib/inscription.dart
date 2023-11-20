@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-
-import 'mes_logiques/mes_classes.dart';
+import 'package:mongrh/mes_logiques/mes_classes.dart';
 
 // class PageInscription extends StatelessWidget {
 //   @override
@@ -76,7 +75,7 @@ class PremierePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => PageInscription(
+                      builder: (context) => const PageInscription(
                             isLoginPage: true,
                           )),
                 );
@@ -92,7 +91,7 @@ class PremierePage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            PageInscription(isLoginPage: false)));
+                            const PageInscription(isLoginPage: false)));
               },
               child: const Text(
                 "J'ai déjà un compte",
@@ -174,7 +173,7 @@ class _PageInscriptionState extends State<PageInscription> {
                     "Nom d'utilisateur", Icons.email, _usernameController),
                 const SizedBox(height: 10),
                 IntlPhoneField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     hintText: "Numéro de téléphone",
                     suffixIcon: Icon(Icons.call),
                     border:
@@ -197,68 +196,72 @@ class _PageInscriptionState extends State<PageInscription> {
                 // Remplacer s'inscrire par connectez-vous si c'est la page de connexion
                 ElevatedButton(
                   onPressed: () async {
-                    try {
-                      // Créer un nouvel utilisateur dans Firebase Auth
-                      UserCredential userCredential = await FirebaseAuth
-                          .instance
-                          .createUserWithEmailAndPassword(
-                        email: _emailController.text.trim(),
-                        password: _motDePasseController.text,
-                      );
-                      // Mettre à jour le profil de l'utilisateur avec le nom d'utilisateur
-                      await userCredential.user!
-                          // ignore: deprecated_member_use
-                          .updateProfile(displayName: _usernameController.text);
+                    // try {
+                    //   // Créer un nouvel utilisateur dans Firebase Auth
+                    //   UserCredential userCredential = await FirebaseAuth
+                    //       .instance
+                    //       .createUserWithEmailAndPassword(
+                    //     email: _emailController.text.trim(),
+                    //     password: _motDePasseController.text,
+                    //   );
+                    //   // Mettre à jour le profil de l'utilisateur avec le nom d'utilisateur
+                    //   await userCredential.user!
+                    //       // ignore: deprecated_member_use
+                    //       .updateProfile(displayName: _usernameController.text);
 
-                      // Récupérer les informations mises à jour de l'utilisateur
-                      User? updatedUser = FirebaseAuth.instance.currentUser;
+                    //   // Récupérer les informations mises à jour de l'utilisateur
+                    //   User? updatedUser = FirebaseAuth.instance.currentUser;
 
-                      // Vérifier que le mot de passe et la confirmation du mot de passe sont identiques
-                      if (_motDePasseController.text !=
-                          _confirmerMotdePasse.text) {
-                        throw FirebaseAuthException(
-                          code: 'invalid-email',
-                          message: 'Les mots de passe ne correspondent pas.',
-                        );
-                      }
+                    //   // Vérifier que le mot de passe et la confirmation du mot de passe sont identiques
+                    //   if (_motDePasseController.text !=
+                    //       _confirmerMotdePasse.text) {
+                    //     throw FirebaseAuthException(
+                    //       code: 'invalid-email',
+                    //       message: 'Les mots de passe ne correspondent pas.',
+                    //     );
+                    //   }
 
-                      // Envoyer un e-mail de vérification à l'utilisateur nouvellement créé
-                      await userCredential.user!.sendEmailVerification();
+                    //   // Envoyer un e-mail de vérification à l'utilisateur nouvellement créé
+                    //   await userCredential.user!.sendEmailVerification();
 
-                      // Afficher un message à l'utilisateur pour l'informer qu'il doit vérifier son e-mail
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              'Un e-mail de vérification a été envoyé à votre adresse e-mail. Veuillez vérifier votre e-mail pour terminer votre inscription.'),
-                        ),
-                      );
-                      // Enregistrer les informations de l'utilisateur
-                      MyUser user = MyUser(
-                        id: userCredential.user!.uid,
-                        username: _usernameController.text,
-                        email: _emailController.text.trim(),
-                        motDePasse: _motDePasseController.text,
-                        numero: int.parse(_numeroController.text),
-                      );
+                    //   // Afficher un message à l'utilisateur pour l'informer qu'il doit vérifier son e-mail
+                    //   ScaffoldMessenger.of(context).showSnackBar(
+                    //     const SnackBar(
+                    //       content: Text(
+                    //           'Un e-mail de vérification a été envoyé à votre adresse e-mail. Veuillez vérifier votre e-mail pour terminer votre inscription.'),
+                    //     ),
+                    //   );
+                    //   // Enregistrer les informations de l'utilisateur
+                    //   MyUser user = MyUser(
+                    //     id: userCredential.user!.uid,
+                    //     username: _usernameController.text,
+                    //     email: _emailController.text.trim(),
+                    //     motDePasse: _motDePasseController.text,
+                    //     numero: int.parse(_numeroController.text),
+                    //   );
 
-                      // Sauvegarder les informations de l'utilisateur
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(user.id)
-                          .set(user.toMap());
-                      // Rediriger l'utilisateur vers la page d'accueil une fois l'inscription terminée
-                      Navigator.pushReplacement(
+                    //   // Sauvegarder les informations de l'utilisateur
+                    //   await FirebaseFirestore.instance
+                    //       .collection('users')
+                    //       .doc(user.id)
+                    //       .set(user.toMap());
+                    //   // Rediriger l'utilisateur vers la page d'accueil une fois l'inscription terminée
+                    //   Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //       builder: (context) => const Principal(),
+                    //     ),
+                    //   );
+                    // } on FirebaseAuthException catch (e) {
+                    //   // Gérer l'erreur d'authentification
+                    //   print(e.message);
+                    // }
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Principal(),
-                        ),
-                      );
-                    } on FirebaseAuthException catch (e) {
-                      // Gérer l'erreur d'authentification
-                      print(e.message);
-                    }
+                            builder: (context) => const Principal()));
                   },
-                  child: Text('S\'inscrire'),
+                  child: const Text('S\'inscrire'),
                 ),
               ],
             ),
@@ -392,7 +395,7 @@ class _ConnexionState extends State<Connexion> {
                 // Remplacer s'inscrire par connectez-vous si c'est la page de connexion
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text('Se connecter'),
+                  child: const Text('Se connecter'),
                 ),
               ],
             ),
@@ -458,7 +461,7 @@ class _PrincipalState extends State<Principal> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => DetailProfil(
+            builder: (context) => const DetailProfil(
                 username: 'username',
                 numero: 'numero',
                 email: 'email',
@@ -484,47 +487,47 @@ class _PrincipalState extends State<Principal> {
     return Container(
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
           GestureDetector(
             onTap: () {
               showMenu<String>(
                 context: context,
-                position: RelativeRect.fromLTRB(250, 250, 50, 50),
+                position: const RelativeRect.fromLTRB(250, 250, 50, 50),
                 items: [
                   PopupMenuItem<String>(
                     value: 'detail',
-                    child: Row(
+                    onTap: _onDetail,
+                    child: const Row(
                       children: [
                         Icon(Icons.info),
                         SizedBox(width: 10),
                         Text('Détail'),
                       ],
                     ),
-                    onTap: _onDetail,
                   ),
                   PopupMenuItem<String>(
                     value: 'modifier',
-                    child: Row(
+                    onTap: _onModifier,
+                    child: const Row(
                       children: [
                         Icon(Icons.edit),
                         SizedBox(width: 10),
                         Text('Modifier'),
                       ],
                     ),
-                    onTap: _onModifier,
                   ),
                   PopupMenuItem<String>(
                     value: 'image',
-                    child: Row(
+                    onTap: _onImage,
+                    child: const Row(
                       children: [
                         Icon(Icons.image),
                         SizedBox(width: 10),
                         Text('Image'),
                       ],
                     ),
-                    onTap: _onImage,
                   ),
                 ],
                 elevation: 8.0,
@@ -561,7 +564,7 @@ class _PrincipalState extends State<Principal> {
           const SizedBox(
             height: 30,
           ),
-          Container(
+          SizedBox(
             width: 200,
             height: 200,
             child: Wrap(
@@ -573,7 +576,7 @@ class _PrincipalState extends State<Principal> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Contrats(),
+                        builder: (context) => const Contrats(),
                       ),
                     );
                   },
@@ -592,7 +595,12 @@ class _PrincipalState extends State<Principal> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const InterfaceEntretien()));
+                  },
                   child: Column(
                     children: [
                       Image.asset(
@@ -609,8 +617,8 @@ class _PrincipalState extends State<Principal> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                        context, MaterialPageRoute(builder: (context) => Cv()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Cv()));
                   },
                   child: Column(
                     children: [
@@ -628,8 +636,10 @@ class _PrincipalState extends State<Principal> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Motivation()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Motivation()));
                   },
                   child: Column(
                     children: [
@@ -668,18 +678,18 @@ class _ContratsState extends State<Contrats> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image(
+        const Image(
           image: AssetImage('assets/images/entretien.jpg'),
           width: 200,
           height: 200,
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         GestureDetector(
           onTap: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Contrat()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Contrat()));
           },
           child: Container(
             width: 250,
@@ -688,7 +698,7 @@ class _ContratsState extends State<Contrats> {
               color: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5)),
-              shadows: [
+              shadows: const [
                 BoxShadow(
                   color: Color(0x3F000000),
                   blurRadius: 4,
@@ -697,7 +707,7 @@ class _ContratsState extends State<Contrats> {
                 ),
               ],
             ),
-            child: Center(
+            child: const Center(
               child: Text(
                 'Contrat à durée déterminée',
                 style: TextStyle(
@@ -732,7 +742,7 @@ class _ContratState extends State<Contrat> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Row(
@@ -742,7 +752,7 @@ class _ContratState extends State<Contrat> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.keyboard_backspace,
                   size: 30,
                   color: Colors.grey,
@@ -751,7 +761,7 @@ class _ContratState extends State<Contrat> {
               Container(
                 width: 213,
                 height: 45,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
                     BoxShadow(
@@ -762,29 +772,31 @@ class _ContratState extends State<Contrat> {
                     )
                   ],
                 ),
-                child: Center(
+                child: const Center(
                   child: Text('CDD'),
                 ),
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Principal()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Principal()));
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.home,
                   size: 30,
                 ),
               )
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Description'),
+              const Text('Description'),
               Container(
                 width: 320,
                 height: 100,
@@ -793,7 +805,7 @@ class _ContratState extends State<Contrat> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  shadows: [
+                  shadows: const [
                     BoxShadow(
                       color: Color(0x3F000000),
                       blurRadius: 4,
@@ -803,10 +815,10 @@ class _ContratState extends State<Contrat> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text('Description'),
+              const Text('Description'),
               Container(
                 width: 320,
                 height: 100,
@@ -815,7 +827,7 @@ class _ContratState extends State<Contrat> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  shadows: [
+                  shadows: const [
                     BoxShadow(
                       color: Color(0x3F000000),
                       blurRadius: 4,
@@ -825,10 +837,10 @@ class _ContratState extends State<Contrat> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text('Description'),
+              const Text('Description'),
               Container(
                 width: 320,
                 height: 100,
@@ -837,7 +849,7 @@ class _ContratState extends State<Contrat> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  shadows: [
+                  shadows: const [
                     BoxShadow(
                       color: Color(0x3F000000),
                       blurRadius: 4,
@@ -975,7 +987,7 @@ class _CvState extends State<Cv> {
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Icon(Icons.arrow_back),
+              child: const Icon(Icons.arrow_back),
             ),
             Image.asset(
               'assets/images/Cvs.webp',
@@ -989,7 +1001,7 @@ class _CvState extends State<Cv> {
           'Cv',
           style: mesTextes,
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         Container(
@@ -998,7 +1010,7 @@ class _CvState extends State<Cv> {
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 0.50),
+              side: const BorderSide(width: 0.50),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -1013,7 +1025,7 @@ class _CvState extends State<Cv> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  shadows: [
+                  shadows: const [
                     BoxShadow(
                       color: Color(0x3F000000),
                       blurRadius: 4,
@@ -1042,7 +1054,7 @@ class _CvState extends State<Cv> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1072,7 +1084,7 @@ class _CvState extends State<Cv> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1102,7 +1114,7 @@ class _CvState extends State<Cv> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1158,7 +1170,7 @@ class _MotivationState extends State<Motivation> {
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Icon(Icons.arrow_back),
+              child: const Icon(Icons.arrow_back),
             ),
             Image.asset(
               'assets/images/Cvs.webp',
@@ -1172,7 +1184,7 @@ class _MotivationState extends State<Motivation> {
           'Lettre de Motivation',
           style: mesTextes,
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         Container(
@@ -1181,7 +1193,7 @@ class _MotivationState extends State<Motivation> {
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 0.50),
+              side: const BorderSide(width: 0.50),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -1196,7 +1208,7 @@ class _MotivationState extends State<Motivation> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  shadows: [
+                  shadows: const [
                     BoxShadow(
                       color: Color(0x3F000000),
                       blurRadius: 4,
@@ -1225,7 +1237,7 @@ class _MotivationState extends State<Motivation> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1255,7 +1267,7 @@ class _MotivationState extends State<Motivation> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1285,7 +1297,7 @@ class _MotivationState extends State<Motivation> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1341,13 +1353,13 @@ class _EntretienState extends State<Entretien> {
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Icon(Icons.arrow_back),
+              child: const Icon(Icons.arrow_back),
             ),
             Container(
               width: 120,
               height: 120,
               decoration: ShapeDecoration(
-                image: DecorationImage(
+                image: const DecorationImage(
                   image: AssetImage('assets/images/entretien.jpg'),
                   fit: BoxFit.fill,
                 ),
@@ -1363,7 +1375,7 @@ class _EntretienState extends State<Entretien> {
           'Entretien',
           style: mesTextes,
         ),
-        SizedBox(
+        const SizedBox(
           height: 40,
         ),
         Container(
@@ -1372,7 +1384,7 @@ class _EntretienState extends State<Entretien> {
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 0.50),
+              side: const BorderSide(width: 0.50),
               borderRadius: BorderRadius.circular(10),
             ),
           ),
@@ -1389,7 +1401,7 @@ class _EntretienState extends State<Entretien> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1403,7 +1415,7 @@ class _EntretienState extends State<Entretien> {
                       width: 79,
                       height: 61,
                       decoration: ShapeDecoration(
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage('assets/images/entretien.jpg'),
                           fit: BoxFit.fill,
                         ),
@@ -1429,7 +1441,7 @@ class _EntretienState extends State<Entretien> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1443,7 +1455,7 @@ class _EntretienState extends State<Entretien> {
                       width: 79,
                       height: 61,
                       decoration: ShapeDecoration(
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage('assets/images/entretien.jpg'),
                           fit: BoxFit.fill,
                         ),
@@ -1469,7 +1481,7 @@ class _EntretienState extends State<Entretien> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1483,7 +1495,7 @@ class _EntretienState extends State<Entretien> {
                       width: 79,
                       height: 61,
                       decoration: ShapeDecoration(
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage('assets/images/entretien.jpg'),
                           fit: BoxFit.fill,
                         ),
@@ -1509,7 +1521,7 @@ class _EntretienState extends State<Entretien> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1523,7 +1535,7 @@ class _EntretienState extends State<Entretien> {
                       width: 79,
                       height: 61,
                       decoration: ShapeDecoration(
-                        image: DecorationImage(
+                        image: const DecorationImage(
                           image: AssetImage('assets/images/entretien.jpg'),
                           fit: BoxFit.fill,
                         ),
@@ -1575,13 +1587,13 @@ class _CoachState extends State<Coach> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: Icon(Icons.arrow_back,
+                child: const Icon(Icons.arrow_back,
                     color: Color.fromARGB(255, 54, 2, 65)),
               ),
               Container(
                 width: 120,
                 height: 120,
-                decoration: ShapeDecoration(
+                decoration: const ShapeDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/images/profil.png"),
                     fit: BoxFit.fill,
@@ -1593,7 +1605,8 @@ class _CoachState extends State<Coach> {
               ),
               GestureDetector(
                 onTap: () {},
-                child: Icon(Icons.home, color: Color.fromARGB(255, 54, 2, 65)),
+                child: const Icon(Icons.home,
+                    color: Color.fromARGB(255, 54, 2, 65)),
               )
             ],
           ),
@@ -1613,7 +1626,7 @@ class _CoachState extends State<Coach> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1628,7 +1641,7 @@ class _CoachState extends State<Coach> {
                       Container(
                         width: 80,
                         height: 80,
-                        decoration: ShapeDecoration(
+                        decoration: const ShapeDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/profil.png"),
                             fit: BoxFit.fill,
@@ -1661,7 +1674,7 @@ class _CoachState extends State<Coach> {
                           //     );
                           //   }),
                           // ),
-                          Row(
+                          const Row(
                             children: [
                               Icon(
                                 Icons.star,
@@ -1698,7 +1711,7 @@ class _CoachState extends State<Coach> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1713,7 +1726,7 @@ class _CoachState extends State<Coach> {
                       Container(
                         width: 80,
                         height: 80,
-                        decoration: ShapeDecoration(
+                        decoration: const ShapeDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/profil.png"),
                             fit: BoxFit.fill,
@@ -1746,7 +1759,7 @@ class _CoachState extends State<Coach> {
                           //     );
                           //   }),
                           // ),
-                          Row(
+                          const Row(
                             children: [
                               Icon(
                                 Icons.star,
@@ -1783,7 +1796,7 @@ class _CoachState extends State<Coach> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1798,7 +1811,7 @@ class _CoachState extends State<Coach> {
                       Container(
                         width: 80,
                         height: 80,
-                        decoration: ShapeDecoration(
+                        decoration: const ShapeDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/profil.png"),
                             fit: BoxFit.fill,
@@ -1831,7 +1844,7 @@ class _CoachState extends State<Coach> {
                           //     );
                           //   }),
                           // ),
-                          Row(
+                          const Row(
                             children: [
                               Icon(
                                 Icons.star,
@@ -1868,7 +1881,7 @@ class _CoachState extends State<Coach> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1883,7 +1896,7 @@ class _CoachState extends State<Coach> {
                       Container(
                         width: 80,
                         height: 80,
-                        decoration: ShapeDecoration(
+                        decoration: const ShapeDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/profil.png"),
                             fit: BoxFit.fill,
@@ -1916,7 +1929,7 @@ class _CoachState extends State<Coach> {
                           //     );
                           //   }),
                           // ),
-                          Row(
+                          const Row(
                             children: [
                               Icon(
                                 Icons.star,
@@ -1953,7 +1966,7 @@ class _CoachState extends State<Coach> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -1968,7 +1981,7 @@ class _CoachState extends State<Coach> {
                       Container(
                         width: 80,
                         height: 80,
-                        decoration: ShapeDecoration(
+                        decoration: const ShapeDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/profil.png"),
                             fit: BoxFit.fill,
@@ -2001,7 +2014,7 @@ class _CoachState extends State<Coach> {
                           //     );
                           //   }),
                           // ),
-                          Row(
+                          const Row(
                             children: [
                               Icon(
                                 Icons.star,
@@ -2038,7 +2051,7 @@ class _CoachState extends State<Coach> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    shadows: [
+                    shadows: const [
                       BoxShadow(
                         color: Color(0x3F000000),
                         blurRadius: 4,
@@ -2053,7 +2066,7 @@ class _CoachState extends State<Coach> {
                       Container(
                         width: 80,
                         height: 80,
-                        decoration: ShapeDecoration(
+                        decoration: const ShapeDecoration(
                           image: DecorationImage(
                             image: AssetImage("assets/images/profil.png"),
                             fit: BoxFit.fill,
@@ -2086,7 +2099,7 @@ class _CoachState extends State<Coach> {
                           //     );
                           //   }),
                           // ),
-                          Row(
+                          const Row(
                             children: [
                               Icon(
                                 Icons.star,
@@ -2118,6 +2131,812 @@ class _CoachState extends State<Coach> {
               ],
             ),
           )
+        ],
+      ),
+    );
+  }
+}
+
+class InterfaceEntretien extends StatefulWidget {
+  const InterfaceEntretien({super.key});
+
+  @override
+  State<InterfaceEntretien> createState() => _InterfaceEntretienState();
+}
+
+// class _InterfaceEntretienState extends State<InterfaceEntretien> {
+//   List<ElementEntretien> entretienEntretien = [];
+//   // @override
+//   // void initState() {
+//   //   super.initState();
+//   //   // Appeler une fonction pour récupérer les données et mettre à jour la liste
+//   //   fetchData();
+//   // }
+
+//   // Fonction pour récupérer les données (vous devrez l'implémenter selon votre source de données)
+//   // void fetchData() {
+//   //   // Simulons l'ajout de quelques éléments à la liste
+//   //   setState(() {
+
+//   //     entretienEntretien = [
+//   //       ElementEntretien(
+//   //           imagePath: 'assets/images/entretien.jpg',
+//   //           contenu: 'contenu',
+//   //           titre: 'titre'),
+//   //       ElementEntretien(imagePath: '', contenu: 'contenu', titre: 'titre')
+//   //     ];
+//   //   });
+//   // }
+
+//   void fetchData() async {
+//     try {
+//       // Récupérer une référence à la collection 'entretien' dans Firestore
+//       CollectionReference<Object?> entretienCollection =
+//           FirebaseFirestore.instance.collection('EntretienElement');
+
+//       // Récupérer les documents de la collection
+//       QuerySnapshot<Object?> entretienSnapshot =
+//           await entretienCollection.get();
+
+//       // Extraire les données des documents
+//       List<ElementEntretien> entretienEntretien =
+//           entretienSnapshot.docs.map((QueryDocumentSnapshot<Object?> doc) {
+//         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+//         return ElementEntretien(
+//           titre: data['titre'] as String,
+//           contenu: data['contenu'] as String,
+//           imagePath: data['imagePath'] as String? ??
+//               'assets/images/entretien.jpg', // Utilisez une image par défaut si 'imagePath' est null
+//         );
+//       }).toList();
+
+//       // Mettre à jour l'état avec les données récupérées
+//       setState(() {
+//         entretienEntretien = entretienEntretien;
+//       });
+//     } catch (e) {
+//       print('Erreur lors de la récupération des données : $e');
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Column(
+//         crossAxisAlignment: CrossAxisAlignment.stretch,
+//         children: [
+//           const SizedBox(height: 40),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceAround,
+//             children: [
+//               SvgPicture.asset(
+//                 'assets/images/Back.svg',
+//                 height: 30,
+//                 width: 30,
+//               ),
+//               Container(
+//                 width: 120,
+//                 height: 120,
+//                 decoration: ShapeDecoration(
+//                   image: const DecorationImage(
+//                     image: AssetImage("assets/images/entretien.jpg"),
+//                     fit: BoxFit.fill,
+//                   ),
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(10),
+//                   ),
+//                 ),
+//               ),
+//               Container(),
+//             ],
+//           ),
+//           const SizedBox(height: 50),
+//           Expanded(
+//             child: Container(
+//               height: 100,
+//               decoration: ShapeDecoration(
+//                 color: Colors.white,
+//                 shape: RoundedRectangleBorder(
+//                   side: const BorderSide(width: 0.50),
+//                   borderRadius: BorderRadius.circular(10),
+//                 ),
+//               ),
+//               child:
+//                   //  ListView(
+//                   //   children: [
+//                   //     buildListItem(
+//                   //         entretienEntretien[0], "assets/images/entretien"),
+//                   //     buildListItem(entretienEntretien[1], ""),
+//                   //   ],
+//                   // ),
+//                   ListView(
+//                 children: [
+//                   if (entretienEntretien.isNotEmpty)
+//                     buildListItem(
+//                         entretienEntretien[0], "assets/images/entretien"),
+//                   if (entretienEntretien.length > 1)
+//                     buildListItem(entretienEntretien[1], ""),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   Widget buildListItem(ElementEntretien elementEntretien, String imagePath) {
+//     return GestureDetector(
+//       onTap: () {
+//         Navigator.push(
+//             context,
+//             MaterialPageRoute(
+//                 builder: (context) =>
+//                     ContenuEntretien(elementEntretien: elementEntretien)));
+//       },
+//       child: Container(
+//         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+//         height: 60,
+//         width: 100,
+//         decoration: ShapeDecoration(
+//           color: Colors.white,
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(5),
+//           ),
+//           shadows: const [
+//             BoxShadow(
+//               color: Color(0x3F000000),
+//               blurRadius: 4,
+//               offset: Offset(1, 1),
+//               spreadRadius: 0,
+//             )
+//           ],
+//         ),
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceAround,
+//           children: [
+//             Container(
+//               width: 79,
+//               height: 61,
+//               decoration: imagePath.isNotEmpty
+//                   ? ShapeDecoration(
+//                       image: DecorationImage(
+//                         image: AssetImage(imagePath),
+//                         fit: BoxFit.fill,
+//                       ),
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(10),
+//                       ),
+//                     )
+//                   : null,
+//             ),
+//             Text(
+//               elementEntretien.titre,
+//               textAlign: TextAlign.center,
+//               style: const TextStyle(
+//                 color: Color(0xE02D3030),
+//                 fontSize: 15,
+//                 fontFamily: 'Poppins',
+//                 fontWeight: FontWeight.w400,
+//                 height: 0,
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+class _InterfaceEntretienState extends State<InterfaceEntretien> {
+  List<ElementEntretien> elementEntretien = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    try {
+      CollectionReference<Map<String, dynamic>> entretienCollection =
+          FirebaseFirestore.instance.collection('ElementEntretien');
+
+      QuerySnapshot<Map<String, dynamic>> entretienSnapshot =
+          await entretienCollection.get();
+
+      List<ElementEntretien> items = entretienSnapshot.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+        Map<String, dynamic> data = doc.data();
+        return ElementEntretien(
+          titre: data['titre'] as String,
+          contenu: data['contenu'] as String,
+          // Utilisez l'image par défaut si 'imagePath' est null ou vide
+          imagePath:
+              data['imagePath'] as String? ?? 'assets/images/entretien.jpg',
+        );
+      }).toList();
+
+      setState(() {
+        elementEntretien = items;
+      });
+    } catch (e) {
+      print('Erreur lors de la récupération des données : $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SvgPicture.asset(
+                'assets/images/Back.svg',
+                height: 30,
+                width: 30,
+              ),
+              Container(
+                width: 120,
+                height: 120,
+                decoration: ShapeDecoration(
+                  image: const DecorationImage(
+                    image: AssetImage("assets/images/entretien.jpg"),
+                    fit: BoxFit.fill,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              Container(),
+            ],
+          ),
+          const SizedBox(height: 50),
+          Expanded(
+            child: Container(
+              height: 100,
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(width: 0.50),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: ListView(
+                children: [
+                  for (var entretien in elementEntretien)
+                    buildListItem(entretien),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildListItem(ElementEntretien elementEntretien) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ContenuEntretien(elementEntretien: elementEntretien),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        height: 60,
+        width: 100,
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          shadows: const [
+            BoxShadow(
+              color: Color(0x3F000000),
+              blurRadius: 4,
+              offset: Offset(1, 1),
+              spreadRadius: 0,
+            )
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              width: 79,
+              height: 61,
+              decoration: elementEntretien.imagePath.isNotEmpty
+                  ? ShapeDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(elementEntretien.imagePath),
+                        fit: BoxFit.fill,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    )
+                  : null,
+            ),
+            Text(
+              elementEntretien.titre,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xE02D3030),
+                fontSize: 15,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w400,
+                height: 0,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// class _InterfaceEntretienState extends State<InterfaceEntretien> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: SingleChildScrollView(
+//         child: Column(
+//           children: [
+//             const SizedBox(
+//               height: 40,
+//             ),
+//             Row(
+//               mainAxisAlignment: MainAxisAlignment.spaceAround,
+//               children: [
+//                 SvgPicture.asset(
+//                   'assets/svg/Back.svg',
+//                   height: 30,
+//                   width: 30,
+//                 ),
+//                 Container(
+//                   width: 120,
+//                   height: 120,
+//                   decoration: ShapeDecoration(
+//                     image: const DecorationImage(
+//                       image: AssetImage("assets/images/entretien.jpg"),
+//                       fit: BoxFit.fill,
+//                     ),
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(10),
+//                     ),
+//                   ),
+//                 ),
+//                 Container()
+//               ],
+//             ),
+//             const SizedBox(
+//               height: 50,
+//             ),
+//             Expanded(
+//               child: Container(
+//                 width: 300,
+//                 height: 800,
+//                 decoration: ShapeDecoration(
+//                   color: Colors.white,
+//                   shape: RoundedRectangleBorder(
+//                     side: const BorderSide(width: 0.50),
+//                     borderRadius: BorderRadius.circular(10),
+//                   ),
+//                 ),
+//                 child: Column(
+//                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                   children: [
+//                     ListView.builder(
+//                       itemCount:
+//                           2, // Remplacez par le nombre total d'éléments que vous avez
+//                       itemBuilder: (context, index) {
+//                         // Vous pouvez ajuster les données en fonction de votre structure de données
+//                         String title;
+//                         String imagePath;
+
+//                         if (index == 0) {
+//                           title = 'Préparation';
+//                           imagePath = "assets/images/entretien.jpg";
+//                         } else {
+//                           title = 'Questions courantes';
+//                           imagePath =
+//                               ''; // Ajoutez le chemin de l'image si nécessaire
+//                         }
+
+//                         return Container(
+//                           width: 260,
+//                           height: 60,
+//                           decoration: ShapeDecoration(
+//                             color: Colors.white,
+//                             shape: RoundedRectangleBorder(
+//                               borderRadius: BorderRadius.circular(5),
+//                             ),
+//                             shadows: const [
+//                               BoxShadow(
+//                                 color: Color(0x3F000000),
+//                                 blurRadius: 4,
+//                                 offset: Offset(1, 1),
+//                                 spreadRadius: 0,
+//                               )
+//                             ],
+//                           ),
+//                           child: Row(
+//                             mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                             children: [
+//                               Container(
+//                                 width: 79,
+//                                 height: 61,
+//                                 decoration: ShapeDecoration(
+//                                   image: imagePath.isNotEmpty
+//                                       ? DecorationImage(
+//                                           image: AssetImage(imagePath),
+//                                           fit: BoxFit.fill,
+//                                         )
+//                                       : null,
+//                                   shape: RoundedRectangleBorder(
+//                                     borderRadius: BorderRadius.circular(10),
+//                                   ),
+//                                 ),
+//                               ),
+//                               Text(
+//                                 title,
+//                                 textAlign: TextAlign.center,
+//                                 style: const TextStyle(
+//                                   color: Color(0xE02D3030),
+//                                   fontSize: 15,
+//                                   fontFamily: 'Poppins',
+//                                   fontWeight: FontWeight.w400,
+//                                   height: 0,
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         );
+//                       },
+//                     ),
+
+//                     // Container(
+//                     //   width: 260,
+//                     //   height: 60,
+//                     //   decoration: ShapeDecoration(
+//                     //     color: Colors.white,
+//                     //     shape: RoundedRectangleBorder(
+//                     //       borderRadius: BorderRadius.circular(5),
+//                     //     ),
+//                     //     shadows: const [
+//                     //       BoxShadow(
+//                     //         color: Color(0x3F000000),
+//                     //         blurRadius: 4,
+//                     //         offset: Offset(1, 1),
+//                     //         spreadRadius: 0,
+//                     //       )
+//                     //     ],
+//                     //   ),
+//                     //   child: Row(
+//                     //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                     //     children: [
+//                     //       Container(
+//                     //         width: 79,
+//                     //         height: 61,
+//                     //         decoration: ShapeDecoration(
+//                     //           image: const DecorationImage(
+//                     //             image: AssetImage("assets/images/entretien.jpg"),
+//                     //             fit: BoxFit.fill,
+//                     //           ),
+//                     //           shape: RoundedRectangleBorder(
+//                     //             borderRadius: BorderRadius.circular(10),
+//                     //           ),
+//                     //         ),
+//                     //       ),
+//                     //       const Text(
+//                     //         'Préparation',
+//                     //         textAlign: TextAlign.center,
+//                     //         style: TextStyle(
+//                     //           color: Color(0xE02D3030),
+//                     //           fontSize: 15,
+//                     //           fontFamily: 'Poppins',
+//                     //           fontWeight: FontWeight.w400,
+//                     //           height: 0,
+//                     //         ),
+//                     //       ),
+//                     //     ],
+//                     //   ),
+//                     // ),
+//                     // Container(
+//                     //   width: 260,
+//                     //   height: 60,
+//                     //   decoration: ShapeDecoration(
+//                     //     color: Colors.white,
+//                     //     shape: RoundedRectangleBorder(
+//                     //       borderRadius: BorderRadius.circular(5),
+//                     //     ),
+//                     //     shadows: const [
+//                     //       BoxShadow(
+//                     //         color: Color(0x3F000000),
+//                     //         blurRadius: 4,
+//                     //         offset: Offset(1, 1),
+//                     //         spreadRadius: 0,
+//                     //       )
+//                     //     ],
+//                     //   ),
+//                     //   child: const Row(
+//                     //     mainAxisAlignment: MainAxisAlignment.center,
+//                     //     children: [
+//                     //       // Container(
+//                     //       //   width: 79,
+//                     //       //   height: 61,
+//                     //       //   decoration: ShapeDecoration(
+//                     //       //     image: const DecorationImage(
+//                     //       //       image: AssetImage("assets/images/entretien.jpg"),
+//                     //       //       fit: BoxFit.fill,
+//                     //       //     ),
+//                     //       //     shape: RoundedRectangleBorder(
+//                     //       //       borderRadius: BorderRadius.circular(10),
+//                     //       //     ),
+//                     //       //   ),
+//                     //       // ),
+//                     //       Text(
+//                     //         'Questions courantes',
+//                     //         textAlign: TextAlign.center,
+//                     //         style: TextStyle(
+//                     //           color: Color(0xE02D3030),
+//                     //           fontSize: 15,
+//                     //           fontFamily: 'Poppins',
+//                     //           fontWeight: FontWeight.w400,
+//                     //           height: 0,
+//                     //         ),
+//                     //       ),
+//                     //     ],
+//                     //   ),
+//                     // ),
+//                     Container(
+//                       width: 260,
+//                       height: 60,
+//                       decoration: ShapeDecoration(
+//                         color: Colors.white,
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(5),
+//                         ),
+//                         shadows: const [
+//                           BoxShadow(
+//                             color: Color(0x3F000000),
+//                             blurRadius: 4,
+//                             offset: Offset(1, 1),
+//                             spreadRadius: 0,
+//                           )
+//                         ],
+//                       ),
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                         children: [
+//                           Container(
+//                             width: 79,
+//                             height: 61,
+//                             decoration: ShapeDecoration(
+//                               image: const DecorationImage(
+//                                 image: AssetImage(
+//                                     "assets/images/conversation.png"),
+//                                 fit: BoxFit.fill,
+//                               ),
+//                               shape: RoundedRectangleBorder(
+//                                 borderRadius: BorderRadius.circular(10),
+//                               ),
+//                             ),
+//                           ),
+//                           const Text(
+//                             'Contacter coach',
+//                             textAlign: TextAlign.center,
+//                             style: TextStyle(
+//                               color: Color(0xE02D3030),
+//                               fontSize: 15,
+//                               fontFamily: 'Poppins',
+//                               fontWeight: FontWeight.w400,
+//                               height: 0,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     Container(
+//                       width: 260,
+//                       height: 60,
+//                       decoration: ShapeDecoration(
+//                         color: Colors.white,
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(5),
+//                         ),
+//                         shadows: const [
+//                           BoxShadow(
+//                             color: Color(0x3F000000),
+//                             blurRadius: 4,
+//                             offset: Offset(1, 1),
+//                             spreadRadius: 0,
+//                           )
+//                         ],
+//                       ),
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                         children: [
+//                           Container(
+//                             width: 79,
+//                             height: 61,
+//                             decoration: ShapeDecoration(
+//                               image: const DecorationImage(
+//                                 image: AssetImage(
+//                                     "assets/images/conversation.png"),
+//                                 fit: BoxFit.fill,
+//                               ),
+//                               shape: RoundedRectangleBorder(
+//                                 borderRadius: BorderRadius.circular(10),
+//                               ),
+//                             ),
+//                           ),
+//                           const Text(
+//                             'Conversations',
+//                             textAlign: TextAlign.center,
+//                             style: TextStyle(
+//                               color: Color(0xE02D3030),
+//                               fontSize: 15,
+//                               fontFamily: 'Poppins',
+//                               fontWeight: FontWeight.w400,
+//                               height: 0,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     )
+//                   ],
+//                 ),
+//               ),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+class ContenuEntretien extends StatefulWidget {
+  const ContenuEntretien({super.key, required this.elementEntretien});
+
+  final ElementEntretien elementEntretien;
+
+  @override
+  State<ContenuEntretien> createState() => _ContenuEntretienState();
+}
+
+class _ContenuEntretienState extends State<ContenuEntretien> {
+  // final TextEditingController _controller = TextEditingController();
+  // String dataFromFirebase = '';
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // Appel à une fonction pour récupérer des données depuis Firebase
+  //   fetchDataFromFirebase();
+  // }
+
+  // // Fonction pour récupérer des données depuis Firebase Firestore
+  // void fetchDataFromFirebase() async {
+  //   var document = await FirebaseFirestore.instance
+  //       .collection('ElementEntretien')
+  //       .doc('AGsrV4WZ27nj5aP349Ld')
+  //       .get();
+
+  //   // Vérifiez si le document existe avant de récupérer les données
+  //   if (document.exists) {
+  //     setState(() {
+  //       // Récupérez les données et mettez à jour l'état
+  //       dataFromFirebase = document.data()?['titre'] ?? '';
+  //      widget.elementEntretien.titre = dataFromFirebase;
+  //     });
+  //   }
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 40,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SvgPicture.asset(
+                'assets/images/Back.svg',
+                height: 30,
+                width: 30,
+              ),
+              Column(
+                children: [
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: ShapeDecoration(
+                      image: const DecorationImage(
+                        image: AssetImage("assets/images/entretien.jpg"),
+                        fit: BoxFit.fill,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Entretien',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                  )
+                ],
+              ),
+              SvgPicture.asset(
+                'assets/images/home.svg',
+                height: 30,
+                width: 30,
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 40,
+          ),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.elementEntretien.titre,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color(0xE02D3030),
+                    fontSize: 24,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: 300,
+                  height: 500,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                          width: 0.50, color: Color(0xFF4E5394)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child:  Text(
+        widget.elementEntretien.contenu,
+        style: const TextStyle(
+          color: Colors.black,
+          fontSize: 16,
+        ),
+      ),
+                )
+              ]),
         ],
       ),
     );

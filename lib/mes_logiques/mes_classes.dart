@@ -54,12 +54,14 @@ class Devoir {
 class ElementEntretien {
   String titre;
   String contenu;
+   final String imagePath;
 
-  ElementEntretien({required this.titre, required this.contenu});
+  ElementEntretien(
+      {required this.titre, required this.contenu, required this.imagePath});
 
   Map<String, dynamic> toMap() {
     return {
-      'nom': titre,
+      'titre': titre,
       'contenu': contenu,
     };
   }

@@ -30,7 +30,7 @@ class EntretienAdminController extends ChangeNotifier {
   }
 
   gotoListEntretien() {
-    selectedIndex = 1;
+    selectedIndex = 0;
     notifyListeners();
   }
 }

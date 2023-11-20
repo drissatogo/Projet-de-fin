@@ -78,6 +78,7 @@ import 'package:flutter/material.dart';
 import 'package:mongrh/Controller/pageController.dart';
 import 'package:mongrh/admin.dart';
 import 'package:mongrh/firebase_options.dart';
+import 'package:mongrh/inscription.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -88,7 +89,7 @@ Future<void> main() async {
     ChangeNotifierProvider<EntretienAdminController>(
       create: (_) => EntretienAdminController(),
       child: const MaterialApp(
-        home: MyHomePage(),
+        home: InterfaceEntretien(),
       ),
     ),
   );

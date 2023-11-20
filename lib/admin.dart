@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mongrh/Controller/pageController.dart';
-import 'package:mongrh/mes_logiques/mes_classes.dart';
 import 'package:mongrh/mes_logiques/services.dart';
 import 'package:provider/provider.dart';
 
@@ -1790,16 +1789,16 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      print("hello");
-                      // Créez l'objet ElementEntretien
-                      final elementEntretien = ElementEntretien(
-                        titre: titreController.text,
-                        contenu: contenuController.text,
-                      );
-                      print("half");
-                      await service.ajouterElementEntretien(elementEntretien);
-                      print("hell");
-                      enregistrer.gotoListEntretien();
+                      // print("hello");
+                      // // Créez l'objet ElementEntretien
+                      // final elementEntretien = ElementEntretien(
+                      //   titre: titreController.text,
+                      //   contenu: contenuController.text,
+                      // );
+                      // print("half");
+                      // await service.ajouterElementEntretien(elementEntretien);
+                      // print("hell");
+                      await enregistrer.gotoListEntretien();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
