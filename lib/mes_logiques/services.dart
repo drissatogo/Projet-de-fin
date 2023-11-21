@@ -29,3 +29,34 @@ class ElementEntretienService {
     return "ok";
   }
 }
+
+
+class ContratService{
+  Future<String> ajouterContrat(
+      Contrat contrat) async {
+    // Initialisez Firebase.
+    print("test");
+    await Firebase.initializeApp();
+    print("init");
+    // Créez une instance de la classe `FirebaseFirestore`.
+    final firestore = FirebaseFirestore.instance;
+
+    // Créez un document dans la collection `elements_entretiens`.
+    final document = firestore.collection('Contrat').doc();
+    print("doc");
+
+    // Ajoutez des données au document.
+    await document.set({
+      'type': contrat.type,
+      'description': contrat.description,
+      'droits': contrat.droits,
+      'devoirs':contrat.devoirs
+    }).then((value) {
+      print("success");
+    }).catchError((onError) {
+      print(onError);
+    });
+    print("finish");
+    return "ok";
+  }
+}

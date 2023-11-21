@@ -11,6 +11,15 @@ class EntretienPage extends StatelessWidget {
   }
 }
 
+// class ContratPage extends StatelessWidget {
+//   const ContratPage({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return context.watch<ContratAdminController>().pages;
+//   }
+// }
+
 class EntretienAdminController extends ChangeNotifier {
   var selectedIndex = 0;
   List<StatefulWidget> pages = [];
@@ -34,3 +43,42 @@ class EntretienAdminController extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+class ContratAdminPage extends StatelessWidget {
+  const ContratAdminPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return context.watch<ContratAdminController>().page;
+  }
+}
+
+
+
+class ContratAdminController extends ChangeNotifier {
+  var selectedIndex = 0;
+  List<StatefulWidget> pages = [];
+  StatefulWidget get page {
+    return pages[selectedIndex];
+  }
+
+  ContratAdminController() {
+    pages = [
+      const ContratAdmin(),
+      const AjoutContrat(),
+    ];
+  }
+
+  gotoAddContrat() {
+    selectedIndex = 1;
+    notifyListeners();
+  }
+
+  gotoListContrat() {
+    selectedIndex = 0;
+    notifyListeners();
+  }
+}
+
+
+

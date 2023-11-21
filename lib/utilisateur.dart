@@ -51,6 +51,8 @@ class PremierePage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
           body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         color: Colors.white,
         child: Column(
           children: [
@@ -87,11 +89,8 @@ class PremierePage extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const PageInscription(isLoginPage: false)));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Connexion()));
               },
               child: const Text(
                 "J'ai déjà un compte",
@@ -170,12 +169,18 @@ class _PageInscriptionState extends State<PageInscription> {
                 // const SizedBox(height: 10),
 
                 _buildTextField(
-                    "Nom d'utilisateur", Icons.email, _usernameController),
+                  "Nom d'utilisateur",
+                  Icons.email,
+                  _usernameController,
+                ),
                 const SizedBox(height: 10),
                 IntlPhoneField(
                   decoration: const InputDecoration(
                     hintText: "Numéro de téléphone",
-                    suffixIcon: Icon(Icons.call),
+                    suffixIcon: Icon(
+                      Icons.call,
+                      color: Color(0xFF4E5394),
+                    ),
                     border:
                         OutlineInputBorder(borderSide: BorderSide(width: 1)),
                   ),
@@ -193,7 +198,6 @@ class _PageInscriptionState extends State<PageInscription> {
                 const SizedBox(height: 10),
 
                 const SizedBox(height: 20),
-                // Remplacer s'inscrire par connectez-vous si c'est la page de connexion
                 ElevatedButton(
                   onPressed: () async {
                     // try {
@@ -280,7 +284,10 @@ class _PageInscriptionState extends State<PageInscription> {
       child: TextFormField(
         decoration: InputDecoration(
           hintText: label,
-          suffixIcon: Icon(icon),
+          suffixIcon: Icon(
+            icon,
+            color: const Color(0xFF4E5394),
+          ),
           border: InputBorder.none,
         ),
       ),
@@ -297,12 +304,13 @@ class _PageInscriptionState extends State<PageInscription> {
         decoration: InputDecoration(
           hintText: label,
           suffixIcon: PasswordToggle(
-              obscureText: _obscureText,
-              onToggle: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              }),
+            obscureText: _obscureText,
+            onToggle: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+          ),
           border: InputBorder.none,
         ),
         obscureText:
@@ -330,7 +338,10 @@ class _PasswordToggleState extends State<PasswordToggle> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(widget.obscureText ? Icons.visibility_off : Icons.visibility),
+      icon: Icon(
+        widget.obscureText ? Icons.visibility_off : Icons.visibility,
+        color: const Color(0xFF4E5394),
+      ),
       onPressed: widget.onToggle,
     );
   }
@@ -347,8 +358,8 @@ class Connexion extends StatefulWidget {
 class _ConnexionState extends State<Connexion> {
   bool _obscureText = true;
 
-  // final _usernameController = TextEditingController();
-  // final _numeroController = TextEditingController();
+  final _usernameController = TextEditingController();
+  final _numeroController = TextEditingController();
   final _emailController = TextEditingController();
   final _motDePasseController = TextEditingController();
 
@@ -368,31 +379,25 @@ class _ConnexionState extends State<Connexion> {
                   height: 250,
                   width: 250,
                 )),
-
-                // _buildTextField(
-                //     "Nom d'utilisateur", Icons.email, _usernameController),
-                // const SizedBox(height: 10),
-                // IntlPhoneField(
-                //   decoration: InputDecoration(
-                //     hintText: "Numéro de téléphone",
-                //     suffixIcon: Icon(Icons.call),
-                //     border:
-                //         OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                //   ),
-                //   initialCountryCode: 'ML',
-                //   controller: _numeroController,
-                // ),
-                // const SizedBox(height: 10),
+                _buildTextField(
+                    "Nom d'utilisateur", Icons.email, _usernameController),
+                const SizedBox(height: 10),
+                IntlPhoneField(
+                  decoration: const InputDecoration(
+                    hintText: "Numéro de téléphone",
+                    suffixIcon: Icon(Icons.call,color:Color(0xFF4E5394)),
+                    border:
+                        OutlineInputBorder(borderSide: BorderSide(width: 1)),
+                  ),
+                  initialCountryCode: 'ML',
+                  controller: _numeroController,
+                ),
+                const SizedBox(height: 10),
                 _buildTextField("E-mail", Icons.email, _emailController),
                 const SizedBox(height: 10),
                 _buildPasswordTextField(
                     "Mot de passe", Icons.call, _motDePasseController),
-                // const SizedBox(height: 10),
-                //   _buildPasswordTextField("Confirmer le mot de passe",
-                //       Icons.visibility_off, _motDePasseController),
-
                 const SizedBox(height: 20),
-                // Remplacer s'inscrire par connectez-vous si c'est la page de connexion
                 ElevatedButton(
                   onPressed: () {},
                   child: const Text('Se connecter'),
@@ -414,7 +419,7 @@ class _ConnexionState extends State<Connexion> {
       child: TextFormField(
         decoration: InputDecoration(
           hintText: label,
-          suffixIcon: Icon(icon),
+          suffixIcon: Icon(icon,color:Color(0xFF4E5394)),
           border: InputBorder.none,
         ),
       ),
@@ -2484,327 +2489,6 @@ class _InterfaceEntretienState extends State<InterfaceEntretien> {
   }
 }
 
-// class _InterfaceEntretienState extends State<InterfaceEntretien> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: [
-//             const SizedBox(
-//               height: 40,
-//             ),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceAround,
-//               children: [
-//                 SvgPicture.asset(
-//                   'assets/svg/Back.svg',
-//                   height: 30,
-//                   width: 30,
-//                 ),
-//                 Container(
-//                   width: 120,
-//                   height: 120,
-//                   decoration: ShapeDecoration(
-//                     image: const DecorationImage(
-//                       image: AssetImage("assets/images/entretien.jpg"),
-//                       fit: BoxFit.fill,
-//                     ),
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(10),
-//                     ),
-//                   ),
-//                 ),
-//                 Container()
-//               ],
-//             ),
-//             const SizedBox(
-//               height: 50,
-//             ),
-//             Expanded(
-//               child: Container(
-//                 width: 300,
-//                 height: 800,
-//                 decoration: ShapeDecoration(
-//                   color: Colors.white,
-//                   shape: RoundedRectangleBorder(
-//                     side: const BorderSide(width: 0.50),
-//                     borderRadius: BorderRadius.circular(10),
-//                   ),
-//                 ),
-//                 child: Column(
-//                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                   children: [
-//                     ListView.builder(
-//                       itemCount:
-//                           2, // Remplacez par le nombre total d'éléments que vous avez
-//                       itemBuilder: (context, index) {
-//                         // Vous pouvez ajuster les données en fonction de votre structure de données
-//                         String title;
-//                         String imagePath;
-
-//                         if (index == 0) {
-//                           title = 'Préparation';
-//                           imagePath = "assets/images/entretien.jpg";
-//                         } else {
-//                           title = 'Questions courantes';
-//                           imagePath =
-//                               ''; // Ajoutez le chemin de l'image si nécessaire
-//                         }
-
-//                         return Container(
-//                           width: 260,
-//                           height: 60,
-//                           decoration: ShapeDecoration(
-//                             color: Colors.white,
-//                             shape: RoundedRectangleBorder(
-//                               borderRadius: BorderRadius.circular(5),
-//                             ),
-//                             shadows: const [
-//                               BoxShadow(
-//                                 color: Color(0x3F000000),
-//                                 blurRadius: 4,
-//                                 offset: Offset(1, 1),
-//                                 spreadRadius: 0,
-//                               )
-//                             ],
-//                           ),
-//                           child: Row(
-//                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                             children: [
-//                               Container(
-//                                 width: 79,
-//                                 height: 61,
-//                                 decoration: ShapeDecoration(
-//                                   image: imagePath.isNotEmpty
-//                                       ? DecorationImage(
-//                                           image: AssetImage(imagePath),
-//                                           fit: BoxFit.fill,
-//                                         )
-//                                       : null,
-//                                   shape: RoundedRectangleBorder(
-//                                     borderRadius: BorderRadius.circular(10),
-//                                   ),
-//                                 ),
-//                               ),
-//                               Text(
-//                                 title,
-//                                 textAlign: TextAlign.center,
-//                                 style: const TextStyle(
-//                                   color: Color(0xE02D3030),
-//                                   fontSize: 15,
-//                                   fontFamily: 'Poppins',
-//                                   fontWeight: FontWeight.w400,
-//                                   height: 0,
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         );
-//                       },
-//                     ),
-
-//                     // Container(
-//                     //   width: 260,
-//                     //   height: 60,
-//                     //   decoration: ShapeDecoration(
-//                     //     color: Colors.white,
-//                     //     shape: RoundedRectangleBorder(
-//                     //       borderRadius: BorderRadius.circular(5),
-//                     //     ),
-//                     //     shadows: const [
-//                     //       BoxShadow(
-//                     //         color: Color(0x3F000000),
-//                     //         blurRadius: 4,
-//                     //         offset: Offset(1, 1),
-//                     //         spreadRadius: 0,
-//                     //       )
-//                     //     ],
-//                     //   ),
-//                     //   child: Row(
-//                     //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                     //     children: [
-//                     //       Container(
-//                     //         width: 79,
-//                     //         height: 61,
-//                     //         decoration: ShapeDecoration(
-//                     //           image: const DecorationImage(
-//                     //             image: AssetImage("assets/images/entretien.jpg"),
-//                     //             fit: BoxFit.fill,
-//                     //           ),
-//                     //           shape: RoundedRectangleBorder(
-//                     //             borderRadius: BorderRadius.circular(10),
-//                     //           ),
-//                     //         ),
-//                     //       ),
-//                     //       const Text(
-//                     //         'Préparation',
-//                     //         textAlign: TextAlign.center,
-//                     //         style: TextStyle(
-//                     //           color: Color(0xE02D3030),
-//                     //           fontSize: 15,
-//                     //           fontFamily: 'Poppins',
-//                     //           fontWeight: FontWeight.w400,
-//                     //           height: 0,
-//                     //         ),
-//                     //       ),
-//                     //     ],
-//                     //   ),
-//                     // ),
-//                     // Container(
-//                     //   width: 260,
-//                     //   height: 60,
-//                     //   decoration: ShapeDecoration(
-//                     //     color: Colors.white,
-//                     //     shape: RoundedRectangleBorder(
-//                     //       borderRadius: BorderRadius.circular(5),
-//                     //     ),
-//                     //     shadows: const [
-//                     //       BoxShadow(
-//                     //         color: Color(0x3F000000),
-//                     //         blurRadius: 4,
-//                     //         offset: Offset(1, 1),
-//                     //         spreadRadius: 0,
-//                     //       )
-//                     //     ],
-//                     //   ),
-//                     //   child: const Row(
-//                     //     mainAxisAlignment: MainAxisAlignment.center,
-//                     //     children: [
-//                     //       // Container(
-//                     //       //   width: 79,
-//                     //       //   height: 61,
-//                     //       //   decoration: ShapeDecoration(
-//                     //       //     image: const DecorationImage(
-//                     //       //       image: AssetImage("assets/images/entretien.jpg"),
-//                     //       //       fit: BoxFit.fill,
-//                     //       //     ),
-//                     //       //     shape: RoundedRectangleBorder(
-//                     //       //       borderRadius: BorderRadius.circular(10),
-//                     //       //     ),
-//                     //       //   ),
-//                     //       // ),
-//                     //       Text(
-//                     //         'Questions courantes',
-//                     //         textAlign: TextAlign.center,
-//                     //         style: TextStyle(
-//                     //           color: Color(0xE02D3030),
-//                     //           fontSize: 15,
-//                     //           fontFamily: 'Poppins',
-//                     //           fontWeight: FontWeight.w400,
-//                     //           height: 0,
-//                     //         ),
-//                     //       ),
-//                     //     ],
-//                     //   ),
-//                     // ),
-//                     Container(
-//                       width: 260,
-//                       height: 60,
-//                       decoration: ShapeDecoration(
-//                         color: Colors.white,
-//                         shape: RoundedRectangleBorder(
-//                           borderRadius: BorderRadius.circular(5),
-//                         ),
-//                         shadows: const [
-//                           BoxShadow(
-//                             color: Color(0x3F000000),
-//                             blurRadius: 4,
-//                             offset: Offset(1, 1),
-//                             spreadRadius: 0,
-//                           )
-//                         ],
-//                       ),
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                         children: [
-//                           Container(
-//                             width: 79,
-//                             height: 61,
-//                             decoration: ShapeDecoration(
-//                               image: const DecorationImage(
-//                                 image: AssetImage(
-//                                     "assets/images/conversation.png"),
-//                                 fit: BoxFit.fill,
-//                               ),
-//                               shape: RoundedRectangleBorder(
-//                                 borderRadius: BorderRadius.circular(10),
-//                               ),
-//                             ),
-//                           ),
-//                           const Text(
-//                             'Contacter coach',
-//                             textAlign: TextAlign.center,
-//                             style: TextStyle(
-//                               color: Color(0xE02D3030),
-//                               fontSize: 15,
-//                               fontFamily: 'Poppins',
-//                               fontWeight: FontWeight.w400,
-//                               height: 0,
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ),
-//                     Container(
-//                       width: 260,
-//                       height: 60,
-//                       decoration: ShapeDecoration(
-//                         color: Colors.white,
-//                         shape: RoundedRectangleBorder(
-//                           borderRadius: BorderRadius.circular(5),
-//                         ),
-//                         shadows: const [
-//                           BoxShadow(
-//                             color: Color(0x3F000000),
-//                             blurRadius: 4,
-//                             offset: Offset(1, 1),
-//                             spreadRadius: 0,
-//                           )
-//                         ],
-//                       ),
-//                       child: Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                         children: [
-//                           Container(
-//                             width: 79,
-//                             height: 61,
-//                             decoration: ShapeDecoration(
-//                               image: const DecorationImage(
-//                                 image: AssetImage(
-//                                     "assets/images/conversation.png"),
-//                                 fit: BoxFit.fill,
-//                               ),
-//                               shape: RoundedRectangleBorder(
-//                                 borderRadius: BorderRadius.circular(10),
-//                               ),
-//                             ),
-//                           ),
-//                           const Text(
-//                             'Conversations',
-//                             textAlign: TextAlign.center,
-//                             style: TextStyle(
-//                               color: Color(0xE02D3030),
-//                               fontSize: 15,
-//                               fontFamily: 'Poppins',
-//                               fontWeight: FontWeight.w400,
-//                               height: 0,
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     )
-//                   ],
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class ContenuEntretien extends StatefulWidget {
   const ContenuEntretien({super.key, required this.elementEntretien});
 
@@ -2815,33 +2499,6 @@ class ContenuEntretien extends StatefulWidget {
 }
 
 class _ContenuEntretienState extends State<ContenuEntretien> {
-  // final TextEditingController _controller = TextEditingController();
-  // String dataFromFirebase = '';
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // Appel à une fonction pour récupérer des données depuis Firebase
-  //   fetchDataFromFirebase();
-  // }
-
-  // // Fonction pour récupérer des données depuis Firebase Firestore
-  // void fetchDataFromFirebase() async {
-  //   var document = await FirebaseFirestore.instance
-  //       .collection('ElementEntretien')
-  //       .doc('AGsrV4WZ27nj5aP349Ld')
-  //       .get();
-
-  //   // Vérifiez si le document existe avant de récupérer les données
-  //   if (document.exists) {
-  //     setState(() {
-  //       // Récupérez les données et mettez à jour l'état
-  //       dataFromFirebase = document.data()?['titre'] ?? '';
-  //      widget.elementEntretien.titre = dataFromFirebase;
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -2928,13 +2585,13 @@ class _ContenuEntretienState extends State<ContenuEntretien> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child:  Text(
-        widget.elementEntretien.contenu,
-        style: const TextStyle(
-          color: Colors.black,
-          fontSize: 16,
-        ),
-      ),
+                  child: Text(
+                    widget.elementEntretien.contenu,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
                 )
               ]),
         ],

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mongrh/Controller/pageController.dart';
+import 'package:mongrh/main.dart';
 import 'package:mongrh/mes_logiques/services.dart';
 import 'package:provider/provider.dart';
+
+import 'mes_logiques/mes_classes.dart';
 
 class Bienvenu extends StatefulWidget {
   const Bienvenu({super.key});
@@ -89,7 +94,7 @@ class _BienvenuState extends State<Bienvenu> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const DashboardFirst()));
+                                        const ConnexionAdmin()));
                           },
                           child: const Text(
                             'Commencer',
@@ -319,76 +324,6 @@ class _DashboardFirstState extends State<DashboardFirst> {
   }
 }
 
-class NavigationRailExample extends StatefulWidget {
-  const NavigationRailExample({super.key});
-
-  @override
-  _NavigationRailExampleState createState() => _NavigationRailExampleState();
-}
-
-class _NavigationRailExampleState extends State<NavigationRailExample> {
-  late int _selectedIndex;
-  List<Widget> listPage = [
-    const ContratAdmin(),
-    const DashboardFirst(),
-    const CvAdmin()
-  ];
-
-  @override
-  initState() {
-    super.initState();
-
-    _selectedIndex = 0;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Row(
-          children: <Widget>[
-            NavigationRail(
-              minExtendedWidth: 300,
-              minWidth: 100,
-              leading: Container(),
-              selectedIndex: _selectedIndex,
-              destinations: _buildDestinations(),
-              onDestinationSelected: (int index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-            ),
-            const VerticalDivider(),
-            Expanded(
-              child: listPage[_selectedIndex],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  List<NavigationRailDestination> _buildDestinations() {
-    Icon icon = const Icon(Icons.check_circle_outline);
-
-    return [
-      NavigationRailDestination(
-        icon: icon,
-        label: const Text('Contrat'),
-      ),
-      NavigationRailDestination(
-        icon: icon,
-        label: const Text('Menu 2'),
-      ),
-      NavigationRailDestination(
-        icon: icon,
-        label: const Text('Menu 3'),
-      ),
-    ];
-  }
-}
-
 // class NavigationRailExampleApp extends StatelessWidget {
 //   const NavigationRailExampleApp({super.key});
 
@@ -567,6 +502,178 @@ class _NavigationRailExampleState extends State<NavigationRailExample> {
 //   }
 // }
 
+class ConnexionAdmin extends StatefulWidget {
+  const ConnexionAdmin({super.key});
+
+  @override
+  State<ConnexionAdmin> createState() => _ConnexionAdminState();
+}
+
+class _ConnexionAdminState extends State<ConnexionAdmin> {
+  @override
+  Widget build(BuildContext context) {
+    // Initialise le package flutter_screenutil
+    ScreenUtil.init(context);
+    return Scaffold(
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        clipBehavior: Clip.antiAlias,
+        decoration: const BoxDecoration(color: Colors.white),
+        child: Stack(
+          children: [
+            Positioned(
+              left: 746,
+              top: 108,
+              child: Container(
+                width: 506,
+                height: 270,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 0.50),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 785,
+              top: 170,
+              child: Container(
+                width: 431,
+                height: 52,
+                decoration: const ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 785,
+              top: 268,
+              child: Container(
+                width: 431,
+                height: 52,
+                decoration: const ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 808,
+              top: 182,
+              child: SizedBox(
+                width: 400,
+                height: 30,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    hintStyle: TextStyle(
+                      color: Colors.black.withOpacity(0.31),
+                      fontSize: 18,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 802,
+              top: 280,
+              child: SizedBox(
+                width: 400,
+                height: 30,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Mot de passe',
+                    hintStyle: TextStyle(
+                      color: Colors.black.withOpacity(0.31),
+                      fontSize: 18,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 196,
+              top: 82,
+              child: Container(
+                width: 387,
+                height: 385,
+                decoration: const ShapeDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/logo.png"),
+                    fit: BoxFit.fill,
+                  ),
+                  shape: OvalBorder(),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 901,
+              top: 444,
+              child: SizedBox(
+                width: 261.15,
+                height: 49.16,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 32.43,
+                      top: 0,
+                      child: Container(
+                        width: 180,
+                        height: 42,
+                        decoration: ShapeDecoration(
+                          color: const Color(0xFF4E5394),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 0,
+                      top: 8.34,
+                      child: SizedBox(
+                        width: 261.15,
+                        height: 40.82,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const MyHomePage()));
+                          },
+                          child: const Text(
+                            'Se connecter',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class ContratAdmin extends StatefulWidget {
   const ContratAdmin({super.key});
 
@@ -577,282 +684,286 @@ class ContratAdmin extends StatefulWidget {
 class _ContratAdminState extends State<ContratAdmin> {
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: SizedBox(
-        width: 1300,
-        height: 600,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const CircleAvatar(
-                  backgroundColor: Color.fromARGB(255, 3, 46, 82),
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: 40,
-                    color: Color.fromARGB(255, 238, 235, 235),
-                  ),
-                ),
-                const Expanded(
-                  child: Text(
-                    'Les types de contrat du travail',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF4E5394),
-                      fontSize: 40,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w700,
-                      height: 0,
+    // final ajouterContrat = context.watch<ContratAdminController>();
+
+    return Scaffold(
+      body: Directionality(
+        textDirection: TextDirection.ltr,
+        child: SizedBox(
+          width: 1300,
+          height: 600,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Container(),
+                  const Expanded(
+                    child: Text(
+                      'Les types de contrat du travail',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF4E5394),
+                        fontSize: 40,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  width: 172,
-                  height: 173,
-                  decoration: const ShapeDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/logo.png"),
-                      fit: BoxFit.fill,
+                  Container(
+                    width: 172,
+                    height: 173,
+                    decoration: const ShapeDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/logo.png"),
+                        fit: BoxFit.fill,
+                      ),
+                      shape: OvalBorder(),
                     ),
-                    shape: OvalBorder(),
-                  ),
-                )
-              ],
-            ),
-            Expanded(
-              child: Container(
-                width: 1039,
-                height: 408,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/contrat.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'CDD',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/contrat.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'CDD',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/contrat.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'CDD',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/contrat.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'CDD',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/contrat.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'CDD',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/contrat.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'CDD',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.add_circle,
-                            color: Color.fromARGB(255, 3, 57, 102),
-                            size: 40,
-                          ),
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
-            )
-          ],
+              Expanded(
+                child: Container(
+                  width: 1039,
+                  height: 408,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side:
+                          const BorderSide(width: 3, color: Color(0xFF4E5394)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                width: 138,
+                                height: 152,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/contrat.jpg"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              const Row(
+                                children: [
+                                  Text(
+                                    'CDD',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF4E5394),
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
+                                  Icon(Icons.delete),
+                                  Icon(Icons.edit_square)
+                                ],
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                width: 138,
+                                height: 152,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/contrat.jpg"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              const Row(
+                                children: [
+                                  Text(
+                                    'CDD',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF4E5394),
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
+                                  Icon(Icons.delete),
+                                  Icon(Icons.edit_square)
+                                ],
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                width: 138,
+                                height: 152,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/contrat.jpg"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              const Row(
+                                children: [
+                                  Text(
+                                    'CDD',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF4E5394),
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
+                                  Icon(Icons.delete),
+                                  Icon(Icons.edit_square)
+                                ],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                width: 138,
+                                height: 152,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/contrat.jpg"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              const Row(
+                                children: [
+                                  Text(
+                                    'CDD',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF4E5394),
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
+                                  Icon(Icons.delete),
+                                  Icon(Icons.edit_square)
+                                ],
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                width: 138,
+                                height: 152,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/contrat.jpg"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              const Row(
+                                children: [
+                                  Text(
+                                    'CDD',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF4E5394),
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
+                                  Icon(Icons.delete),
+                                  Icon(Icons.edit_square)
+                                ],
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                width: 138,
+                                height: 152,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image:
+                                        AssetImage("assets/images/contrat.jpg"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              const Row(
+                                children: [
+                                  Text(
+                                    'CDD',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Color(0xFF4E5394),
+                                      fontSize: 20,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                    ),
+                                  ),
+                                  Icon(Icons.delete),
+                                  Icon(Icons.edit_square)
+                                ],
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              // await ajouterContrat.gotoAddContrat();
+                              context
+                                  .read<ContratAdminController>()
+                                  .gotoAddContrat();
+                            },
+                            child: const Icon(
+                              Icons.add_circle,
+                              color: Color.fromARGB(255, 3, 57, 102),
+                              size: 40,
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -1384,14 +1495,7 @@ class _EntretienAdminState extends State<EntretienAdmin> {
           children: [
             Row(
               children: [
-                const CircleAvatar(
-                  backgroundColor: Color.fromARGB(255, 3, 46, 82),
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: 40,
-                    color: Color.fromARGB(255, 238, 235, 235),
-                  ),
-                ),
+                Container(),
                 const Expanded(
                   child: Text(
                     'Entretien',
@@ -1626,195 +1730,496 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
 
     return MaterialApp(
       home: Scaffold(
-        body: Column(
-          children: [
-            SizedBox(
-              width: 900,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const CircleAvatar(
-                    backgroundColor: Color.fromARGB(255, 3, 46, 82),
-                    child: Icon(
-                      Icons.arrow_back,
-                      size: 40,
-                      color: Color.fromARGB(255, 238, 235, 235),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 900,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        context
+                            .read<EntretienAdminController>()
+                            .gotoListEntretien();
+                      },
+                      child: SvgPicture.asset("assets/images/Back.svg"),
                     ),
-                  ),
-                  const Text(
-                    'Ajouter la préparation d’un entretien',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF4E5394),
-                      fontSize: 40,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w700,
-                      height: 0,
-                    ),
-                  ),
-                  Container(
-                    width: 172,
-                    height: 173,
-                    decoration: const ShapeDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/logo.png"),
-                        fit: BoxFit.fill,
+                    const Text(
+                      'Ajouter la préparation d’un entretien',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF4E5394),
+                        fontSize: 40,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
                       ),
-                      shape: OvalBorder(),
                     ),
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: 900,
-              height: 401,
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
-                  borderRadius: BorderRadius.circular(20),
+                    Container(
+                      width: 172,
+                      height: 173,
+                      decoration: const ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/logo.png"),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: OvalBorder(),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 10,
+              Container(
+                width: 900,
+                height: 401,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Nom'),
-                        Container(
-                          width: 849,
-                          height: 78,
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(1, 1),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: TextField(
-                              controller: titreController,
-                              decoration: const InputDecoration(
-                                hintText: 'Saisissez ici',
-                                border: InputBorder.none,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Nom'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              maxLines: null,
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Contenu'),
-                        Container(
-                          width: 849,
-                          height: 150,
-                          decoration: ShapeDecoration(
-                            color: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            shadows: const [
-                              BoxShadow(
-                                color: Color(0x3F000000),
-                                blurRadius: 4,
-                                offset: Offset(1, 1),
-                                spreadRadius: 0,
-                              )
-                            ],
-                          ),
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: TextField(
-                              controller: contenuController,
-                              decoration: const InputDecoration(
-                                hintText: 'Saisissez ici',
-                                border: InputBorder.none,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: titreController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
                               ),
-                              maxLines: null,
                             ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: 800,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red, // Couleur de fond du bouton
-                    ),
-                    child: const Text(
-                      "Annuler",
-                      style: TextStyle(
-                        color: Colors.white, // Couleur du texte du bouton
+                          )
+                        ],
                       ),
                     ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      // print("hello");
-                      // // Créez l'objet ElementEntretien
-                      // final elementEntretien = ElementEntretien(
-                      //   titre: titreController.text,
-                      //   contenu: contenuController.text,
-                      // );
-                      // print("half");
-                      // await service.ajouterElementEntretien(elementEntretien);
-                      // print("hell");
-                      await enregistrer.gotoListEntretien();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          const Color(0xFF4E5394), // Couleur de fond du bouton
+                    const SizedBox(
+                      height: 40,
                     ),
-                    child: const Text(
-                      "Enregistrer",
-                      style: TextStyle(
-                        color: Colors.white, // Couleur du texte du bouton
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Contenu'),
+                          Container(
+                            width: 849,
+                            height: 150,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: contenuController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 800,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<EntretienAdminController>()
+                            .gotoListEntretien();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.red, // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Annuler",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        print("hello");
+                        // Créez l'objet ElementEntretien
+                        final elementEntretien = ElementEntretien(
+                          titre: titreController.text,
+                          contenu: contenuController.text,
+                          imagePath: '',
+                        );
+                        print("half");
+                        await service.ajouterElementEntretien(elementEntretien);
+                        print("hell");
+                        // await enregistrer.gotoListEntretien();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF4E5394), // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Enregistrer",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AjoutContrat extends StatefulWidget {
+  const AjoutContrat({super.key});
+
+  @override
+  State<AjoutContrat> createState() => _AjoutContratState();
+}
+
+class _AjoutContratState extends State<AjoutContrat> {
+  @override
+  Widget build(BuildContext context) {
+    final service = ContratService();
+    // Créez les champs de saisie
+    final typeController = TextEditingController();
+    final descriptionController = TextEditingController();
+    final droitsController = TextEditingController();
+    final devoirsController = TextEditingController();
+
+// Récupérez les valeurs saisies par l'utilisateur
+    final type = typeController;
+    final description = descriptionController;
+    final droits = droitsController;
+    final devoirs = devoirsController;
+
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                width: 900,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                        onTap: () {},
+                        child: SvgPicture.asset('assets/images/Back.svg')),
+                    const Text(
+                      'Ajouter un contrat de travail',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF4E5394),
+                        fontSize: 40,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                    Container(
+                      width: 172,
+                      height: 173,
+                      decoration: const ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/logo.png"),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: OvalBorder(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: 900,
+                height: 401,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Nom'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: typeController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Description'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: descriptionController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Droits'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: droitsController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Devoirs'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: devoirsController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 800,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<ContratAdminController>()
+                            .gotoListContrat();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.red, // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Annuler",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        print("hello");
+                        // Créez l'objet ElementEntretien
+                        final contrat = Contrat(
+                          type: typeController.text,
+                          description: descriptionController.text,
+                          droits: droitsController.text,
+                          devoirs: devoirsController.text,
+                        );
+                        print("half");
+                        await service.ajouterContrat(contrat);
+                        print("hell");
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF4E5394), // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Enregistrer",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

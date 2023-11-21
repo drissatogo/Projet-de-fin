@@ -78,22 +78,44 @@ import 'package:flutter/material.dart';
 import 'package:mongrh/Controller/pageController.dart';
 import 'package:mongrh/admin.dart';
 import 'package:mongrh/firebase_options.dart';
-import 'package:mongrh/inscription.dart';
+import 'package:mongrh/utilisateur.dart';
 import 'package:provider/provider.dart';
+
+// Future<void> main() async {
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+//   runApp(
+//     ChangeNotifierProvider<EntretienAdminController>(
+//       create: (_) => EntretienAdminController(),
+//       child: const MaterialApp(
+//         home: MyHomePage(),
+//       ),
+//     ),
+//   );
+// }
 
 Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    ChangeNotifierProvider<EntretienAdminController>(
-      create: (_) => EntretienAdminController(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<EntretienAdminController>(
+          create: (_) => EntretienAdminController(),
+        ),
+        ChangeNotifierProvider<ContratAdminController>(
+          create: (_) => ContratAdminController(),
+        ),
+      ],
       child: const MaterialApp(
-        home: InterfaceEntretien(),
+        home: MyHomePage(),
       ),
     ),
   );
 }
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -110,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = const ContratAdmin();
+        page = const ContratAdminPage();
         break;
       case 1:
         page = const EntretienPage();
@@ -176,7 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Expanded(
                 child: Container(
-                  color: Theme.of(context).colorScheme.primaryContainer,
+                  // color: Theme.of(context).colorScheme.primaryContainer,
                   child: page,
                 ),
               ),
@@ -185,5 +207,113 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     });
+  }
+}
+
+class Demarrage extends StatefulWidget {
+  const Demarrage({super.key});
+
+  @override
+  State<Demarrage> createState() => _DemarrageState();
+}
+
+class _DemarrageState extends State<Demarrage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ListView(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  height: 30,
+                ),
+                Container(
+                  width: 200,
+                  height: 200,
+                  decoration: const ShapeDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/logo.png"),
+                      fit: BoxFit.fill,
+                    ),
+                    shape: OvalBorder(),
+                  ),
+                ),
+                Transform(
+                  transform: Matrix4.identity()
+                    ..translate(0.0, 0.0)
+                    ..rotateZ(0.03),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    decoration: ShapeDecoration(
+                      image: const DecorationImage(
+                        image: AssetImage("assets/images/milieu.png"),
+                        fit: BoxFit.fill,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Bienvenu()));
+                        },
+                        child: const Text(
+                          'Continuer en tant qu’Admin',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF4E5394),
+                            fontSize: 24,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                            height: 0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const PremierePage()));
+                        },
+                        child: const Text(
+                          'Continuer en tant qu’Utilisateur',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF4E5394),
+                            fontSize: 24,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                            height: 0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

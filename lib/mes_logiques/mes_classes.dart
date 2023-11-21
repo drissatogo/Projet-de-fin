@@ -33,8 +33,15 @@ class MyUser {
 
 class Contrat {
   String type;
+  String description;
+  String droits;
+  String devoirs;
 
-  Contrat({required this.type});
+  Contrat(
+      {required this.type,
+      required this.description,
+      required this.droits,
+      required this.devoirs});
 }
 
 class Droit {
@@ -54,7 +61,7 @@ class Devoir {
 class ElementEntretien {
   String titre;
   String contenu;
-   final String imagePath;
+  final String imagePath;
 
   ElementEntretien(
       {required this.titre, required this.contenu, required this.imagePath});
