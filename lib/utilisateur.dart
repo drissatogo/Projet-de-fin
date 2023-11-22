@@ -385,7 +385,7 @@ class _ConnexionState extends State<Connexion> {
                 IntlPhoneField(
                   decoration: const InputDecoration(
                     hintText: "Numéro de téléphone",
-                    suffixIcon: Icon(Icons.call,color:Color(0xFF4E5394)),
+                    suffixIcon: Icon(Icons.call, color: Color(0xFF4E5394)),
                     border:
                         OutlineInputBorder(borderSide: BorderSide(width: 1)),
                   ),
@@ -419,7 +419,7 @@ class _ConnexionState extends State<Connexion> {
       child: TextFormField(
         decoration: InputDecoration(
           hintText: label,
-          suffixIcon: Icon(icon,color:Color(0xFF4E5394)),
+          suffixIcon: Icon(icon, color: const Color(0xFF4E5394)),
           border: InputBorder.none,
         ),
       ),
@@ -979,170 +979,335 @@ class _CvState extends State<Cv> {
       fontWeight: FontWeight.normal,
       decoration: TextDecoration.none,
       color: Colors.black);
+  List<Documents> documents = [];
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    try {
+      CollectionReference<Map<String, dynamic>> documentsCollection =
+          FirebaseFirestore.instance.collection('Documents');
+
+      QuerySnapshot<Map<String, dynamic>> documentsSnapshot =
+          await documentsCollection.get();
+
+      List<Documents> items = documentsSnapshot.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+        Map<String, dynamic> data = doc.data();
+        return Documents(
+          nom: data['nom'] as String,
+          contenu: data['contenu'] as String,
+          // Utilisez l'image par défaut si 'imagePath' est null ou vide
+          explication: data['explication'] as String,
+        );
+      }).toList();
+
+      setState(() {
+        documents = items;
+      });
+    } catch (e) {
+      print('Erreur lors de la récupération des données : $e');
+    }
+  }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+//       Row(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           GestureDetector(
+//             onTap: () {
+//               Navigator.of(context).pop();
+//             },
+//             child: const Icon(Icons.arrow_back),
+//           ),
+//           Image.asset(
+//             'assets/images/Cvs.webp',
+//             width: 100,
+//             height: 100,
+//           ),
+//           Container()
+//         ],
+//       ),
+//       Text(
+//         'Cv',
+//         style: mesTextes,
+//       ),
+//       const SizedBox(
+//         height: 40,
+//       ),
+//       Container(
+//         width: 250,
+//         height: 300,
+//         decoration: ShapeDecoration(
+//           color: Colors.white,
+//           shape: RoundedRectangleBorder(
+//             side: const BorderSide(width: 0.50),
+//             borderRadius: BorderRadius.circular(10),
+//           ),
+//         ),
+//         child:
+//             Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+//           Container(
+//             width: 200,
+//             height: 60,
+//             decoration: ShapeDecoration(
+//               color: Colors.white,
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.circular(10),
+//               ),
+//               shadows: const [
+//                 BoxShadow(
+//                   color: Color(0x3F000000),
+//                   blurRadius: 4,
+//                   offset: Offset(1, 1),
+//                   spreadRadius: 0,
+//                 )
+//               ],
+//             ),
+//             child: Expanded(
+//               child: ListView(
+//                 children: [
+//                   for (var lesdocuments in documents)
+//                     buildListItem(lesdocuments),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ]),
+//       ),
+//     ]);
+//   }
+
+@override
+Widget build(BuildContext context) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: const Icon(Icons.arrow_back),
+          ),
+          Image.asset(
+            'assets/images/Cvs.webp',
+            width: 100,
+            height: 100,
+          ),
+          Container(),
+        ],
+      ),
+      Text(
+        'Cv',
+        style: mesTextes,
+      ),
+      const SizedBox(
+        height: 40,
+      ),
+      Container(
+        width: 250,
+        height: 300, // Ajustez la hauteur selon vos besoins
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(width: 0.50),
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: const Icon(Icons.arrow_back),
+            Container(
+              width: 200,
+              height: 50,
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                shadows: const [
+                  BoxShadow(
+                    color: Color(0x3F000000),
+                    blurRadius: 4,
+                    offset: Offset(1, 1),
+                    spreadRadius: 0,
+                  ),
+                ],
+              ),
+              child: ListView(
+                children: [
+                  for (var lesdocuments in documents)
+                    buildListItem(lesdocuments),
+                ],
+              ),
             ),
-            Image.asset(
-              'assets/images/Cvs.webp',
-              width: 100,
-              height: 100,
-            ),
-            Container()
           ],
         ),
-        Text(
-          'Cv',
-          style: mesTextes,
-        ),
-        const SizedBox(
-          height: 40,
-        ),
+      ),
+    ],
+  );
+}
+
+}
+
+Widget buildListItem(Documents documents) {
+  return GestureDetector(
+    onTap: () {
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) =>
+      //         Affichagedoc(documents: documents),
+      //   ),
+      // );
+    },
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
         Container(
-          width: 250,
-          height: 300,
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(width: 0.50),
-              borderRadius: BorderRadius.circular(10),
-            ),
+            width: 50,
+            height: 50,
+            decoration: ShapeDecoration(
+              image: const DecorationImage(
+                image: AssetImage("assets/images/Cvs.webp"),
+                fit: BoxFit.fill,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            )),
+        Text(
+          documents.nom,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xE02D3030),
+            fontSize: 15,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w400,
+            height: 0,
           ),
-          child: Column(
+        ),
+      ],
+    ),
+  );
+}
+
+class Affichagedoc extends StatefulWidget {
+  const Affichagedoc({super.key, required this.documents});
+
+  final Documents documents;
+
+  @override
+  State<Affichagedoc> createState() => _AffichagedocState();
+}
+
+class _AffichagedocState extends State<Affichagedoc> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 40,
+          ),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Container(
-                width: 200,
-                height: 60,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  shadows: const [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(1, 1),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Image.asset('assets/images/Cvs.webp'),
-                      Text(
-                        'Généralité',
-                        style: mesTextes,
-                      )
-                    ]),
+              SvgPicture.asset(
+                'assets/images/Back.svg',
+                height: 30,
+                width: 30,
               ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: 200,
-                  height: 60,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+              Column(
+                children: [
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: ShapeDecoration(
+                      image: const DecorationImage(
+                        image: AssetImage("assets/images/Cvs.webp"),
+                        fit: BoxFit.fill,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(1, 1),
-                        spreadRadius: 0,
-                      )
-                    ],
                   ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset('assets/images/Cvs.webp'),
-                        Text(
-                          'Structure',
-                          style: mesTextes,
-                        )
-                      ]),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: 200,
-                  height: 60,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Dossiers',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
                     ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(1, 1),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset('assets/images/Cvs.webp'),
-                        Text(
-                          'Exemplaire',
-                          style: mesTextes,
-                        )
-                      ]),
-                ),
+                  )
+                ],
               ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: 200,
-                  height: 60,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(1, 1),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset('assets/images/Cvs.webp'),
-                        Text(
-                          'Rédaction',
-                          style: mesTextes,
-                        )
-                      ]),
-                ),
-              ),
+              SvgPicture.asset(
+                'assets/images/home.svg',
+                height: 30,
+                width: 30,
+              )
             ],
           ),
-        )
-      ],
+          const SizedBox(
+            height: 40,
+          ),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  widget.documents.nom,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color(0xE02D3030),
+                    fontSize: 24,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w700,
+                    height: 0,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: 300,
+                  height: 500,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(
+                          width: 0.50, color: Color(0xFF4E5394)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Text(
+                    widget.documents.contenu,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                    ),
+                  ),
+                )
+              ]),
+        ],
+      ),
     );
   }
 }
@@ -2149,189 +2314,6 @@ class InterfaceEntretien extends StatefulWidget {
   State<InterfaceEntretien> createState() => _InterfaceEntretienState();
 }
 
-// class _InterfaceEntretienState extends State<InterfaceEntretien> {
-//   List<ElementEntretien> entretienEntretien = [];
-//   // @override
-//   // void initState() {
-//   //   super.initState();
-//   //   // Appeler une fonction pour récupérer les données et mettre à jour la liste
-//   //   fetchData();
-//   // }
-
-//   // Fonction pour récupérer les données (vous devrez l'implémenter selon votre source de données)
-//   // void fetchData() {
-//   //   // Simulons l'ajout de quelques éléments à la liste
-//   //   setState(() {
-
-//   //     entretienEntretien = [
-//   //       ElementEntretien(
-//   //           imagePath: 'assets/images/entretien.jpg',
-//   //           contenu: 'contenu',
-//   //           titre: 'titre'),
-//   //       ElementEntretien(imagePath: '', contenu: 'contenu', titre: 'titre')
-//   //     ];
-//   //   });
-//   // }
-
-//   void fetchData() async {
-//     try {
-//       // Récupérer une référence à la collection 'entretien' dans Firestore
-//       CollectionReference<Object?> entretienCollection =
-//           FirebaseFirestore.instance.collection('EntretienElement');
-
-//       // Récupérer les documents de la collection
-//       QuerySnapshot<Object?> entretienSnapshot =
-//           await entretienCollection.get();
-
-//       // Extraire les données des documents
-//       List<ElementEntretien> entretienEntretien =
-//           entretienSnapshot.docs.map((QueryDocumentSnapshot<Object?> doc) {
-//         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-//         return ElementEntretien(
-//           titre: data['titre'] as String,
-//           contenu: data['contenu'] as String,
-//           imagePath: data['imagePath'] as String? ??
-//               'assets/images/entretien.jpg', // Utilisez une image par défaut si 'imagePath' est null
-//         );
-//       }).toList();
-
-//       // Mettre à jour l'état avec les données récupérées
-//       setState(() {
-//         entretienEntretien = entretienEntretien;
-//       });
-//     } catch (e) {
-//       print('Erreur lors de la récupération des données : $e');
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Column(
-//         crossAxisAlignment: CrossAxisAlignment.stretch,
-//         children: [
-//           const SizedBox(height: 40),
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceAround,
-//             children: [
-//               SvgPicture.asset(
-//                 'assets/images/Back.svg',
-//                 height: 30,
-//                 width: 30,
-//               ),
-//               Container(
-//                 width: 120,
-//                 height: 120,
-//                 decoration: ShapeDecoration(
-//                   image: const DecorationImage(
-//                     image: AssetImage("assets/images/entretien.jpg"),
-//                     fit: BoxFit.fill,
-//                   ),
-//                   shape: RoundedRectangleBorder(
-//                     borderRadius: BorderRadius.circular(10),
-//                   ),
-//                 ),
-//               ),
-//               Container(),
-//             ],
-//           ),
-//           const SizedBox(height: 50),
-//           Expanded(
-//             child: Container(
-//               height: 100,
-//               decoration: ShapeDecoration(
-//                 color: Colors.white,
-//                 shape: RoundedRectangleBorder(
-//                   side: const BorderSide(width: 0.50),
-//                   borderRadius: BorderRadius.circular(10),
-//                 ),
-//               ),
-//               child:
-//                   //  ListView(
-//                   //   children: [
-//                   //     buildListItem(
-//                   //         entretienEntretien[0], "assets/images/entretien"),
-//                   //     buildListItem(entretienEntretien[1], ""),
-//                   //   ],
-//                   // ),
-//                   ListView(
-//                 children: [
-//                   if (entretienEntretien.isNotEmpty)
-//                     buildListItem(
-//                         entretienEntretien[0], "assets/images/entretien"),
-//                   if (entretienEntretien.length > 1)
-//                     buildListItem(entretienEntretien[1], ""),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget buildListItem(ElementEntretien elementEntretien, String imagePath) {
-//     return GestureDetector(
-//       onTap: () {
-//         Navigator.push(
-//             context,
-//             MaterialPageRoute(
-//                 builder: (context) =>
-//                     ContenuEntretien(elementEntretien: elementEntretien)));
-//       },
-//       child: Container(
-//         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-//         height: 60,
-//         width: 100,
-//         decoration: ShapeDecoration(
-//           color: Colors.white,
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(5),
-//           ),
-//           shadows: const [
-//             BoxShadow(
-//               color: Color(0x3F000000),
-//               blurRadius: 4,
-//               offset: Offset(1, 1),
-//               spreadRadius: 0,
-//             )
-//           ],
-//         ),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceAround,
-//           children: [
-//             Container(
-//               width: 79,
-//               height: 61,
-//               decoration: imagePath.isNotEmpty
-//                   ? ShapeDecoration(
-//                       image: DecorationImage(
-//                         image: AssetImage(imagePath),
-//                         fit: BoxFit.fill,
-//                       ),
-//                       shape: RoundedRectangleBorder(
-//                         borderRadius: BorderRadius.circular(10),
-//                       ),
-//                     )
-//                   : null,
-//             ),
-//             Text(
-//               elementEntretien.titre,
-//               textAlign: TextAlign.center,
-//               style: const TextStyle(
-//                 color: Color(0xE02D3030),
-//                 fontSize: 15,
-//                 fontFamily: 'Poppins',
-//                 fontWeight: FontWeight.w400,
-//                 height: 0,
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 class _InterfaceEntretienState extends State<InterfaceEntretien> {
   List<ElementEntretien> elementEntretien = [];
 
@@ -2403,7 +2385,8 @@ class _InterfaceEntretienState extends State<InterfaceEntretien> {
           const SizedBox(height: 50),
           Expanded(
             child: Container(
-              height: 100,
+              width: 80,
+              height: 80,
               decoration: ShapeDecoration(
                 color: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -2438,7 +2421,7 @@ class _InterfaceEntretienState extends State<InterfaceEntretien> {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         height: 60,
-        width: 100,
+        width: 60,
         decoration: ShapeDecoration(
           color: Colors.white,
           shape: RoundedRectangleBorder(

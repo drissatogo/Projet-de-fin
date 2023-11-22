@@ -108,9 +108,12 @@ Future<void> main() async {
         ChangeNotifierProvider<ContratAdminController>(
           create: (_) => ContratAdminController(),
         ),
+         ChangeNotifierProvider<DocumentController>(
+          create: (_) => DocumentController(),
+        ),
       ],
       child: const MaterialApp(
-        home: MyHomePage(),
+        home: Cv(),
       ),
     ),
   );
@@ -140,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 2:
         page = const CoachsAdmin();
       case 3:
-        page = const CvAdmin();
+        page = const DocumentPage();
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }

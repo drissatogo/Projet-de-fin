@@ -980,6 +980,8 @@ class CvAdmin extends StatefulWidget {
 class _CvAdminState extends State<CvAdmin> {
   @override
   Widget build(BuildContext context) {
+    final ajoutDoc = context.watch<DocumentController>();
+
     return Directionality(
       textDirection: TextDirection.ltr,
       child: SizedBox(
@@ -1201,13 +1203,18 @@ class _CvAdminState extends State<CvAdmin> {
                         )
                       ],
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Icon(
-                          Icons.add_circle,
-                          color: Color.fromARGB(255, 3, 57, 102),
-                          size: 40,
+                        GestureDetector(
+                          onTap: () {
+                            ajoutDoc.gotoAddDoc();
+                          },
+                          child: Icon(
+                            Icons.add_circle,
+                            color: Color.fromARGB(255, 3, 57, 102),
+                            size: 40,
+                          ),
                         )
                       ],
                     )
@@ -2414,6 +2421,481 @@ class _CoachsAdminState extends State<CoachsAdmin> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AjouterDoc extends StatefulWidget {
+  const AjouterDoc({super.key});
+
+  @override
+  State<AjouterDoc> createState() => _AjouterDocState();
+}
+
+class _AjouterDocState extends State<AjouterDoc> {
+  @override
+  Widget build(BuildContext context) {
+    final service = DocService();
+
+    final nomController = TextEditingController();
+    final contenuController = TextEditingController();
+    final explicationController = TextEditingController();
+
+    final nom = nomController;
+    final contenu = contenuController;
+    final explication = explicationController;
+
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 900,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        context.read<DocumentController>().gotoListDoc();
+                      },
+                      child: SvgPicture.asset("assets/images/Back.svg"),
+                    ),
+                    const Text(
+                      'Ajouter les éléments d\'un document ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF4E5394),
+                        fontSize: 40,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                    Container(
+                      width: 172,
+                      height: 173,
+                      decoration: const ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/logo.png"),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: OvalBorder(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: 900,
+                height: 401,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Nom'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: nomController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Contenu'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: contenuController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Explication'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: explicationController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 800,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<EntretienAdminController>()
+                            .gotoListEntretien();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.red, // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Annuler",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                      
+                        // await enregistrer.gotoListEntretien();
+                        final doc = Documents(
+                            nom: nomController.text,
+                            contenu: contenuController.text,
+                            explication: explicationController.text);
+                        service.ajouteDoc(doc);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF4E5394), // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Enregistrer",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class AfficherDoc extends StatefulWidget {
+  const AfficherDoc({super.key});
+
+  @override
+  State<AfficherDoc> createState() => _AfficherDocState();
+}
+
+class _AfficherDocState extends State<AfficherDoc> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 900,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        context
+                            .read<EntretienAdminController>()
+                            .gotoListEntretien();
+                      },
+                      child: SvgPicture.asset("assets/images/Back.svg"),
+                    ),
+                    const Text(
+                      'Nom de l\'élément ',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF4E5394),
+                        fontSize: 40,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                    Container(
+                      width: 172,
+                      height: 173,
+                      decoration: const ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/logo.png"),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: OvalBorder(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: 900,
+                height: 401,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                // child: Column(
+                //   crossAxisAlignment: CrossAxisAlignment.center,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     const SizedBox(
+                //       height: 10,
+                //     ),
+
+                // Container(
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       const Text('Nom'),
+                //       Container(
+                //         width: 849,
+                //         height: 78,
+                //         decoration: ShapeDecoration(
+                //           color: Colors.white,
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(10),
+                //           ),
+                //           shadows: const [
+                //             BoxShadow(
+                //               color: Color(0x3F000000),
+                //               blurRadius: 4,
+                //               offset: Offset(1, 1),
+                //               spreadRadius: 0,
+                //             )
+                //           ],
+                //         ),
+                //         child: Padding(
+                //           padding:
+                //               const EdgeInsets.symmetric(horizontal: 16.0),
+                //           child: TextField(
+                //             // controller: titreController,
+                //             decoration: const InputDecoration(
+                //               hintText: 'Saisissez ici',
+                //               border: InputBorder.none,
+                //             ),
+                //             maxLines: null,
+                //           ),
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 40,
+                // ),
+
+                // Container(
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       const Text('Contenu'),
+                //       Container(
+                //         width: 849,
+                //         height: 150,
+                //         decoration: ShapeDecoration(
+                //           color: Colors.white,
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(10),
+                //           ),
+                //           shadows: const [
+                //             BoxShadow(
+                //               color: Color(0x3F000000),
+                //               blurRadius: 4,
+                //               offset: Offset(1, 1),
+                //               spreadRadius: 0,
+                //             )
+                //           ],
+                //         ),
+                //         child: Padding(
+                //           padding:
+                //               const EdgeInsets.symmetric(horizontal: 16.0),
+                //           child: TextField(
+                //             // controller: contenuController,
+                //             decoration: const InputDecoration(
+                //               hintText: 'Saisissez ici',
+                //               border: InputBorder.none,
+                //             ),
+                //             maxLines: null,
+                //           ),
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                //   ],
+                // ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 800,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<EntretienAdminController>()
+                            .gotoListEntretien();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.red, // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Annuler",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        print("hello");
+                        // Créez l'objet ElementEntretien
+                        // final elementEntretien = ElementEntretien(
+                        //   titre: titreController.text,
+                        //   contenu: contenuController.text,
+                        //   imagePath: '',
+                        // );
+                        // print("half");
+                        // await service.ajouterElementEntretien(elementEntretien);
+                        // print("hell");
+                        // await enregistrer.gotoListEntretien();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF4E5394), // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Enregistrer",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

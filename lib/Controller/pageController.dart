@@ -53,8 +53,6 @@ class ContratAdminPage extends StatelessWidget {
   }
 }
 
-
-
 class ContratAdminController extends ChangeNotifier {
   var selectedIndex = 0;
   List<StatefulWidget> pages = [];
@@ -80,5 +78,36 @@ class ContratAdminController extends ChangeNotifier {
   }
 }
 
+class DocumentPage extends StatelessWidget {
+  const DocumentPage({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return context.watch<DocumentController>().page;
+  }
+}
 
+class DocumentController extends ChangeNotifier {
+  var selectedIndex = 0;
+  List<StatefulWidget> pages = [];
+  StatefulWidget get page {
+    return pages[selectedIndex];
+  }
+
+  DocumentController() {
+    pages = [
+      CvAdmin(),
+      AjouterDoc(),
+    ];
+  }
+
+  gotoListDoc() {
+    selectedIndex = 0;
+    notifyListeners();
+  }
+
+  gotoAddDoc() {
+    selectedIndex = 1;
+    notifyListeners();
+  }
+}

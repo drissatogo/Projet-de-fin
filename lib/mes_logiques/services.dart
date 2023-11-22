@@ -60,3 +60,33 @@ class ContratService{
     return "ok";
   }
 }
+
+
+class DocService{
+  Future<String> ajouteDoc(
+      Documents documents) async {
+    // Initialisez Firebase.
+    print("test");
+    await Firebase.initializeApp();
+    print("init");
+    // Créez une instance de la classe `FirebaseFirestore`.
+    final firestore = FirebaseFirestore.instance;
+
+    // Créez un document dans la collection `elements_entretiens`.
+    final document = firestore.collection('Documents').doc();
+    print("doc");
+
+    // Ajoutez des données au document.
+    await document.set({
+      'nom': documents.nom,
+      'contenu': documents.contenu,
+      'explication': documents.explication,
+    }).then((value) {
+      print("success");
+    }).catchError((onError) {
+      print(onError);
+    });
+    print("finish");
+    return "ok";
+  }
+}

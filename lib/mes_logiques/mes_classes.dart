@@ -44,6 +44,15 @@ class Contrat {
       required this.devoirs});
 }
 
+class Documents {
+  String nom;
+  String contenu;
+  String explication;
+
+  Documents(
+      {required this.nom, required this.contenu, required this.explication});
+}
+
 class Droit {
   String nom;
   String description;
