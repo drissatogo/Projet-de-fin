@@ -1,11 +1,11 @@
-class MyUser {
+class Users {
   String id;
   String username;
   int numero;
   String email;
   String motDePasse;
 
-  MyUser(
+  Users(
       {required this.id,
       required this.username,
       required this.numero,
@@ -13,7 +13,7 @@ class MyUser {
       required this.motDePasse});
 
   // Constructeur nommé pour créer un utilisateur à partir d'une carte (Map)
-  MyUser.fromMap(Map<String, dynamic> map)
+  Users.fromMap(Map<String, dynamic> map)
       : id = map['id'],
         username = map['username'],
         email = map['email'],

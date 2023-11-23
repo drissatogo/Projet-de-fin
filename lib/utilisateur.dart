@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -150,24 +151,6 @@ class _PageInscriptionState extends State<PageInscription> {
                   height: 250,
                   width: 250,
                 )),
-                // if (widget.isLoginPage) ...[
-                //   _buildTextField("Nom d'utilisateur", Icons.person),
-                // ],
-                // const SizedBox(height: 10),
-                // _buildTextField("E-mail", Icons.email),
-                // const SizedBox(height: 10),
-                // const IntlPhoneField(
-                //   decoration: InputDecoration(
-                //     hintText: "Numéro de téléphone",
-                //     suffixIcon: Icon(Icons.call),
-                //     border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                //   ),
-                //   initialCountryCode: 'ML',
-                // ),
-                // const SizedBox(height: 10),
-                // _buildPasswordTextField("Mot de passe", Icons.call),
-                // const SizedBox(height: 10),
-
                 _buildTextField(
                   "Nom d'utilisateur",
                   Icons.email,
@@ -194,76 +177,85 @@ class _PageInscriptionState extends State<PageInscription> {
                     "Mot de passe", Icons.call, _motDePasseController),
                 const SizedBox(height: 10),
                 _buildPasswordTextField("Confirmer le mot de passe",
-                    Icons.visibility_off, _motDePasseController),
-                const SizedBox(height: 10),
-
+                    Icons.visibility_off, _confirmerMotdePasse),
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
-                    // try {
-                    //   // Créer un nouvel utilisateur dans Firebase Auth
-                    //   UserCredential userCredential = await FirebaseAuth
-                    //       .instance
-                    //       .createUserWithEmailAndPassword(
-                    //     email: _emailController.text.trim(),
-                    //     password: _motDePasseController.text,
-                    //   );
-                    //   // Mettre à jour le profil de l'utilisateur avec le nom d'utilisateur
-                    //   await userCredential.user!
-                    //       // ignore: deprecated_member_use
-                    //       .updateProfile(displayName: _usernameController.text);
+                    try {
+                      String userEmail = _emailController.text;
+                      String userMotdePasse = _motDePasseController.text;
+                     int userNumero= int.parse(_numeroController.text);
+                      String userNom = _usernameController.text;
 
-                    //   // Récupérer les informations mises à jour de l'utilisateur
-                    //   User? updatedUser = FirebaseAuth.instance.currentUser;
+                      print(' $userNom');
+                      print('$userEmail');
+                       print(' $userNumero');
+                      print('$userMotdePasse');
+                      // Créer un nouvel utilisateur dans Firebase Auth
+                      UserCredential userCredential = await FirebaseAuth
+                          .instance
+                          .createUserWithEmailAndPassword(
+                        email: _emailController.text.trim(),
+                        password: _motDePasseController.text,
+                      );
+                      print('objects');
+                      // Mettre à jour le profil de l'utilisateur avec le nom d'utilisateur
+                      await userCredential.user!
+                          // ignore: deprecated_member_use
+                          .updateProfile(displayName: _usernameController.text);
 
-                    //   // Vérifier que le mot de passe et la confirmation du mot de passe sont identiques
-                    //   if (_motDePasseController.text !=
-                    //       _confirmerMotdePasse.text) {
-                    //     throw FirebaseAuthException(
-                    //       code: 'invalid-email',
-                    //       message: 'Les mots de passe ne correspondent pas.',
-                    //     );
-                    //   }
+                      // Récupérer les informations mises à jour de l'utilisateur
+                      // User? updatedUser = FirebaseAuth.instance.currentUser;
+                      print(_emailController.text.trim());
+                      // Vérifier que le mot de passe et la confirmation du mot de passe sont identiques
+                      if (_motDePasseController.text !=
+                          _confirmerMotdePasse.text) {
+                        throw FirebaseAuthException(
+                          code: 'invalid-password',
+                          message: 'Les mots de passe ne correspondent pas.',
+                        );
+                      }
+                      print('Pas');
 
-                    //   // Envoyer un e-mail de vérification à l'utilisateur nouvellement créé
-                    //   await userCredential.user!.sendEmailVerification();
+                      // Envoyer un e-mail de vérification à l'utilisateur nouvellement créé
+                      await userCredential.user!.sendEmailVerification();
 
-                    //   // Afficher un message à l'utilisateur pour l'informer qu'il doit vérifier son e-mail
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       content: Text(
-                    //           'Un e-mail de vérification a été envoyé à votre adresse e-mail. Veuillez vérifier votre e-mail pour terminer votre inscription.'),
-                    //     ),
-                    //   );
-                    //   // Enregistrer les informations de l'utilisateur
-                    //   MyUser user = MyUser(
-                    //     id: userCredential.user!.uid,
-                    //     username: _usernameController.text,
-                    //     email: _emailController.text.trim(),
-                    //     motDePasse: _motDePasseController.text,
-                    //     numero: int.parse(_numeroController.text),
-                    //   );
+                      // Afficher un message à l'utilisateur pour l'informer qu'il doit vérifier son e-mail
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'Un e-mail de vérification a été envoyé à votre adresse e-mail. Veuillez vérifier votre e-mail pour terminer votre inscription.'),
+                        ),
+                      );
+                      // Enregistrer les informations de l'utilisateur
+                      Users user = Users(
+                        id: userCredential.user!.uid,
+                        username: _usernameController.text,
+                        email: _emailController.text.trim(),
+                        motDePasse: _motDePasseController.text,
+                        numero: int.parse(_numeroController.text),
+                      );
 
-                    //   // Sauvegarder les informations de l'utilisateur
-                    //   await FirebaseFirestore.instance
-                    //       .collection('users')
-                    //       .doc(user.id)
-                    //       .set(user.toMap());
-                    //   // Rediriger l'utilisateur vers la page d'accueil une fois l'inscription terminée
-                    //   Navigator.pushReplacement(
+                      // Sauvegarder les informations de l'utilisateur
+                      await FirebaseFirestore.instance
+                          .collection('users')
+                          .doc(user.id)
+                          .set(user.toMap());
+                      // Rediriger l'utilisateur vers la page d'accueil une fois l'inscription terminée
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const Principal(),
+                      //   ),
+                      // );
+                    } on FirebaseAuthException catch (e) {
+                      // Gérer l'erreur d'authentification
+                      print(e.message);
+                    }
+                    // Navigator.push(
                     //     context,
                     //     MaterialPageRoute(
-                    //       builder: (context) => const Principal(),
-                    //     ),
-                    //   );
-                    // } on FirebaseAuthException catch (e) {
-                    //   // Gérer l'erreur d'authentification
-                    //   print(e.message);
-                    // }
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Principal()));
+                    //         builder: (context) => const Principal()));
                   },
                   child: const Text('S\'inscrire'),
                 ),
@@ -282,6 +274,7 @@ class _PageInscriptionState extends State<PageInscription> {
         border: Border.all(width: 1, color: Colors.grey),
       ),
       child: TextFormField(
+        controller: usernameController,
         decoration: InputDecoration(
           hintText: label,
           suffixIcon: Icon(
@@ -301,6 +294,7 @@ class _PageInscriptionState extends State<PageInscription> {
         border: Border.all(width: 1, color: Colors.grey),
       ),
       child: TextFormField(
+        controller: motDePasseController,
         decoration: InputDecoration(
           hintText: label,
           suffixIcon: PasswordToggle(
@@ -399,7 +393,12 @@ class _ConnexionState extends State<Connexion> {
                     "Mot de passe", Icons.call, _motDePasseController),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Principal()));
+                  },
                   child: const Text('Se connecter'),
                 ),
               ],
@@ -464,13 +463,7 @@ class Principal extends StatefulWidget {
 class _PrincipalState extends State<Principal> {
   void _onDetail() {
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const DetailProfil(
-                username: 'username',
-                numero: 'numero',
-                email: 'email',
-                motDePasse: 'motDePasse')));
+        context, MaterialPageRoute(builder: (context) => const DetailProfil()));
   }
 
   void _onModifier() {
@@ -565,6 +558,7 @@ class _PrincipalState extends State<Principal> {
               ),
             ),
           ),
+          // SvgPicture.asset("assets/images/prof.svg"),
           Text('TOMOTA', style: mesTextes),
           const SizedBox(
             height: 30,
@@ -875,91 +869,142 @@ class _ContratState extends State<Contrat> {
 //DetailProfil
 
 class DetailProfil extends StatefulWidget {
-  const DetailProfil(
-      {super.key,
-      required String username,
-      required String numero,
-      required String email,
-      required String motDePasse});
-
-  String get username => '';
-
-  String get numero => '';
-
-  String get email => '';
-
-  String get motDePasse => '';
+  const DetailProfil({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<DetailProfil> createState() => _DetailProfilState();
+  _DetailProfilState createState() => _DetailProfilState();
 }
 
 class _DetailProfilState extends State<DetailProfil> {
-  late final String username;
-  late final String numero;
-  late final String email;
-  late final String motDePasse;
-
-  @override
-  void initState() {
-    super.initState();
-    username = widget.username;
-    numero = widget.numero;
-    email = widget.email;
-    motDePasse = widget.motDePasse;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(children: [
-          // Nom d'utilisateur
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2.0),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+          body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 250,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/Back.svg',
+                    height: 30,
+                    width: 30,
+                  ),
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.grey, width: 3)),
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      foregroundImage: AssetImage('assets/images/profil.png'),
+                      radius: 50,
+                    ),
+                  ),
+                  Container()
+                ],
+              ),
             ),
-            child: Text(
-              'Nom d\'utilisateur: $username',
+            const SizedBox(
+              height: 20,
             ),
-          ),
-
-          // Numéro
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2.0),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              // width: 250,
+              height: 40,
+              decoration: const ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Nom d\'utilisateur'),
+                  Icon(
+                    Icons.person_2_sharp,
+                    size: 25,
+                    color: Color(0xFF4E5394),
+                  ),
+                ],
+              ),
             ),
-            child: Text(
-              'Numéro: $numero',
+            const SizedBox(
+              height: 20,
             ),
-          ),
-
-          // Email
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2.0),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 40,
+              decoration: const ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Email'),
+                  Icon(
+                    Icons.mail,
+                    size: 25,
+                    color: Color(0xFF4E5394),
+                  ),
+                ],
+              ),
             ),
-            child: Text(
-              'Email: $email',
+            const SizedBox(
+              height: 20,
             ),
-          ),
-
-          // Mot de passe
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2.0),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 40,
+              decoration: const ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Numéro'),
+                  Icon(
+                    Icons.phone_sharp,
+                    size: 25,
+                    color: Color(0xFF4E5394),
+                  ),
+                ],
+              ),
             ),
-            child: Text(
-              'Mot de passe: $motDePasse',
+            const SizedBox(
+              height: 20,
             ),
-          ),
-        ]),
-      ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 40,
+              decoration: const ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Mot de Passe'),
+                  Icon(
+                    Icons.lock,
+                    size: 25,
+                    color: Color(0xFF4E5394),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      )),
     );
   }
 }
@@ -1014,191 +1059,142 @@ class _CvState extends State<Cv> {
     }
   }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-//       Row(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           GestureDetector(
-//             onTap: () {
-//               Navigator.of(context).pop();
-//             },
-//             child: const Icon(Icons.arrow_back),
-//           ),
-//           Image.asset(
-//             'assets/images/Cvs.webp',
-//             width: 100,
-//             height: 100,
-//           ),
-//           Container()
-//         ],
-//       ),
-//       Text(
-//         'Cv',
-//         style: mesTextes,
-//       ),
-//       const SizedBox(
-//         height: 40,
-//       ),
-//       Container(
-//         width: 250,
-//         height: 300,
-//         decoration: ShapeDecoration(
-//           color: Colors.white,
-//           shape: RoundedRectangleBorder(
-//             side: const BorderSide(width: 0.50),
-//             borderRadius: BorderRadius.circular(10),
-//           ),
-//         ),
-//         child:
-//             Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-//           Container(
-//             width: 200,
-//             height: 60,
-//             decoration: ShapeDecoration(
-//               color: Colors.white,
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(10),
-//               ),
-//               shadows: const [
-//                 BoxShadow(
-//                   color: Color(0x3F000000),
-//                   blurRadius: 4,
-//                   offset: Offset(1, 1),
-//                   spreadRadius: 0,
-//                 )
-//               ],
-//             ),
-//             child: Expanded(
-//               child: ListView(
-//                 children: [
-//                   for (var lesdocuments in documents)
-//                     buildListItem(lesdocuments),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ]),
-//       ),
-//     ]);
-//   }
-
-@override
-Widget build(BuildContext context) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: const Icon(Icons.arrow_back),
-          ),
-          Image.asset(
-            'assets/images/Cvs.webp',
-            width: 100,
-            height: 100,
-          ),
-          Container(),
-        ],
-      ),
-      Text(
-        'Cv',
-        style: mesTextes,
-      ),
-      const SizedBox(
-        height: 40,
-      ),
-      Container(
-        width: 250,
-        height: 300, // Ajustez la hauteur selon vos besoins
-        decoration: ShapeDecoration(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(width: 0.50),
-            borderRadius: BorderRadius.circular(10),
-          ),
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      // mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const SizedBox(
+          height: 40,
         ),
-        child: Column(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              width: 200,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: SvgPicture.asset(
+                "assets/images/Back.svg",
+                height: 30,
+                width: 30,
+              ),
+            ),
+            Image.asset(
+              'assets/images/Cvs.webp',
+              width: 100,
+              height: 100,
+            ),
+            Container(),
+          ],
+        ),
+        Text(
+          'Cv',
+          style: mesTextes,
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        Container(
+          width: 250,
+          height: 400, // Ajustez la hauteur selon vos besoins
+          decoration: ShapeDecoration(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(width: 0.50),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                width: 200,
+                height: 50,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  shadows: const [
+                    BoxShadow(
+                      color: Color(0x3F000000),
+                      blurRadius: 4,
+                      offset: Offset(1, 1),
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+                child: ListView(
+                  children: [
+                    for (var lesdocuments in documents)
+                      buildListItem(lesdocuments),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        // Spacer(),
+        //    Container(
+        // height: 40,
+        // width: MediaQuery.of(context).size.width * 0.8,
+// Check for null context
+        // color: Color.fromARGB(255, 51, 6, 109),
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.only(
+        //     topLeft: Radius.circular(20),
+        //     topRight: Radius.circular(20),
+        //   ),
+        // ),
+// )
+      ],
+    );
+  }
+
+// }
+
+  Widget buildListItem(Documents documents) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Affichagedoc(documents: documents),
+          ),
+        );
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+              width: 50,
               height: 50,
               decoration: ShapeDecoration(
-                color: Colors.white,
+                image: const DecorationImage(
+                  image: AssetImage("assets/images/Cvs.webp"),
+                  fit: BoxFit.fill,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                shadows: const [
-                  BoxShadow(
-                    color: Color(0x3F000000),
-                    blurRadius: 4,
-                    offset: Offset(1, 1),
-                    spreadRadius: 0,
-                  ),
-                ],
-              ),
-              child: ListView(
-                children: [
-                  for (var lesdocuments in documents)
-                    buildListItem(lesdocuments),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
-}
-
-}
-
-Widget buildListItem(Documents documents) {
-  return GestureDetector(
-    onTap: () {
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) =>
-      //         Affichagedoc(documents: documents),
-      //   ),
-      // );
-    },
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-            width: 50,
-            height: 50,
-            decoration: ShapeDecoration(
-              image: const DecorationImage(
-                image: AssetImage("assets/images/Cvs.webp"),
-                fit: BoxFit.fill,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            )),
-        Text(
-          documents.nom,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Color(0xE02D3030),
-            fontSize: 15,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w400,
-            height: 0,
+              )),
+          Text(
+            documents.nom,
+            textAlign: TextAlign.center,
+            style: mesTextes,
+            // style: const TextStyle(
+            //   color: Color(0xE02D3030),
+            //   fontSize: 15,
+            //   fontFamily: 'Poppins',
+            //   fontWeight: FontWeight.w400,
+            //   height: 0,
+            // ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }
 
 class Affichagedoc extends StatefulWidget {
@@ -1217,7 +1213,7 @@ class _AffichagedocState extends State<Affichagedoc> {
       body: Column(
         children: [
           const SizedBox(
-            height: 40,
+            height: 30,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1243,7 +1239,7 @@ class _AffichagedocState extends State<Affichagedoc> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   const Text(
                     'Dossiers',
@@ -1277,18 +1273,18 @@ class _AffichagedocState extends State<Affichagedoc> {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color(0xE02D3030),
-                    fontSize: 24,
+                    fontSize: 17,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w700,
                     height: 0,
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 Container(
                   width: 300,
-                  height: 500,
+                  height: 400,
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
@@ -2361,10 +2357,15 @@ class _InterfaceEntretienState extends State<InterfaceEntretien> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              SvgPicture.asset(
-                'assets/images/Back.svg',
-                height: 30,
-                width: 30,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: SvgPicture.asset(
+                  'assets/images/Back.svg',
+                  height: 30,
+                  width: 30,
+                ),
               ),
               Container(
                 width: 120,
@@ -2493,10 +2494,15 @@ class _ContenuEntretienState extends State<ContenuEntretien> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              SvgPicture.asset(
-                'assets/images/Back.svg',
-                height: 30,
-                width: 30,
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: SvgPicture.asset(
+                  'assets/images/Back.svg',
+                  height: 30,
+                  width: 30,
+                ),
               ),
               Column(
                 children: [
@@ -2529,10 +2535,18 @@ class _ContenuEntretienState extends State<ContenuEntretien> {
                   )
                 ],
               ),
-              SvgPicture.asset(
-                'assets/images/home.svg',
-                height: 30,
-                width: 30,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Principal()));
+                },
+                child: SvgPicture.asset(
+                  'assets/images/home.svg',
+                  height: 30,
+                  width: 30,
+                ),
               )
             ],
           ),
@@ -2559,7 +2573,7 @@ class _ContenuEntretienState extends State<ContenuEntretien> {
                 ),
                 Container(
                   width: 300,
-                  height: 500,
+                  height: 400,
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(

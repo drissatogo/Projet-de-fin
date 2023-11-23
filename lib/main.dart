@@ -113,7 +113,8 @@ Future<void> main() async {
         ),
       ],
       child: const MaterialApp(
-        home: Cv(),
+        debugShowCheckedModeBanner: false,
+        home: PageInscription(),
       ),
     ),
   );
