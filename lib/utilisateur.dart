@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mongrh/mes_logiques/mes_classes.dart';
+import 'package:mongrh/mes_logiques/services.dart';
 
 // class PageInscription extends StatelessWidget {
 //   @override
@@ -181,16 +182,13 @@ class _PageInscriptionState extends State<PageInscription> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
+                    // Code d'inscription
                     try {
                       String userEmail = _emailController.text;
                       String userMotdePasse = _motDePasseController.text;
-                     int userNumero= int.parse(_numeroController.text);
+                      int userNumero = int.parse(_numeroController.text);
                       String userNom = _usernameController.text;
 
-                      print(' $userNom');
-                      print('$userEmail');
-                       print(' $userNumero');
-                      print('$userMotdePasse');
                       // Créer un nouvel utilisateur dans Firebase Auth
                       UserCredential userCredential = await FirebaseAuth
                           .instance
@@ -198,35 +196,58 @@ class _PageInscriptionState extends State<PageInscription> {
                         email: _emailController.text.trim(),
                         password: _motDePasseController.text,
                       );
-                      print('objects');
-                      // Mettre à jour le profil de l'utilisateur avec le nom d'utilisateur
-                      await userCredential.user!
-                          // ignore: deprecated_member_use
-                          .updateProfile(displayName: _usernameController.text);
-
-                      // Récupérer les informations mises à jour de l'utilisateur
-                      // User? updatedUser = FirebaseAuth.instance.currentUser;
-                      print(_emailController.text.trim());
-                      // Vérifier que le mot de passe et la confirmation du mot de passe sont identiques
-                      if (_motDePasseController.text !=
-                          _confirmerMotdePasse.text) {
-                        throw FirebaseAuthException(
-                          code: 'invalid-password',
-                          message: 'Les mots de passe ne correspondent pas.',
-                        );
-                      }
-                      print('Pas');
 
                       // Envoyer un e-mail de vérification à l'utilisateur nouvellement créé
                       await userCredential.user!.sendEmailVerification();
+                      // Afficher un pop-up
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          final screenHeight =
+                              MediaQuery.of(context).size.height;
+                          final targetHeight = screenHeight * 0.25;
 
-                      // Afficher un message à l'utilisateur pour l'informer qu'il doit vérifier son e-mail
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                              'Un e-mail de vérification a été envoyé à votre adresse e-mail. Veuillez vérifier votre e-mail pour terminer votre inscription.'),
-                        ),
+                          return Transform(
+                            transform: Matrix4.identity()
+                              ..scale(1.2), // Scale the dialog by 1.2
+                            child: AlertDialog(
+                              title: const Text("Inscription réussie"),
+                              content: SizedBox(
+                                height: targetHeight,
+                                child: Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Image(
+                                        image: AssetImage(
+                                            "assets/images/valide.jpg"),
+                                        height: 70,
+                                        width: 70,
+                                      ),
+                                      Text(
+                                        'Bienvenue dans MonGrh\n $userNom',
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       );
+                      Future.delayed(const Duration(seconds: 3), () {
+                        Navigator.pop(context);
+// Rediriger l'utilisateur vers la page d'accueil une fois l'inscription terminée
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Principal(),
+                          ),
+                        );
+                      });
+
                       // Enregistrer les informations de l'utilisateur
                       Users user = Users(
                         id: userCredential.user!.uid,
@@ -241,21 +262,10 @@ class _PageInscriptionState extends State<PageInscription> {
                           .collection('users')
                           .doc(user.id)
                           .set(user.toMap());
-                      // Rediriger l'utilisateur vers la page d'accueil une fois l'inscription terminée
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const Principal(),
-                      //   ),
-                      // );
                     } on FirebaseAuthException catch (e) {
                       // Gérer l'erreur d'authentification
                       print(e.message);
                     }
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => const Principal()));
                   },
                   child: const Text('S\'inscrire'),
                 ),
@@ -359,8 +369,12 @@ class _ConnexionState extends State<Connexion> {
 
   @override
   Widget build(BuildContext context) {
+    // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    bool isLoggedIn = false;
+
     return MaterialApp(
       home: Scaffold(
+        // key: _scaffoldKey,
         body: Directionality(
           textDirection: TextDirection.ltr,
           child: Padding(
@@ -373,19 +387,19 @@ class _ConnexionState extends State<Connexion> {
                   height: 250,
                   width: 250,
                 )),
-                _buildTextField(
-                    "Nom d'utilisateur", Icons.email, _usernameController),
-                const SizedBox(height: 10),
-                IntlPhoneField(
-                  decoration: const InputDecoration(
-                    hintText: "Numéro de téléphone",
-                    suffixIcon: Icon(Icons.call, color: Color(0xFF4E5394)),
-                    border:
-                        OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                  ),
-                  initialCountryCode: 'ML',
-                  controller: _numeroController,
-                ),
+                // _buildTextField(
+                //     "Nom d'utilisateur", Icons.email, _usernameController),
+                // const SizedBox(height: 10),
+                // IntlPhoneField(
+                //   decoration: const InputDecoration(
+                //     hintText: "Numéro de téléphone",
+                //     suffixIcon: Icon(Icons.call, color: Color(0xFF4E5394)),
+                //     border:
+                //         OutlineInputBorder(borderSide: BorderSide(width: 1)),
+                //   ),
+                //   initialCountryCode: 'ML',
+                //   controller: _numeroController,
+                // ),
                 const SizedBox(height: 10),
                 _buildTextField("E-mail", Icons.email, _emailController),
                 const SizedBox(height: 10),
@@ -393,11 +407,51 @@ class _ConnexionState extends State<Connexion> {
                     "Mot de passe", Icons.call, _motDePasseController),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Principal()));
+                  onPressed: () async {
+                    String userEmail = _emailController.text.trim();
+                    String userMotdePasse = _motDePasseController.text.trim();
+                    String userNom = _usernameController.text;
+
+                    if (userEmail.isNotEmpty && userMotdePasse.isNotEmpty) {
+                      await signInWithEmailAndPassword(
+                              userEmail, userMotdePasse)
+                          .then((value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: Colors.white,
+                            behavior: SnackBarBehavior
+                                .floating, // Utilisez floating pour simuler un effet de "pop-up"
+                            content: Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Image(
+                                    image:
+                                        AssetImage("assets/images/valide.jpg"),
+                                    height: 70,
+                                    width: 70,
+                                  ),
+                                  Text(
+                                    'Bienvenue dans MonGrh\n $userNom',
+                                    style: const TextStyle(color: Colors.black),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            duration: const Duration(seconds: 4),
+                          ),
+                        );
+                        Future.delayed(const Duration(seconds: 2), () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Principal()),
+                          );
+                        });
+                      });
+                    } else {
+                      print("Veuillez remplir tous les champs.");
+                    }
                   },
                   child: const Text('Se connecter'),
                 ),
@@ -410,12 +464,13 @@ class _ConnexionState extends State<Connexion> {
   }
 
   Widget _buildTextField(
-      String label, IconData icon, TextEditingController usernameController) {
+      String label, IconData icon, TextEditingController emailController) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.grey),
       ),
       child: TextFormField(
+        controller: _emailController,
         decoration: InputDecoration(
           hintText: label,
           suffixIcon: Icon(icon, color: const Color(0xFF4E5394)),
@@ -432,6 +487,7 @@ class _ConnexionState extends State<Connexion> {
         border: Border.all(width: 1, color: Colors.grey),
       ),
       child: TextFormField(
+        controller: _motDePasseController,
         decoration: InputDecoration(
           hintText: label,
           suffixIcon: PasswordToggle(
@@ -447,6 +503,30 @@ class _ConnexionState extends State<Connexion> {
             _obscureText, // Utiliser !_obscureText pour masquer ou révéler le texte du mot de passe
         obscuringCharacter:
             '*', // Remplacer les caractères saisis par des points
+      ),
+    );
+  }
+}
+
+class Reussie extends StatelessWidget {
+  const Reussie({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/images/valide.jpg",
+              height: 50,
+              width: 50,
+            ),
+            const Text("Bienvenue dans MonGrh")
+          ],
+        )),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mongrh/mes_logiques/mes_classes.dart';
 
@@ -91,4 +92,14 @@ class DocService{
   }
 }
 
-
+Future<void> signInWithEmailAndPassword(String email, String password) async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    print("Connecté en tant que ${userCredential.user!.email}");
+  } on FirebaseAuthException catch (e) {
+    print("Erreur de connexion : $e");
+  }
+}
