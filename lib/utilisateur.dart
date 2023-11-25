@@ -79,9 +79,7 @@ class PremierePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const PageInscription(
-                            isLoginPage: true,
-                          )),
+                      builder: (context) => const PageInscription()),
                 );
               },
               child: const Text('Créer compte'),
@@ -114,8 +112,9 @@ class PremierePage extends StatelessWidget {
 
 //Page d'inscription
 class PageInscription extends StatefulWidget {
-  const PageInscription({Key? key, this.isLoginPage = false}) : super(key: key);
-  final bool isLoginPage;
+  const PageInscription({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _PageInscriptionState createState() => _PageInscriptionState();
@@ -206,12 +205,8 @@ class _PageInscriptionState extends State<PageInscription> {
                           final screenHeight =
                               MediaQuery.of(context).size.height;
                           final targetHeight = screenHeight * 0.25;
-
-                          return Transform(
-                            transform: Matrix4.identity()
-                              ..scale(1.2), // Scale the dialog by 1.2
+                          return Center(
                             child: AlertDialog(
-                              title: const Text("Inscription réussie"),
                               content: SizedBox(
                                 height: targetHeight,
                                 child: Center(
@@ -225,9 +220,13 @@ class _PageInscriptionState extends State<PageInscription> {
                                         width: 70,
                                       ),
                                       Text(
-                                        'Bienvenue dans MonGrh\n $userNom',
+                                        ' $userNom',
                                         style: const TextStyle(
                                             color: Colors.black),
+                                      ),
+                                      const Text(
+                                        'Bienvenue dans MonGrh',
+                                        style: TextStyle(color: Colors.black),
                                       ),
                                     ],
                                   ),
@@ -237,31 +236,32 @@ class _PageInscriptionState extends State<PageInscription> {
                           );
                         },
                       );
-                      Future.delayed(const Duration(seconds: 3), () {
+                      Future.delayed(const Duration(seconds: 3), () async {
                         Navigator.pop(context);
-// Rediriger l'utilisateur vers la page d'accueil une fois l'inscription terminée
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Principal(),
-                          ),
+                        // Enregistrer les informations de l'utilisateur
+                        Users user = Users(
+                          id: userCredential.user!.uid,
+                          username: _usernameController.text,
+                          email: _emailController.text.trim(),
+                          motDePasse: _motDePasseController.text,
+                          numero: int.parse(_numeroController.text),
                         );
+                        // Sauvegarder les informations de l'utilisateur
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(user.id)
+                            .set(user.toMap())
+                            .then((value) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Principal(
+                                users: user,
+                              ),
+                            ),
+                          );
+                        });
                       });
-
-                      // Enregistrer les informations de l'utilisateur
-                      Users user = Users(
-                        id: userCredential.user!.uid,
-                        username: _usernameController.text,
-                        email: _emailController.text.trim(),
-                        motDePasse: _motDePasseController.text,
-                        numero: int.parse(_numeroController.text),
-                      );
-
-                      // Sauvegarder les informations de l'utilisateur
-                      await FirebaseFirestore.instance
-                          .collection('users')
-                          .doc(user.id)
-                          .set(user.toMap());
                     } on FirebaseAuthException catch (e) {
                       // Gérer l'erreur d'authentification
                       print(e.message);
@@ -362,15 +362,12 @@ class Connexion extends StatefulWidget {
 class _ConnexionState extends State<Connexion> {
   bool _obscureText = true;
 
-  final _usernameController = TextEditingController();
-  final _numeroController = TextEditingController();
   final _emailController = TextEditingController();
   final _motDePasseController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    bool isLoggedIn = false;
 
     return MaterialApp(
       home: Scaffold(
@@ -387,19 +384,6 @@ class _ConnexionState extends State<Connexion> {
                   height: 250,
                   width: 250,
                 )),
-                // _buildTextField(
-                //     "Nom d'utilisateur", Icons.email, _usernameController),
-                // const SizedBox(height: 10),
-                // IntlPhoneField(
-                //   decoration: const InputDecoration(
-                //     hintText: "Numéro de téléphone",
-                //     suffixIcon: Icon(Icons.call, color: Color(0xFF4E5394)),
-                //     border:
-                //         OutlineInputBorder(borderSide: BorderSide(width: 1)),
-                //   ),
-                //   initialCountryCode: 'ML',
-                //   controller: _numeroController,
-                // ),
                 const SizedBox(height: 10),
                 _buildTextField("E-mail", Icons.email, _emailController),
                 const SizedBox(height: 10),
@@ -408,44 +392,92 @@ class _ConnexionState extends State<Connexion> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
-                    String userEmail = _emailController.text.trim();
-                    String userMotdePasse = _motDePasseController.text.trim();
-                    String userNom = _usernameController.text;
-
+                    String userEmail = _emailController.text;
+                    String userMotdePasse = _motDePasseController.text;
                     if (userEmail.isNotEmpty && userMotdePasse.isNotEmpty) {
                       await signInWithEmailAndPassword(
                               userEmail, userMotdePasse)
-                          .then((value) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            backgroundColor: Colors.white,
-                            behavior: SnackBarBehavior
-                                .floating, // Utilisez floating pour simuler un effet de "pop-up"
-                            content: Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  const Image(
-                                    image:
-                                        AssetImage("assets/images/valide.jpg"),
-                                    height: 70,
-                                    width: 70,
+                          .then((value) async {
+                        print(FirebaseAuth.instance.currentUser!.uid);
+                        DocumentSnapshot userSnapshot = await FirebaseFirestore
+                            .instance
+                            .collection('users')
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .get();
+
+                        Users user = Users.fromMap(
+                            userSnapshot.data() as Map<String, dynamic>);
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            final screenHeight =
+                                MediaQuery.of(context).size.height;
+                            final targetHeight = screenHeight * 0.25;
+
+                            return Center(
+                              child: AlertDialog(
+                                content: SizedBox(
+                                  height: targetHeight,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Image(
+                                          image: AssetImage(
+                                              "assets/images/valide.jpg"),
+                                          height: 70,
+                                          width: 70,
+                                        ),
+                                        Text(
+                                          user.username,
+                                          style: const TextStyle(
+                                              color: Colors.black),
+                                        ),
+                                        const Text(
+                                          'Connexion Reussie',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  Text(
-                                    'Bienvenue dans MonGrh\n $userNom',
-                                    style: const TextStyle(color: Colors.black),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                            duration: const Duration(seconds: 4),
-                          ),
+                            );
+                          },
                         );
-                        Future.delayed(const Duration(seconds: 2), () {
+                        Future.delayed(const Duration(seconds: 3), () async {
+                          Navigator.pop(context);
+                          // Enregistrer les informations de l'utilisateur
+                          // Users user = Users(
+                          //   id: userCredential.user!.uid,
+                          //   username: _usernameController.text,
+                          //   email: _emailController.text.trim(),
+                          //   motDePasse: _motDePasseController.text,
+                          //   numero: int.parse(_numeroController.text),
+                          // );
+                          // Sauvegarder les informations de l'utilisateur
+                          // await FirebaseFirestore.instance
+                          //     .collection('users')
+                          //     .doc(user.id)
+                          //     .set(user.toMap())
+                          //     .then((value) {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: (context) => Principal(
+                          //         users: user,
+                          //       ),
+                          //     ),
+                          //   );
+                          // });
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Principal()),
+                              builder: (context) => Principal(
+                                users: user,
+                              ),
+                            ),
                           );
                         });
                       });
@@ -508,45 +540,52 @@ class _ConnexionState extends State<Connexion> {
   }
 }
 
-class Reussie extends StatelessWidget {
-  const Reussie({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/valide.jpg",
-              height: 50,
-              width: 50,
-            ),
-            const Text("Bienvenue dans MonGrh")
-          ],
-        )),
-      ),
-    );
-  }
-}
-
 //Page principale
 class Principal extends StatefulWidget {
-  const Principal({super.key});
+  const Principal({super.key, required this.users});
+
+  final Users users;
 
   @override
   State<Principal> createState() => _PrincipalState();
 }
 
 class _PrincipalState extends State<Principal> {
-  void _onDetail() {
+  void _onDetail() async {
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    Users user = Users.fromMap(userSnapshot.data() as Map<String, dynamic>);
+
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const DetailProfil()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => DetailProfil(
+                  users: user,
+                )));
   }
 
-  void _onModifier() {
+  void _onModifier() async {
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+
+    Users user = Users.fromMap(userSnapshot.data() as Map<String, dynamic>);
+    TextEditingController usernameController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController numeroController = TextEditingController();
+// Ajoutez d'autres contrôleurs au besoin
+
+    // Initialisez les contrôleurs avec les valeurs actuelles
+    usernameController.text = user.username;
+    emailController.text = user.email;
+    numeroController.text = user.numero.toString();
+
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ModifierProfil(users: user,)));
     // Do something when the modify item is tapped
   }
 
@@ -639,7 +678,7 @@ class _PrincipalState extends State<Principal> {
             ),
           ),
           // SvgPicture.asset("assets/images/prof.svg"),
-          Text('TOMOTA', style: mesTextes),
+          Text(widget.users.username, style: mesTextes),
           const SizedBox(
             height: 30,
           ),
@@ -857,10 +896,7 @@ class _ContratState extends State<Contrat> {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Principal()));
+                  Navigator.pop(context);
                 },
                 icon: const Icon(
                   Icons.home,
@@ -949,9 +985,8 @@ class _ContratState extends State<Contrat> {
 //DetailProfil
 
 class DetailProfil extends StatefulWidget {
-  const DetailProfil({
-    Key? key,
-  }) : super(key: key);
+  const DetailProfil({super.key, required this.users});
+  final Users users;
 
   @override
   _DetailProfilState createState() => _DetailProfilState();
@@ -972,10 +1007,16 @@ class _DetailProfilState extends State<DetailProfil> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  SvgPicture.asset(
-                    'assets/images/Back.svg',
-                    height: 30,
-                    width: 30,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      // Navigator.of(context).pop();
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/Back.svg',
+                      height: 30,
+                      width: 30,
+                    ),
                   ),
                   Container(
                     width: 100,
@@ -1004,11 +1045,11 @@ class _DetailProfilState extends State<DetailProfil> {
                 color: Colors.white,
                 shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Nom d\'utilisateur'),
-                  Icon(
+                  Text(widget.users.username),
+                  const Icon(
                     Icons.person_2_sharp,
                     size: 25,
                     color: Color(0xFF4E5394),
@@ -1026,11 +1067,11 @@ class _DetailProfilState extends State<DetailProfil> {
                 color: Colors.white,
                 shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Email'),
-                  Icon(
+                  Text(widget.users.email),
+                  const Icon(
                     Icons.mail,
                     size: 25,
                     color: Color(0xFF4E5394),
@@ -1048,11 +1089,11 @@ class _DetailProfilState extends State<DetailProfil> {
                 color: Colors.white,
                 shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Numéro'),
-                  Icon(
+                  Text(widget.users.numero.toString()),
+                  const Icon(
                     Icons.phone_sharp,
                     size: 25,
                     color: Color(0xFF4E5394),
@@ -1070,11 +1111,158 @@ class _DetailProfilState extends State<DetailProfil> {
                 color: Colors.white,
                 shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Mot de Passe'),
-                  Icon(
+                  Text(widget.users.motDePasse),
+                  const Icon(
+                    Icons.lock,
+                    size: 25,
+                    color: Color(0xFF4E5394),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      )),
+    );
+  }
+}
+
+class ModifierProfil extends StatefulWidget {
+  const ModifierProfil({super.key, required this.users});
+  final Users users;
+  
+
+  @override
+  State<ModifierProfil> createState() => _ModifierProfilState();
+}
+
+class _ModifierProfilState extends State<ModifierProfil> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+          body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 250,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      // Navigator.of(context).pop();
+                    },
+                    child: SvgPicture.asset(
+                      'assets/images/Back.svg',
+                      height: 30,
+                      width: 30,
+                    ),
+                  ),
+                  Container(
+                    width: 100,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.grey, width: 3)),
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.white,
+                      foregroundImage: AssetImage('assets/images/profil.png'),
+                      radius: 50,
+                    ),
+                  ),
+                  Container()
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              // width: 250,
+              height: 40,
+              decoration: const ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.users.username),
+                  const Icon(
+                    Icons.person_2_sharp,
+                    size: 25,
+                    color: Color(0xFF4E5394),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 40,
+              decoration: const ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.users.email),
+                  const Icon(
+                    Icons.mail,
+                    size: 25,
+                    color: Color(0xFF4E5394),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 40,
+              decoration: const ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.users.numero.toString()),
+                  const Icon(
+                    Icons.phone_sharp,
+                    size: 25,
+                    color: Color(0xFF4E5394),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 40,
+              decoration: const ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(widget.users.motDePasse),
+                  const Icon(
                     Icons.lock,
                     size: 25,
                     color: Color(0xFF4E5394),
@@ -2617,10 +2805,7 @@ class _ContenuEntretienState extends State<ContenuEntretien> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Principal()));
+                  Navigator.pop(context);
                 },
                 child: SvgPicture.asset(
                   'assets/images/home.svg',

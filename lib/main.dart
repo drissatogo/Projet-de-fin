@@ -115,7 +115,7 @@ Future<void> main() async {
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: PageInscription(),
+          body: Connexion(),
         ),
       ),
     ),

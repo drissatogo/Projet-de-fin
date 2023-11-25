@@ -103,3 +103,27 @@ Future<void> signInWithEmailAndPassword(String email, String password) async {
     print("Erreur de connexion : $e");
   }
 }
+
+
+Future<Users?> getUserById(String userId) async {
+  try {
+    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .get();
+
+    if (userSnapshot.exists) {
+      // Le document pour cet utilisateur existe
+      // Convertissez les données du document en objet Users
+      Users user = Users.fromMap(userSnapshot.data() as Map<String, dynamic>);
+      return user;
+    } else {
+      // Aucun utilisateur trouvé avec cet UID
+      return null;
+    }
+  } catch (e) {
+    print("Erreur lors de la récupération de l'utilisateur : $e");
+    return null;
+  }
+}
+
