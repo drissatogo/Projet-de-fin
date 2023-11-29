@@ -1,76 +1,4 @@
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/foundation.dart';
-// import 'package:flutter/material.dart';
-// import 'package:mongrh/admin.dart';
-// import 'package:mongrh/controller/artisan_controller.dart';
-// import 'package:mongrh/controller/culture_controller.dart';
-// import 'package:mongrh/controller/side_bar/side_bar_controller.dart';
-// import 'package:mongrh/controller/side_bar/side_bar_page.dart';
-// import 'package:mongrh/firebase_options.dart';
-// import 'package:mongrh/tiroir/welcom.dart';
-// import 'package:provider/provider.dart';
 
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(
-//     options: DefaultFirebaseOptions.currentPlatform,
-//   );
-//   runApp(MaterialApp(
-//     theme: ThemeData(fontFamily: 'Roboto'),
-//     home: const SideBarPage(),
-//   ));
-// }
-
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(
-//     options: DefaultFirebaseOptions.currentPlatform,
-//   );
-//   if (!kIsWeb) {
-//     runApp(const ContratAdmin());
-//   } else {
-//     runApp(
-//       const AjoutEntretien(),
-//     );
-//   }
-// }
-
-// void main() {
-//  runApp(const MyApp());
-// }
-// class MyApp extends StatelessWidget {
-//  const MyApp({super.key});
-//  @override
-//  Widget build(BuildContext context) {
-//  return MaterialApp(
-//  title: 'Navigation Drawer Tutorial',
-//  theme: ThemeData(
-//  primarySwatch: Colors.blue,
-//  ),
-//  home: const HomeScreen(title: 'Home'),
-//  );
-//  }
-// }
-
-// @override
-// Widget build(BuildContext context) {
-//   return MultiProvider(
-//     providers: [
-//       ChangeNotifierProvider(
-//         create: (context) => SideBarController(),
-//       ),
-//       ChangeNotifierProvider(
-//         create: (context) => ArtisanController(),
-//       ),
-//       ChangeNotifierProvider(
-//         create: (context) => CultureController(),
-//       ),
-//     ],
-//     child: MaterialApp(
-//       home: const SideBarPage(),
-//     ),
-//   );
-// }
 
 // import 'package:myapp/home.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -81,21 +9,8 @@ import 'package:mongrh/firebase_options.dart';
 import 'package:mongrh/utilisateur.dart';
 import 'package:provider/provider.dart';
 
-// Future<void> main() async {
-//   await Firebase.initializeApp(
-//     options: DefaultFirebaseOptions.currentPlatform,
-//   );
-//   runApp(
-//     ChangeNotifierProvider<EntretienAdminController>(
-//       create: (_) => EntretienAdminController(),
-//       child: const MaterialApp(
-//         home: MyHomePage(),
-//       ),
-//     ),
-//   );
-// }
-
-Future<void> main() async {
+void main () async{
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -108,20 +23,19 @@ Future<void> main() async {
         ChangeNotifierProvider<ContratAdminController>(
           create: (_) => ContratAdminController(),
         ),
-         ChangeNotifierProvider<DocumentController>(
+        ChangeNotifierProvider<DocumentController>(
           create: (_) => DocumentController(),
         ),
       ],
-      child: const MaterialApp(
+      child:  MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: Connexion(),
+          body:Contrats()
         ),
       ),
     ),
   );
 }
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -254,8 +168,8 @@ class _DemarrageState extends State<Demarrage> {
                     ..translate(0.0, 0.0)
                     ..rotateZ(0.03),
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    height: MediaQuery.of(context).size.height * 0.4,
                     decoration: ShapeDecoration(
                       image: const DecorationImage(
                         image: AssetImage("assets/images/milieu.png"),
@@ -272,6 +186,7 @@ class _DemarrageState extends State<Demarrage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           Navigator.push(
                               context,
@@ -294,6 +209,7 @@ class _DemarrageState extends State<Demarrage> {
                         height: 20,
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           Navigator.push(
                               context,

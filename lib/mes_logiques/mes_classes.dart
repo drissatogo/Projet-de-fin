@@ -32,16 +32,29 @@ class Users {
 }
 
 class Contrat {
+  // String sigle;
   String type;
   String description;
   String droits;
   String devoirs;
 
   Contrat(
-      {required this.type,
+      {
+        // required this.sigle,
+      required this.type,
       required this.description,
       required this.droits,
       required this.devoirs});
+
+  factory Contrat.fromMap(Map<String, dynamic> map) {
+    return Contrat(
+      // sigle: map['sigle'] ?? '',
+      type: map['type'] ?? '',
+      description: map['description'] ?? '',
+      droits: map['droits'] ?? '',
+      devoirs: map['devoirs'] ?? '',
+    );
+  }
 }
 
 class Documents {

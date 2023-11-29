@@ -127,3 +127,32 @@ Future<Users?> getUserById(String userId) async {
   }
 }
 
+
+void fetchData() async {
+  try {
+    CollectionReference<Map<String, dynamic>> contratCollection =
+    FirebaseFirestore.instance.collection('Contrat');
+
+    QuerySnapshot<Map<String, dynamic>> contratSnapshot =
+    await contratCollection.get();
+
+    List<Contrat> items = contratSnapshot.docs
+        .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+      Map<String, dynamic> data = doc.data();
+      return Contrat(
+        // sigle: data['sigle'] as String,
+        type: data['Type'] as String,
+        description: data['Description'] as String,
+        droits: data['Droits']as String,
+        devoirs: data['Devoirs'] as String,
+      );
+    }).toList();
+
+    /*setState(() {
+      lescontrats = items;
+    });*/
+  } catch (e) {
+    print('Erreur lors de la récupération des données : $e');
+  }
+}
+

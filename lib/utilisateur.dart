@@ -1,10 +1,82 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mongrh/mes_logiques/mes_classes.dart';
 import 'package:mongrh/mes_logiques/services.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+// import 'package:flutter_pdfview/flutter_pdfview.dart';
+
+class Pdf extends StatefulWidget {
+  const Pdf({Key? key}) : super(key: key);
+
+  @override
+  State<Pdf> createState() => _PdfState();
+}
+
+class _PdfState extends State<Pdf> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('PDF Viewer'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const PdfViewerScreen()),
+            );
+          },
+          child: const Text('Open PDF Viewer'),
+        ),
+      ),
+    );
+  }
+}
+
+class PdfViewerScreen extends StatelessWidget {
+  const PdfViewerScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('PDF Viewer'),
+      ),
+      body: const PDFView(
+        filePath: 'assets/codetravail.pdf', // Path to the PDF file in assets
+      ),
+    );
+  }
+}
+
+// class PdfViewerScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('PDF Viewer'),
+//       ),
+//       body: PdfViewer(
+//         path: 'assets/codetravail.pdf', // Path to the PDF file in assets
+//         viewerNavigation: PdfViewerNavigation(
+//           documentIndicatorPosition: PdfDocumentIndicatorPosition.none,
+//           showDocumentIndicator: false,
+//           showNavigation: true,
+//         ),
+//         viewerPrefs: PdfViewerPrefs(
+//           doubleTapZoom: 1.0,
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // class PageInscription extends StatelessWidget {
 //   @override
@@ -74,6 +146,9 @@ class PremierePage extends StatelessWidget {
                 height: 350,
               ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -85,7 +160,7 @@ class PremierePage extends StatelessWidget {
               child: const Text('Créer compte'),
             ),
             const SizedBox(
-              height: 40,
+              height: 20,
             ),
             GestureDetector(
               onTap: () {
@@ -153,7 +228,7 @@ class _PageInscriptionState extends State<PageInscription> {
                 )),
                 _buildTextField(
                   "Nom d'utilisateur",
-                  Icons.email,
+                  Icons.person,
                   _usernameController,
                 ),
                 const SizedBox(height: 10),
@@ -370,6 +445,7 @@ class _ConnexionState extends State<Connexion> {
     // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         // key: _scaffoldKey,
         body: Directionality(
@@ -398,7 +474,7 @@ class _ConnexionState extends State<Connexion> {
                       await signInWithEmailAndPassword(
                               userEmail, userMotdePasse)
                           .then((value) async {
-                        print(FirebaseAuth.instance.currentUser!.uid);
+                        /*print(FirebaseAuth.instance.currentUser!.uid);*/
                         DocumentSnapshot userSnapshot = await FirebaseFirestore
                             .instance
                             .collection('users')
@@ -448,29 +524,6 @@ class _ConnexionState extends State<Connexion> {
                         );
                         Future.delayed(const Duration(seconds: 3), () async {
                           Navigator.pop(context);
-                          // Enregistrer les informations de l'utilisateur
-                          // Users user = Users(
-                          //   id: userCredential.user!.uid,
-                          //   username: _usernameController.text,
-                          //   email: _emailController.text.trim(),
-                          //   motDePasse: _motDePasseController.text,
-                          //   numero: int.parse(_numeroController.text),
-                          // );
-                          // Sauvegarder les informations de l'utilisateur
-                          // await FirebaseFirestore.instance
-                          //     .collection('users')
-                          //     .doc(user.id)
-                          //     .set(user.toMap())
-                          //     .then((value) {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) => Principal(
-                          //         users: user,
-                          //       ),
-                          //     ),
-                          //   );
-                          // });
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -585,7 +638,11 @@ class _PrincipalState extends State<Principal> {
     numeroController.text = user.numero.toString();
 
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => ModifierProfil(users: user,)));
+        context,
+        MaterialPageRoute(
+            builder: (context) => ModifierProfil(
+                  users: user,
+                )));
     // Do something when the modify item is tapped
   }
 
@@ -602,10 +659,12 @@ class _PrincipalState extends State<Principal> {
         color: Colors.black);
 
     return Container(
+      color: Colors.white,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(
-            height: 40,
+            height: 140,
           ),
           GestureDetector(
             onTap: () {
@@ -701,7 +760,7 @@ class _PrincipalState extends State<Principal> {
                   child: Column(
                     children: [
                       Image.asset(
-                        'assets/images/contrat.jpg',
+                        'assets/images/accord.png',
                         width: 80,
                         height: 80,
                       ),
@@ -746,7 +805,7 @@ class _PrincipalState extends State<Principal> {
                         height: 80,
                       ),
                       Text(
-                        "CV",
+                        "Dossiers",
                         style: mesTextes,
                       )
                     ],
@@ -757,7 +816,7 @@ class _PrincipalState extends State<Principal> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Motivation()));
+                            builder: (context) => const PDFViewerPage()));
                   },
                   child: Column(
                     children: [
@@ -767,7 +826,7 @@ class _PrincipalState extends State<Principal> {
                         height: 80,
                       ),
                       Text(
-                        "Motivation",
+                        "Loi",
                         style: mesTextes,
                       )
                     ],
@@ -784,73 +843,149 @@ class _PrincipalState extends State<Principal> {
 
 //Contrats
 class Contrats extends StatefulWidget {
-  const Contrats({super.key});
+  const Contrats({Key? key}) : super(key: key);
 
   @override
   State<Contrats> createState() => _ContratsState();
 }
 
 class _ContratsState extends State<Contrats> {
+  List<Contrat> lescontrats = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    try {
+      CollectionReference<Map<String, dynamic>> lescontratsCollection =
+          FirebaseFirestore.instance.collection('Contrat');
+
+      QuerySnapshot<Map<String, dynamic>> lescontratsSnapshot =
+          await lescontratsCollection.get();
+
+      List<Contrat> items = lescontratsSnapshot.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+        Map<String, dynamic> data = doc.data();
+        return Contrat(
+          // sigle: data['sigle'] as String,
+          type: data['type'] as String,
+          description: data['description'] as String,
+          droits: data['droits'] as String,
+          devoirs: data['devoirs'] as String,
+        );
+      }).toList();
+
+      setState(() {
+        lescontrats = items;
+      });
+    } catch (e) {
+      print('Erreur lors de la récupération des données : $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const Image(
-          image: AssetImage('assets/images/entretien.jpg'),
-          width: 200,
-          height: 200,
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Contrat()));
-          },
-          child: Container(
-            width: 250,
-            height: 57,
-            decoration: ShapeDecoration(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
-              shadows: const [
-                BoxShadow(
-                  color: Color(0x3F000000),
-                  blurRadius: 4,
-                  offset: Offset(1, 1),
-                  spreadRadius: 0,
-                ),
-              ],
-            ),
-            child: const Center(
-              child: Text(
-                'Contrat à durée déterminée',
-                style: TextStyle(
-                    fontSize: 12,
-                    decoration: TextDecoration.none,
-                    color: Colors.black),
+    return Container(
+      width: MediaQuery.of(context).size.width * 100,
+      color: Colors.white,
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 90,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: SvgPicture.asset('assets/images/Back.svg',height: 35,width: 35,)),
+              const Image(
+                image: AssetImage('assets/images/entretien.jpg'),
+                width: 120,
+                height: 120,
               ),
+              Container()
+            ],
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Column(
+            children: lescontrats
+                .map((contrat) => buildContratContainer(contrat))
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildContratContainer(Contrat contrat) {
+    return GestureDetector(
+      onTap: () {
+        // Naviguez vers la page pour afficher les détails du contrat
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => AfficherContrat(contrat: contrat)),
+        );
+      },
+      child: Container(
+        width: 250,
+        height: 57,
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          shadows: const [
+            BoxShadow(
+              color: Color(0x3F000000),
+              blurRadius: 4,
+              offset: Offset(1, 1),
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            contrat.type,
+            style: const TextStyle(
+              fontSize: 12,
+              decoration: TextDecoration.none,
+              color: Colors.black,
             ),
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }
 
 //Contrat
 
-class Contrat extends StatefulWidget {
-  const Contrat({super.key});
-
+class AfficherContrat extends StatefulWidget {
+  const AfficherContrat({super.key, required this.contrat});
+  final Contrat contrat;
   @override
-  State<Contrat> createState() => _ContratState();
+  State<AfficherContrat> createState() => _ContratState();
 }
 
-class _ContratState extends State<Contrat> {
+class _ContratState extends State<AfficherContrat> {
+  late Contrat contrat;
+
+  @override
+  void initState() {
+    super.initState();
+    contrat = widget.contrat;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -861,7 +996,7 @@ class _ContratState extends State<Contrat> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(
-            height: 20,
+            height: 80,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -870,17 +1005,18 @@ class _ContratState extends State<Contrat> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: const Icon(
+                icon: SvgPicture.asset('assets/images/Back.svg'),
+                /* icon: const Icon(
                   Icons.keyboard_backspace,
                   size: 30,
                   color: Colors.grey,
-                ),
+                ),*/
               ),
               Container(
-                width: 213,
-                height: 45,
+                width: MediaQuery.of(context).size.width * 0.7,
+                height: 70,
                 decoration: const BoxDecoration(
-                  color: Colors.white,
+                  color: Color(0xFF4E5394),
                   boxShadow: [
                     BoxShadow(
                       color: Color(0x3F000000),
@@ -890,23 +1026,37 @@ class _ContratState extends State<Contrat> {
                     )
                   ],
                 ),
-                child: const Center(
-                  child: Text('CDD'),
+                child: Center(
+                  child: Text(
+                    contrat.type,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
                 ),
               ),
               IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
+                onPressed: () async {
+                  DocumentSnapshot userSnapshot = await FirebaseFirestore
+                      .instance
+                      .collection('users')
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .get();
+                  Users user = Users.fromMap(
+                      userSnapshot.data() as Map<String, dynamic>);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Principal(users: user)));
                 },
-                icon: const Icon(
-                  Icons.home,
-                  size: 30,
-                ),
+                icon:
+                    const Icon(Icons.home, size: 30, color: Color(0xFF4E5394)),
               )
             ],
           ),
           const SizedBox(
-            height: 20,
+            height: 80,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -914,7 +1064,7 @@ class _ContratState extends State<Contrat> {
               const Text('Description'),
               Container(
                 width: 320,
-                height: 100,
+                height: MediaQuery.of(context).size.height * 0.17,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -929,14 +1079,15 @@ class _ContratState extends State<Contrat> {
                     )
                   ],
                 ),
+                child: Text(contrat.description),
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Text('Description'),
+              const Text('Droits'),
               Container(
                 width: 320,
-                height: 100,
+                height: MediaQuery.of(context).size.height * 0.17,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -951,14 +1102,15 @@ class _ContratState extends State<Contrat> {
                     )
                   ],
                 ),
+                child: Text(contrat.droits),
               ),
               const SizedBox(
                 height: 20,
               ),
-              const Text('Description'),
+              const Text('Devoirs'),
               Container(
                 width: 320,
-                height: 100,
+                height: MediaQuery.of(context).size.height * 0.17,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -973,6 +1125,7 @@ class _ContratState extends State<Contrat> {
                     )
                   ],
                 ),
+                child: Text(contrat.devoirs),
               ),
             ],
           ),
@@ -1133,15 +1286,58 @@ class _DetailProfilState extends State<DetailProfil> {
 class ModifierProfil extends StatefulWidget {
   const ModifierProfil({super.key, required this.users});
   final Users users;
-  
 
   @override
   State<ModifierProfil> createState() => _ModifierProfilState();
 }
 
 class _ModifierProfilState extends State<ModifierProfil> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _numeroController = TextEditingController();
+  final TextEditingController _motDePasseController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialiser les contrôleurs avec les valeurs existantes de l'utilisateur
+    _usernameController.text = widget.users.username;
+    _emailController.text = widget.users.email;
+    _numeroController.text = widget.users.numero.toString();
+    _motDePasseController.text = widget.users.motDePasse;
+  }
+
   @override
   Widget build(BuildContext context) {
+    // TextField buildEditableField(
+    //     TextEditingController controller, IconData icon, String hintText) {
+    //   return TextField(
+    //     controller: controller,
+    //     decoration: InputDecoration(
+    //       hintText: hintText,
+    //       icon: Icon(icon, size: 25, color: const Color(0xFF4E5394)),
+    //     ),
+    //   );
+    // }
+
+    SizedBox buildEditableField(
+      TextEditingController controller,
+      IconData icon,
+      String hintText,
+    ) {
+      return SizedBox(
+        width: MediaQuery.of(context).size.width * 0.6,
+        height: 40,
+        child: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: hintText,
+            icon: Icon(icon, size: 25, color: const Color(0xFF4E5394)),
+          ),
+        ),
+      );
+    }
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -1184,92 +1380,179 @@ class _ModifierProfilState extends State<ModifierProfil> {
             const SizedBox(
               height: 20,
             ),
-            Container(
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.4,
+            //   // width: 250,
+            //   height: 40,
+            //   decoration: const ShapeDecoration(
+            //     color: Colors.white,
+            //     shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+            //   ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       // Text(widget.users.username),
+            //       // const Icon(
+            //       //   Icons.person_2_sharp,
+            //       //   size: 25,
+            //       //   color: Color(0xFF4E5394),
+            //       // ),
+            //       buildEditableField(
+            //         _usernameController,
+            //         Icons.person_2_sharp,
+            //         'Nom d\'utilisateur',
+            //       ),
+            //     ],
+            //   ),
+            // ),
+
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
-              // width: 250,
-              height: 40,
-              decoration: const ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(widget.users.username),
-                  const Icon(
-                    Icons.person_2_sharp,
-                    size: 25,
-                    color: Color(0xFF4E5394),
-                  ),
-                ],
+              child: buildEditableField(
+                _usernameController,
+                Icons.person_2_sharp,
+                'Nom d\'utilisateur',
               ),
             ),
+
             const SizedBox(
               height: 20,
             ),
-            Container(
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.4,
+            //   height: 40,
+            //   decoration: const ShapeDecoration(
+            //     color: Colors.white,
+            //     shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+            //   ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       // Text(widget.users.email),
+            //       // const Icon(
+            //       //   Icons.mail,
+            //       //   size: 25,
+            //       //   color: Color(0xFF4E5394),
+            //       // ),
+            //       buildEditableField(
+            //         _emailController,
+            //         Icons.mail,
+            //         'Email',
+            //       ),
+            //     ],
+            //   ),
+            // ),
+
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
-              height: 40,
-              decoration: const ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(widget.users.email),
-                  const Icon(
-                    Icons.mail,
-                    size: 25,
-                    color: Color(0xFF4E5394),
-                  ),
-                ],
+              child: buildEditableField(
+                _emailController,
+                Icons.mail,
+                'Email',
               ),
             ),
+
             const SizedBox(
               height: 20,
             ),
-            Container(
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.4,
+            //   height: 40,
+            //   decoration: const ShapeDecoration(
+            //     color: Colors.white,
+            //     shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+            //   ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       // Text(widget.users.numero.toString()),
+            //       // const Icon(
+            //       //   Icons.phone_sharp,
+            //       //   size: 25,
+            //       //   color: Color(0xFF4E5394),
+            //       // ),
+            //       buildEditableField(
+            //           _numeroController, Icons.phone_sharp, 'Numero')
+            //     ],
+            //   ),
+            // ),
+
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
-              height: 40,
-              decoration: const ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(widget.users.numero.toString()),
-                  const Icon(
-                    Icons.phone_sharp,
-                    size: 25,
-                    color: Color(0xFF4E5394),
-                  ),
-                ],
+              child: buildEditableField(
+                _numeroController,
+                Icons.phone_sharp,
+                'Numero',
               ),
             ),
+
             const SizedBox(
               height: 20,
             ),
-            Container(
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.4,
+            //   height: 40,
+            //   decoration: const ShapeDecoration(
+            //     color: Colors.white,
+            //     shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+            //   ),
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       // Text(widget.users.motDePasse),
+            //       // const Icon(
+            //       //   Icons.lock,
+            //       //   size: 25,
+            //       //   color: Color(0xFF4E5394),
+            //       // ),
+            //       buildEditableField(
+            //           _motDePasseController, Icons.lock, 'motDePasse')
+            //     ],
+            //   ),
+            // ),
+
+            SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
-              height: 40,
-              decoration: const ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
+              child: buildEditableField(
+                _motDePasseController,
+                Icons.lock,
+                'motDePasse',
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(widget.users.motDePasse),
-                  const Icon(
-                    Icons.lock,
-                    size: 25,
-                    color: Color(0xFF4E5394),
-                  ),
-                ],
-              ),
-            )
+            ),
+
+            ElevatedButton(
+              onPressed: () async {
+                // Enregistrer les modifications dans Firebase
+                String newUsername = _usernameController.text;
+                String newEmail = _emailController.text;
+                int newNumero = int.parse(_numeroController.text);
+                String newMotDePasse = _motDePasseController.text;
+
+                // Mettre à jour les informations de l'utilisateur dans Firebase
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(widget.users.id)
+                    .update({
+                  'username': newUsername,
+                  'email': newEmail,
+                  'numero': newNumero,
+                  'motDePasse': newMotDePasse,
+                });
+
+                // Mettre à jour l'objet Users avec les nouvelles informations
+                Users updatedUser = Users(
+                  id: widget.users.id,
+                  username: newUsername,
+                  email: newEmail,
+                  numero: newNumero,
+                  motDePasse: newMotDePasse,
+                );
+
+                // Renvoyer l'objet Users mis à jour vers la page précédente
+                Navigator.pop(context, updatedUser);
+              },
+              child: const Text('Enregistrer les modifications'),
+            ),
           ],
         ),
       )),
@@ -1578,186 +1861,257 @@ class _AffichagedocState extends State<Affichagedoc> {
 
 //Document lettre de motivation
 
-class Motivation extends StatefulWidget {
-  const Motivation({super.key});
+class PDFViewerPage extends StatefulWidget {
+  const PDFViewerPage({super.key});
 
   @override
-  State<Motivation> createState() => _MotivationState();
+  State<PDFViewerPage> createState() => _PDFViewerPageState();
 }
 
-class _MotivationState extends State<Motivation> {
-  TextStyle mesTextes = const TextStyle(
-      fontSize: 15,
-      fontWeight: FontWeight.normal,
-      decoration: TextDecoration.none,
-      color: Colors.black);
-
+class _PDFViewerPageState extends State<PDFViewerPage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: const Icon(Icons.arrow_back),
-            ),
-            Image.asset(
-              'assets/images/Cvs.webp',
-              width: 100,
-              height: 100,
-            ),
-            Container()
-          ],
-        ),
-        Text(
-          'Lettre de Motivation',
-          style: mesTextes,
-        ),
-        const SizedBox(
-          height: 40,
-        ),
-        Container(
-          width: 250,
-          height: 300,
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(width: 0.50),
-              borderRadius: BorderRadius.circular(10),
-            ),
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(
+          child: SfPdfViewer.network(
+            // Path to the PDF file
+            'https://firebasestorage.googleapis.com/v0/b/mongrh2.appspot.com/o/codetravail.pdf?alt=media&token=bc211df8-5402-4564-9bce-fc166be4e2f9',
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                width: 200,
-                height: 60,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  shadows: const [
-                    BoxShadow(
-                      color: Color(0x3F000000),
-                      blurRadius: 4,
-                      offset: Offset(1, 1),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Image.asset('assets/images/Cvs.webp'),
-                      Text(
-                        'Généralité',
-                        style: mesTextes,
-                      )
-                    ]),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: 200,
-                  height: 60,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(1, 1),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset('assets/images/Cvs.webp'),
-                        Text(
-                          'Structure',
-                          style: mesTextes,
-                        )
-                      ]),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: 200,
-                  height: 60,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(1, 1),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset('assets/images/Cvs.webp'),
-                        Text(
-                          'Exemplaire',
-                          style: mesTextes,
-                        )
-                      ]),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Container(
-                  width: 200,
-                  height: 60,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    shadows: const [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(1, 1),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Image.asset('assets/images/Cvs.webp'),
-                        Text(
-                          'Rédaction',
-                          style: mesTextes,
-                        )
-                      ]),
-                ),
-              ),
-            ],
-          ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }
+
+// class CodeDuTravailPage extends StatefulWidget {
+//   @override
+//   _CodeDuTravailPageState createState() => _CodeDuTravailPageState();
+// }
+
+// class _CodeDuTravailPageState extends State<CodeDuTravailPage> {
+//   Uint8List? _documentBytes;
+// String path =
+//  'https://firebasestorage.googleapis.com/v0/b/mongrh2.appspot.com/o/codetravail.pdf?alt=media&token=bc211df8-5402-4564-9bce-fc166be4e2f9';
+// @override
+// void initState() { getPdfBytes(); super.initState();
+// }
+
+// void getPdfBytes() async {
+//   if (kIsWeb) {
+//   firebase_storage.Reference pdfRef =
+//   firebase_storage.FirebaseStorage.instanceFor(
+//   bucket: 'mongrh2.appspot.com')
+//   .refFromURL(path);
+//    //size mentioned here is max size to download from firebase.
+//   await pdfRef.getData(104857600).then((value) {
+//   _documentBytes = value;
+//   setState(() {});
+//   });
+//   } else {
+//   HttpClient client = HttpClient();
+//   final Uri url = Uri.base.resolve(path);
+//   final HttpClientRequest request = await client.getUrl(url);
+//   final HttpClientResponse response = await request.close();
+//   _documentBytes = await consolidateHttpClientResponseBytes(response);
+//   setState(() {});
+//   }
+// }
+// @override
+// Widget build(BuildContext context) {
+//   Widget child = const Center(child: CircularProgressIndicator());
+//   if (_documentBytes != null) {
+//   child = SfPdfViewer.memory(
+//   _documentBytes!,
+//   );
+//   }
+//   return Scaffold(
+//   appBar: AppBar(title: const Text('Syncfusion Flutter PDF Viewer')),
+//   body: child,
+//   );
+// }
+// }
+
+// class Motivation extends StatefulWidget {
+//   const Motivation({super.key});
+
+//   @override
+//   State<Motivation> createState() => _MotivationState();
+// }
+
+// class _MotivationState extends State<Motivation> {
+//   TextStyle mesTextes = const TextStyle(
+//       fontSize: 15,
+//       fontWeight: FontWeight.normal,
+//       decoration: TextDecoration.none,
+//       color: Colors.black);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             GestureDetector(
+//               onTap: () {
+//                 Navigator.of(context).pop();
+//               },
+//               child: const Icon(Icons.arrow_back),
+//             ),
+//             Image.asset(
+//               'assets/images/Cvs.webp',
+//               width: 100,
+//               height: 100,
+//             ),
+//             Container()
+//           ],
+//         ),
+//         Text(
+//           'Lettre de Motivation',
+//           style: mesTextes,
+//         ),
+//         const SizedBox(
+//           height: 40,
+//         ),
+//         Container(
+//           width: 250,
+//           height: 300,
+//           decoration: ShapeDecoration(
+//             color: Colors.white,
+//             shape: RoundedRectangleBorder(
+//               side: const BorderSide(width: 0.50),
+//               borderRadius: BorderRadius.circular(10),
+//             ),
+//           ),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.spaceAround,
+//             children: [
+//               Container(
+//                 width: 200,
+//                 height: 60,
+//                 decoration: ShapeDecoration(
+//                   color: Colors.white,
+//                   shape: RoundedRectangleBorder(
+//                     borderRadius: BorderRadius.circular(10),
+//                   ),
+//                   shadows: const [
+//                     BoxShadow(
+//                       color: Color(0x3F000000),
+//                       blurRadius: 4,
+//                       offset: Offset(1, 1),
+//                       spreadRadius: 0,
+//                     )
+//                   ],
+//                 ),
+//                 child: Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                     children: [
+//                       Image.asset('assets/images/Cvs.webp'),
+//                       Text(
+//                         'Généralité',
+//                         style: mesTextes,
+//                       )
+//                     ]),
+//               ),
+//               GestureDetector(
+//                 onTap: () {},
+//                 child: Container(
+//                   width: 200,
+//                   height: 60,
+//                   decoration: ShapeDecoration(
+//                     color: Colors.white,
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(10),
+//                     ),
+//                     shadows: const [
+//                       BoxShadow(
+//                         color: Color(0x3F000000),
+//                         blurRadius: 4,
+//                         offset: Offset(1, 1),
+//                         spreadRadius: 0,
+//                       )
+//                     ],
+//                   ),
+//                   child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                       children: [
+//                         Image.asset('assets/images/Cvs.webp'),
+//                         Text(
+//                           'Structure',
+//                           style: mesTextes,
+//                         )
+//                       ]),
+//                 ),
+//               ),
+//               GestureDetector(
+//                 onTap: () {},
+//                 child: Container(
+//                   width: 200,
+//                   height: 60,
+//                   decoration: ShapeDecoration(
+//                     color: Colors.white,
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(10),
+//                     ),
+//                     shadows: const [
+//                       BoxShadow(
+//                         color: Color(0x3F000000),
+//                         blurRadius: 4,
+//                         offset: Offset(1, 1),
+//                         spreadRadius: 0,
+//                       )
+//                     ],
+//                   ),
+//                   child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                       children: [
+//                         Image.asset('assets/images/Cvs.webp'),
+//                         Text(
+//                           'Exemplaire',
+//                           style: mesTextes,
+//                         )
+//                       ]),
+//                 ),
+//               ),
+//               GestureDetector(
+//                 onTap: () {},
+//                 child: Container(
+//                   width: 200,
+//                   height: 60,
+//                   decoration: ShapeDecoration(
+//                     color: Colors.white,
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.circular(10),
+//                     ),
+//                     shadows: const [
+//                       BoxShadow(
+//                         color: Color(0x3F000000),
+//                         blurRadius: 4,
+//                         offset: Offset(1, 1),
+//                         spreadRadius: 0,
+//                       )
+//                     ],
+//                   ),
+//                   child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                       children: [
+//                         Image.asset('assets/images/Cvs.webp'),
+//                         Text(
+//                           'Rédaction',
+//                           style: mesTextes,
+//                         )
+//                       ]),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         )
+//       ],
+//     );
+//   }
+// }
 
 //Entretien
 
