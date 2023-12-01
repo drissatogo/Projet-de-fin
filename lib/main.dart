@@ -1,5 +1,3 @@
-
-
 // import 'package:myapp/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,7 @@ import 'package:mongrh/firebase_options.dart';
 import 'package:mongrh/utilisateur.dart';
 import 'package:provider/provider.dart';
 
-void main () async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -27,11 +25,9 @@ void main () async{
           create: (_) => DocumentController(),
         ),
       ],
-      child:  MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body:Contrats()
-        ),
+        home: Scaffold(body: MyHomePage()),
       ),
     ),
   );
@@ -237,5 +233,109 @@ class _DemarrageState extends State<Demarrage> {
         ],
       ),
     );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: SplashPage(),
+    );
+  }
+}
+
+class SplashPage extends StatefulWidget {
+  const SplashPage({Key? key}) : super(key: key);
+
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage>
+    with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    );
+
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Demarrage()),
+        );
+      }
+    });
+
+    _animationController.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FadeTransition(
+        opacity: _animation,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              RotationTransition(
+                turns: _animation,
+                child: ScaleTransition(
+                  scale: _animation,
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                    height: 200,
+                    width: 200,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              AnimatedBuilder(
+                animation: _animationController,
+                builder: (context, child) {
+                  return Opacity(
+                    opacity: _animation.value,
+                    child: Text(
+                      'MonGrh, une application qui contribue à votre insertion professionnelle et à la pérennité de votre emploi',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.blueAccent.withOpacity(_animation.value),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }

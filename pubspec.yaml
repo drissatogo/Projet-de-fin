@@ -51,6 +51,8 @@ dependencies:
   path_provider: ^2.0.4
   pdf: ^3.10.6
   flutter_cached_pdfview: ^0.4.2
+  advance_pdf_viewer: ^2.0.1
+  image_picker: ^1.0.4
   
 
   

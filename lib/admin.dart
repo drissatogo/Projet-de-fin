@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -324,184 +325,6 @@ class _DashboardFirstState extends State<DashboardFirst> {
   }
 }
 
-// class NavigationRailExampleApp extends StatelessWidget {
-//   const NavigationRailExampleApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       home: NavRailExample(),
-//     );
-//   }
-// }
-
-// class NavRailExample extends StatefulWidget {
-//   const NavRailExample({super.key});
-
-//   @override
-//   State<NavRailExample> createState() => _NavRailExampleState();
-// }
-
-// class _NavRailExampleState extends State<NavRailExample> {
-//   int _selectedIndex = 0;
-//   NavigationRailLabelType labelType = NavigationRailLabelType.all;
-//   bool showLeading = false;
-//   bool showTrailing = false;
-//   double groupAlignment = -1.0;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Row(
-//         children: <Widget>[
-//           NavigationRail(
-//             selectedIndex: _selectedIndex,
-//             groupAlignment: groupAlignment,
-//             onDestinationSelected: (int index) {
-//               setState(() {
-//                 _selectedIndex = index;
-//               });
-//             },
-//             labelType: labelType,
-//             leading: showLeading
-//                 ? FloatingActionButton(
-//                     elevation: 0,
-//                     onPressed: () {
-//                       // Add your onPressed code here!
-//                     },
-//                     child: const Icon(Icons.add),
-//                   )
-//                 : const SizedBox(),
-//             trailing: showTrailing
-//                 ? IconButton(
-//                     onPressed: () {
-//                       // Add your onPressed code here!
-//                     },
-//                     icon: const Icon(Icons.more_horiz_rounded),
-//                   )
-//                 : const SizedBox(),
-//             destinations: const <NavigationRailDestination>[
-//               NavigationRailDestination(
-//                 icon: Icon(Icons.favorite_border),
-//                 selectedIcon: Icon(Icons.favorite),
-//                 label: Text('First'),
-//               ),
-//               NavigationRailDestination(
-//                 icon: Icon(Icons.bookmark_border),
-//                 selectedIcon: Icon(Icons.book),
-//                 label: Text('Second'),
-//               ),
-//               NavigationRailDestination(
-//                 icon: Icon(Icons.star_border),
-//                 selectedIcon: Icon(Icons.star),
-//                 label: Text('Third'),
-//               ),
-//             ],
-//           ),
-//           const VerticalDivider(thickness: 1, width: 1),
-//           // This is the main content.
-//           Expanded(
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: <Widget>[
-//                 Text('selectedIndex: $_selectedIndex'),
-//                 const SizedBox(height: 20),
-//                 Text('Label type: ${labelType.name}'),
-//                 const SizedBox(height: 10),
-//                 OverflowBar(
-//                   spacing: 10.0,
-//                   children: <Widget>[
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         setState(() {
-//                           labelType = NavigationRailLabelType.none;
-//                         });
-//                       },
-//                       child: const Text('None'),
-//                     ),
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         setState(() {
-//                           labelType = NavigationRailLabelType.selected;
-//                         });
-//                       },
-//                       child: const Text('Selected'),
-//                     ),
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         setState(() {
-//                           labelType = NavigationRailLabelType.all;
-//                         });
-//                       },
-//                       child: const Text('All'),
-//                     ),
-//                   ],
-//                 ),
-//                 const SizedBox(height: 20),
-//                 Text('Group alignment: $groupAlignment'),
-//                 const SizedBox(height: 10),
-//                 OverflowBar(
-//                   spacing: 10.0,
-//                   children: <Widget>[
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         setState(() {
-//                           groupAlignment = -1.0;
-//                         });
-//                       },
-//                       child: const Text('Top'),
-//                     ),
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         setState(() {
-//                           groupAlignment = 0.0;
-//                         });
-//                       },
-//                       child: const Text('Center'),
-//                     ),
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         setState(() {
-//                           groupAlignment = 1.0;
-//                         });
-//                       },
-//                       child: const Text('Bottom'),
-//                     ),
-//                   ],
-//                 ),
-//                 const SizedBox(height: 20),
-//                 OverflowBar(
-//                   spacing: 10.0,
-//                   children: <Widget>[
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         setState(() {
-//                           showLeading = !showLeading;
-//                         });
-//                       },
-//                       child:
-//                           Text(showLeading ? 'Hide Leading' : 'Show Leading'),
-//                     ),
-//                     ElevatedButton(
-//                       onPressed: () {
-//                         setState(() {
-//                           showTrailing = !showTrailing;
-//                         });
-//                       },
-//                       child: Text(
-//                           showTrailing ? 'Hide Trailing' : 'Show Trailing'),
-//                     ),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class ConnexionAdmin extends StatefulWidget {
   const ConnexionAdmin({super.key});
 
@@ -674,6 +497,339 @@ class _ConnexionAdminState extends State<ConnexionAdmin> {
   }
 }
 
+// class ContratAdmin extends StatefulWidget {
+//   const ContratAdmin({super.key});
+
+//   @override
+//   State<ContratAdmin> createState() => _ContratAdminState();
+// }
+
+// class _ContratAdminState extends State<ContratAdmin> {
+
+//  List<Contrat> lescontrats = [];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     fetchData();
+//   }
+
+//   void fetchData() async {
+//     try {
+//       CollectionReference<Map<String, dynamic>> lescontratsCollection =
+//           FirebaseFirestore.instance.collection('Contrat');
+
+//       QuerySnapshot<Map<String, dynamic>> lescontratsSnapshot =
+//           await lescontratsCollection.get();
+
+//       List<Contrat> items = lescontratsSnapshot.docs
+//           .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+//         Map<String, dynamic> data = doc.data();
+//         return Contrat(
+//           // sigle: data['sigle'] as String,
+//           type: data['type'] as String,
+//           description: data['description'] as String,
+//           droits: data['droits'] as String,
+//           devoirs: data['devoirs'] as String,
+//         );
+//       }).toList();
+
+//       setState(() {
+//         lescontrats = items;
+//       });
+//     } catch (e) {
+//       print('Erreur lors de la récupération des données : $e');
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     // final ajouterContrat = context.watch<ContratAdminController>();
+
+//     return Scaffold(
+//       body: Directionality(
+//         textDirection: TextDirection.ltr,
+//         child: SizedBox(
+//           width: 1300,
+//           height: 600,
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Row(
+//                 children: [
+//                   Container(),
+//                   const Expanded(
+//                     child: Text(
+//                       'Les types de contrat du travail',
+//                       textAlign: TextAlign.center,
+//                       style: TextStyle(
+//                         color: Color(0xFF4E5394),
+//                         fontSize: 40,
+//                         fontFamily: 'Poppins',
+//                         fontWeight: FontWeight.w700,
+//                         height: 0,
+//                       ),
+//                     ),
+//                   ),
+//                   Container(
+//                     width: 172,
+//                     height: 173,
+//                     decoration: const ShapeDecoration(
+//                       image: DecorationImage(
+//                         image: AssetImage("assets/images/logo.png"),
+//                         fit: BoxFit.fill,
+//                       ),
+//                       shape: OvalBorder(),
+//                     ),
+//                   )
+//                 ],
+//               ),
+//               Expanded(
+//                 child: Container(
+//                   width: 1039,
+//                   height: 408,
+//                   decoration: ShapeDecoration(
+//                     color: Colors.white,
+//                     shape: RoundedRectangleBorder(
+//                       side:
+//                           const BorderSide(width: 3, color: Color(0xFF4E5394)),
+//                       borderRadius: BorderRadius.circular(20),
+//                     ),
+//                   ),
+//                   child: Column(
+//                     children: [
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                         children: [
+//                           Column(
+//                             children: [
+//                               Container(
+//                                 width: 138,
+//                                 height: 152,
+//                                 decoration: const BoxDecoration(
+//                                   image: DecorationImage(
+//                                     image:
+//                                         AssetImage("assets/images/contrat.jpg"),
+//                                     fit: BoxFit.fill,
+//                                   ),
+//                                 ),
+//                               ),
+//                               const Row(
+//                                 children: [
+//                                   Text(
+//                                     'CDD',
+//                                     textAlign: TextAlign.center,
+//                                     style: TextStyle(
+//                                       color: Color(0xFF4E5394),
+//                                       fontSize: 20,
+//                                       fontFamily: 'Poppins',
+//                                       fontWeight: FontWeight.w500,
+//                                       height: 0,
+//                                     ),
+//                                   ),
+//                                   Icon(Icons.delete,color: Colors.red,),
+//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
+//                                 ],
+//                               )
+//                             ],
+//                           ),
+//                           Column(
+//                             children: [
+//                               Container(
+//                                 width: 138,
+//                                 height: 152,
+//                                 decoration: const BoxDecoration(
+//                                   image: DecorationImage(
+//                                     image:
+//                                         AssetImage("assets/images/contrat.jpg"),
+//                                     fit: BoxFit.fill,
+//                                   ),
+//                                 ),
+//                               ),
+//                               const Row(
+//                                 children: [
+//                                   Text(
+//                                     'CDD',
+//                                     textAlign: TextAlign.center,
+//                                     style: TextStyle(
+//                                       color: Color(0xFF4E5394),
+//                                       fontSize: 20,
+//                                       fontFamily: 'Poppins',
+//                                       fontWeight: FontWeight.w500,
+//                                       height: 0,
+//                                     ),
+//                                   ),
+//                                   Icon(Icons.delete,color: Colors.red,),
+//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
+//                                 ],
+//                               )
+//                             ],
+//                           ),
+//                           Column(
+//                             children: [
+//                               Container(
+//                                 width: 138,
+//                                 height: 152,
+//                                 decoration: const BoxDecoration(
+//                                   image: DecorationImage(
+//                                     image:
+//                                         AssetImage("assets/images/contrat.jpg"),
+//                                     fit: BoxFit.fill,
+//                                   ),
+//                                 ),
+//                               ),
+//                               const Row(
+//                                 children: [
+//                                   Text(
+//                                     'CDD',
+//                                     textAlign: TextAlign.center,
+//                                     style: TextStyle(
+//                                       color: Color(0xFF4E5394),
+//                                       fontSize: 20,
+//                                       fontFamily: 'Poppins',
+//                                       fontWeight: FontWeight.w500,
+//                                       height: 0,
+//                                     ),
+//                                   ),
+//                                   Icon(Icons.delete,color: Colors.red,),
+//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
+//                                 ],
+//                               )
+//                             ],
+//                           )
+//                         ],
+//                       ),
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                         children: [
+//                           Column(
+//                             children: [
+//                               Container(
+//                                 width: 138,
+//                                 height: 152,
+//                                 decoration: const BoxDecoration(
+//                                   image: DecorationImage(
+//                                     image:
+//                                         AssetImage("assets/images/contrat.jpg"),
+//                                     fit: BoxFit.fill,
+//                                   ),
+//                                 ),
+//                               ),
+//                               const Row(
+//                                 children: [
+//                                   Text(
+//                                     'CDD',
+//                                     textAlign: TextAlign.center,
+//                                     style: TextStyle(
+//                                       color: Color(0xFF4E5394),
+//                                       fontSize: 20,
+//                                       fontFamily: 'Poppins',
+//                                       fontWeight: FontWeight.w500,
+//                                       height: 0,
+//                                     ),
+//                                   ),
+//                                   Icon(Icons.delete,color: Colors.red,),
+//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
+//                                 ],
+//                               )
+//                             ],
+//                           ),
+//                           Column(
+//                             children: [
+//                               Container(
+//                                 width: 138,
+//                                 height: 152,
+//                                 decoration: const BoxDecoration(
+//                                   image: DecorationImage(
+//                                     image:
+//                                         AssetImage("assets/images/contrat.jpg"),
+//                                     fit: BoxFit.fill,
+//                                   ),
+//                                 ),
+//                               ),
+//                               const Row(
+//                                 children: [
+//                                   Text(
+//                                     'CDD',
+//                                     textAlign: TextAlign.center,
+//                                     style: TextStyle(
+//                                       color: Color(0xFF4E5394),
+//                                       fontSize: 20,
+//                                       fontFamily: 'Poppins',
+//                                       fontWeight: FontWeight.w500,
+//                                       height: 0,
+//                                     ),
+//                                   ),
+//                                   Icon(Icons.delete,color: Colors.red,),
+//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
+//                                 ],
+//                               )
+//                             ],
+//                           ),
+//                           Column(
+//                             children: [
+//                               Container(
+//                                 width: 138,
+//                                 height: 152,
+//                                 decoration: const BoxDecoration(
+//                                   image: DecorationImage(
+//                                     image:
+//                                         AssetImage("assets/images/contrat.jpg"),
+//                                     fit: BoxFit.fill,
+//                                   ),
+//                                 ),
+//                               ),
+//                               const Row(
+//                                 children: [
+//                                   Text(
+//                                     'CDD',
+//                                     textAlign: TextAlign.center,
+//                                     style: TextStyle(
+//                                       color: Color(0xFF4E5394),
+//                                       fontSize: 20,
+//                                       fontFamily: 'Poppins',
+//                                       fontWeight: FontWeight.w500,
+//                                       height: 0,
+//                                     ),
+//                                   ),
+//                                   Icon(Icons.delete,color: Colors.red,),
+//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
+//                                 ],
+//                               )
+//                             ],
+//                           )
+//                         ],
+//                       ),
+//                       Row(
+//                         mainAxisAlignment: MainAxisAlignment.end,
+//                         children: [
+//                           GestureDetector(
+//                             onTap: () async {
+//                               // await ajouterContrat.gotoAddContrat();
+//                               context
+//                                   .read<ContratAdminController>()
+//                                   .gotoAddContrat();
+//                             },
+//                             child: const Icon(
+//                               Icons.add_circle,
+//                               color: Color.fromARGB(255, 3, 57, 102),
+//                               size: 40,
+//                             ),
+//                           )
+//                         ],
+//                       )
+//                     ],
+//                   ),
+//                 ),
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 class ContratAdmin extends StatefulWidget {
   const ContratAdmin({super.key});
 
@@ -682,10 +838,55 @@ class ContratAdmin extends StatefulWidget {
 }
 
 class _ContratAdminState extends State<ContratAdmin> {
+  List<Contrat> lescontrats = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    try {
+      CollectionReference<Map<String, dynamic>> lescontratsCollection =
+          FirebaseFirestore.instance.collection('Contrat');
+
+      QuerySnapshot<Map<String, dynamic>> lescontratsSnapshot =
+          await lescontratsCollection.get();
+
+      List<Contrat> items = lescontratsSnapshot.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+        Map<String, dynamic> data = doc.data();
+        return Contrat(
+            // sigle: data['sigle'] as String,
+            type: data['type'] as String,
+            description: data['description'] as String,
+            droits: data['droits'] as String,
+            devoirs: data['devoirs'] as String,
+            id: doc.id);
+      }).toList();
+      setState(() {
+        lescontrats = items;
+      });
+    } catch (e) {
+      print('Erreur lors de la récupération des données : $e');
+    }
+  }
+
+  Future<void> supprimerContrat(String? contratId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Contrat')
+          .doc(contratId)
+          .delete();
+      fetchData(); // Rafraîchissez la liste après la suppression
+    } catch (e) {
+      print('Erreur lors de la suppression du contrat : $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final ajouterContrat = context.watch<ContratAdminController>();
-
     return Scaffold(
       body: Directionality(
         textDirection: TextDirection.ltr,
@@ -695,34 +896,54 @@ class _ContratAdminState extends State<ContratAdmin> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Container(),
-                  const Expanded(
-                    child: Text(
-                      'Les types de contrat du travail',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(0xFF4E5394),
-                        fontSize: 40,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w700,
-                        height: 0,
+              Container(
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: Row(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            // await ajouterContrat.gotoAddContrat();
+                            context
+                                .read<ContratAdminController>()
+                                .gotoAddContrat();
+                          },
+                          child: const Icon(
+                            Icons.add_circle,
+                            color: Color.fromARGB(255, 3, 57, 102),
+                            size: 40,
+                          ),
+                        )
+                      ],
+                    ),
+                    const Expanded(
+                      child: Text(
+                        'Les types de contrat du travail',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF4E5394),
+                          fontSize: 30,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w700,
+                          height: 0,
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: 172,
-                    height: 173,
-                    decoration: const ShapeDecoration(
-                      image: DecorationImage(
-                        image: AssetImage("assets/images/logo.png"),
-                        fit: BoxFit.fill,
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: const ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/logo.png"),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: OvalBorder(),
                       ),
-                      shape: OvalBorder(),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
               Expanded(
                 child: Container(
@@ -736,232 +957,451 @@ class _ContratAdminState extends State<ContratAdmin> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  child: Column(
-                    children: [
-                      Row(
+                  child: ListView.builder(
+                    itemCount: (lescontrats.length / 3).ceil(),
+                    itemBuilder: (context, index) {
+                      int startIndex = index * 3;
+                      int endIndex = (index + 1) * 3;
+                      endIndex = endIndex > lescontrats.length
+                          ? lescontrats.length
+                          : endIndex;
+
+                      return Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                width: 138,
-                                height: 152,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/contrat.jpg"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                              const Row(
-                                children: [
-                                  Text(
-                                    'CDD',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF4E5394),
-                                      fontSize: 20,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  ),
-                                  Icon(Icons.delete),
-                                  Icon(Icons.edit_square)
-                                ],
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                width: 138,
-                                height: 152,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/contrat.jpg"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                              const Row(
-                                children: [
-                                  Text(
-                                    'CDD',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF4E5394),
-                                      fontSize: 20,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  ),
-                                  Icon(Icons.delete),
-                                  Icon(Icons.edit_square)
-                                ],
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                width: 138,
-                                height: 152,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/contrat.jpg"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                              const Row(
-                                children: [
-                                  Text(
-                                    'CDD',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF4E5394),
-                                      fontSize: 20,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  ),
-                                  Icon(Icons.delete),
-                                  Icon(Icons.edit_square)
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Column(
-                            children: [
-                              Container(
-                                width: 138,
-                                height: 152,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/contrat.jpg"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                              const Row(
-                                children: [
-                                  Text(
-                                    'CDD',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF4E5394),
-                                      fontSize: 20,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  ),
-                                  Icon(Icons.delete),
-                                  Icon(Icons.edit_square)
-                                ],
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                width: 138,
-                                height: 152,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/contrat.jpg"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                              const Row(
-                                children: [
-                                  Text(
-                                    'CDD',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF4E5394),
-                                      fontSize: 20,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  ),
-                                  Icon(Icons.delete),
-                                  Icon(Icons.edit_square)
-                                ],
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Container(
-                                width: 138,
-                                height: 152,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/contrat.jpg"),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                              const Row(
-                                children: [
-                                  Text(
-                                    'CDD',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF4E5394),
-                                      fontSize: 20,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  ),
-                                  Icon(Icons.delete),
-                                  Icon(Icons.edit_square)
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            onTap: () async {
-                              // await ajouterContrat.gotoAddContrat();
-                              context
-                                  .read<ContratAdminController>()
-                                  .gotoAddContrat();
-                            },
-                            child: const Icon(
-                              Icons.add_circle,
-                              color: Color.fromARGB(255, 3, 57, 102),
-                              size: 40,
-                            ),
-                          )
-                        ],
-                      )
-                    ],
+                        children: List.generate(endIndex - startIndex, (i) {
+                          var contrat = lescontrats[startIndex + i];
+                          return buildContratWidget(contrat);
+                        }),
+                      );
+                    },
                   ),
                 ),
               )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildContratWidget(Contrat contrat) {
+    final modifier = context.watch<ContratAdminController>();
+    return Column(
+      children: [
+        Column(
+          children: [
+            Container(
+              width: 138,
+              height: 152,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/contrat.jpg"),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  contrat.type,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF4E5394),
+                    fontSize: 20,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+                GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Supprimer le contrat"),
+                            content: Text(
+                                "Êtes-vous sûr de vouloir supprimer ce contrat ?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Fermez la boîte de dialogue
+                                },
+                                child: Text("Annuler"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  supprimerContrat(contrat
+                                      .id); // Appelez la méthode de suppression
+                                  Navigator.of(context)
+                                      .pop(); // Fermez la boîte de dialogue
+                                },
+                                child: Text("Supprimer"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    )),
+                GestureDetector(
+                  onTap: () {
+                    modifier.modifierContrat(contrat);
+                  },
+                  child: Icon(
+                    Icons.edit_square,
+                    color: Color(0xFF4E5394),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ModifierContrat extends StatefulWidget {
+  // final Contrat contrat;
+  ModifierContrat();
+
+  @override
+  State<ModifierContrat> createState() => _ModifierContratState();
+}
+
+class _ModifierContratState extends State<ModifierContrat> {
+  // Ajoutez les contrôleurs de texte pour saisir les nouvelles valeurs
+  TextEditingController typeController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController droitsController = TextEditingController();
+  TextEditingController devoirsController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialisez les contrôleurs de texte avec les anciennes valeurs du contrat
+    // typeController.text = widget.contrat.type;
+    // descriptionController.text = widget.contrat.description;
+    // droitsController.text = widget.contrat.droits;
+    // devoirsController.text = widget.contrat.devoirs;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final modifier = context.watch<ContratAdminController>();
+    // Initialisez les contrôleurs de texte avec les anciennes valeurs du contrat
+    typeController.text = modifier.contrat?.type ?? '';
+    descriptionController.text = modifier.contrat?.description ?? '';
+    droitsController.text = modifier.contrat?.droits ?? '';
+    devoirsController.text = modifier.contrat?.devoirs ?? '';
+
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                width: 900,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                        onTap: () {
+                          context
+                                .read<ContratAdminController>()
+                                .gotoListContrat();
+                        },
+                        child: SvgPicture.asset('assets/images/Back.svg',height: 30,width: 30,)),
+                    const Text(
+                      'Modifier un contrat de travail',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF4E5394),
+                        fontSize: 30,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                    Container(
+                      width: 172,
+                      height: 173,
+                      decoration: const ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/logo.png"),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: OvalBorder(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: 900,
+                height: 401,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Type'),
+                          Container(
+                            width: 849,
+                            height: 50,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextFormField(
+                                // initialValue: modifier.contrat?.type ?? '',
+                                controller: typeController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Description'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextFormField(
+                                // initialValue: modifier.contrat?.description ?? '',
+                                controller: descriptionController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Droits'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextFormField(
+                                // initialValue: modifier.contrat?.droits ?? '',
+                                controller: droitsController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Devoirs'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextFormField(
+                                // initialValue: modifier.contrat?.devoirs ?? '',
+                                controller: devoirsController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 800,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<ContratAdminController>()
+                            .gotoListContrat();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.red, // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Annuler",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        // Récupérez les nouvelles valeurs des champs de texte
+                        String newType = typeController.text;
+                        String newDescription = descriptionController.text;
+                        String newDroits = droitsController.text;
+                        String newDevoirs = devoirsController.text;
+
+                        // Obtenez le contrat actuel à partir du ContratAdminController
+                        Contrat? contratActuel = modifier.contrat;
+
+                        // Créez un nouveau contrat avec les nouvelles valeurs
+                        Contrat nouveauContrat = Contrat(
+                          // Vous devez inclure l'id du contrat lors de la mise à jour
+                          id: contratActuel?.id,
+                          type: newType,
+                          description: newDescription,
+                          droits: newDroits,
+                          devoirs: newDevoirs,
+                        );
+
+                        // Appelez la fonction de mise à jour dans le ContratAdminController
+                        await context
+                            .read<ContratAdminController>()
+                            .updateContrat(nouveauContrat);
+
+                        // Naviguez vers la liste des contrats après la mise à jour
+                        context
+                            .read<ContratAdminController>()
+                            .gotoListContrat();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF4E5394),
+                      ),
+                      child: const Text(
+                        "Enregistrer",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
+
+                    // ElevatedButton(
+                    //   onPressed: () async {},
+                    //   style: ElevatedButton.styleFrom(
+                    //     backgroundColor: const Color(
+                    //         0xFF4E5394), // Couleur de fond du bouton
+                    //   ),
+                    //   child: const Text(
+                    //     "Enregistrer",
+                    //     style: TextStyle(
+                    //       color: Colors.white, // Couleur du texte du bouton
+                    //     ),
+                    //   ),
+                    // )
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -1489,208 +1929,80 @@ class EntretienAdmin extends StatefulWidget {
 }
 
 class _EntretienAdminState extends State<EntretienAdmin> {
+  List<ElementEntretien> elements = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    try {
+      CollectionReference<Map<String, dynamic>> elementsCollection =
+          FirebaseFirestore.instance.collection('ElementEntretien');
+
+      QuerySnapshot<Map<String, dynamic>> elementsSnapshot =
+          await elementsCollection.get();
+
+      List<ElementEntretien> items = elementsSnapshot.docs
+          .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
+        Map<String, dynamic>? data = doc.data();
+        // Vérifiez la nullité avant d'extraire les valeurs
+        return ElementEntretien(
+          titre: data?['titre'] as String? ?? '',
+          contenu: data?['contenu'] as String? ?? '',
+          // Vérifiez si imagePath est nul, sinon utilisez une image par défaut
+          imagePath:
+              data?['imagePath'] as String? ?? 'assets/images/entretien.jpg',
+          id: doc.id,
+        );
+      }).toList();
+
+      setState(() {
+        elements = items;
+      });
+    } catch (e) {
+      print('Erreur lors de la récupération des données : $e');
+    }
+  }
+
+  Future<void> supprimerEntretien(String? elementId) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('ElementEntretien')
+          .doc(elementId)
+          .delete();
+      fetchData(); // Rafraîchissez la liste après la suppression
+    } catch (e) {
+      print('Erreur lors de la suppression du contrat : $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final entretienAdminController = context.watch<EntretienAdminController>();
-
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: SizedBox(
-        width: 1300,
-        height: 600,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(),
-                const Expanded(
-                  child: Text(
-                    'Entretien',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF4E5394),
-                      fontSize: 40,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w700,
-                      height: 0,
-                    ),
-                  ),
-                ),
-                Container(
-                  width: 172,
-                  height: 173,
-                  decoration: const ShapeDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/logo.png"),
-                      fit: BoxFit.fill,
-                    ),
-                    shape: OvalBorder(),
-                  ),
-                )
-              ],
-            ),
-            Expanded(
-              child: Container(
-                width: 1039,
-                height: 408,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: Column(
+    return Scaffold(
+      body: Directionality(
+        textDirection: TextDirection.ltr,
+        child: SizedBox(
+          width: 1300,
+          height: 600,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: Row(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/entretien.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'Généralité',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/entretien.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'Préparation',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/entretien.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'Questions',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              width: 138,
-                              height: 152,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/entretien.jpg"),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                            const Row(
-                              children: [
-                                Text(
-                                  'Coachs',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Color(0xFF4E5394),
-                                    fontSize: 20,
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                  ),
-                                ),
-                                Icon(Icons.delete),
-                                Icon(Icons.edit_square)
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            entretienAdminController.gotoAddEntretien();
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) =>
-                            //             const AjoutEntretien()));
+                          onTap: () async {
+                            // await ajouterContrat.gotoAddContrat();
+                            context
+                                .read<EntretienAdminController>()
+                                .gotoAddEntretien();
                           },
                           child: const Icon(
                             Icons.add_circle,
@@ -1699,12 +2011,387 @@ class _EntretienAdminState extends State<EntretienAdmin> {
                           ),
                         )
                       ],
+                    ),
+                    const Expanded(
+                      child: Text(
+                        'Les éléments de l\'entretien',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xFF4E5394),
+                          fontSize: 30,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w700,
+                          height: 0,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: const ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/logo.png"),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: OvalBorder(),
+                      ),
                     )
                   ],
                 ),
               ),
-            )
+              Expanded(
+                child: Container(
+                  width: 1039,
+                  height: 408,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side:
+                          const BorderSide(width: 3, color: Color(0xFF4E5394)),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  child: ListView.builder(
+                    itemCount: (elements.length / 3).ceil(),
+                    itemBuilder: (context, index) {
+                      int startIndex = index * 3;
+                      int endIndex = (index + 1) * 3;
+                      endIndex = endIndex > elements.length
+                          ? elements.length
+                          : endIndex;
+
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: List.generate(endIndex - startIndex, (i) {
+                          var element = elements[startIndex + i];
+                          return buildContratWidget(element);
+                        }),
+                      );
+                    },
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildContratWidget(ElementEntretien elements) {
+    final modifier = context.watch<EntretienAdminController>();
+    return Column(
+      children: [
+        Column(
+          children: [
+            Container(
+              width: 138,
+              height: 152,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/entretien.jpg"),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  elements.titre,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF4E5394),
+                    fontSize: 20,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w500,
+                    height: 0,
+                  ),
+                ),
+                GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Supprimer l'élément"),
+                            content: Text(
+                                "Êtes-vous sûr de vouloir supprimer cet élément ?"),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // Fermez la boîte de dialogue
+                                },
+                                child: Text("Annuler"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  supprimerEntretien(elements
+                                      .id); // Appelez la méthode de suppression
+                                  Navigator.of(context)
+                                      .pop(); // Fermez la boîte de dialogue
+                                },
+                                child: Text("Supprimer"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    )),
+                GestureDetector(
+                  onTap: () {
+                    modifier.gotoUpdateElementEntretien(elements);
+                  },
+                  child: Icon(
+                    Icons.edit_square,
+                    color: Color(0xFF4E5394),
+                  ),
+                ),
+              ],
+            ),
           ],
+        ),
+      ],
+    );
+  }
+}
+
+class ModifierEntretien extends StatefulWidget {
+  ModifierEntretien();
+
+  @override
+  State<ModifierEntretien> createState() => _ModifierEntretienState();
+}
+
+class _ModifierEntretienState extends State<ModifierEntretien> {
+ TextEditingController titreController = TextEditingController();
+  TextEditingController contenuController = TextEditingController();
+   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+   final modifier = context.watch<EntretienAdminController>();
+    // Initialisez les contrôleurs de texte avec les anciennes valeurs du contrat
+    titreController.text = modifier.element?.titre ?? '';
+    contenuController.text = modifier.element?.contenu ?? '';
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 900,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        context
+                            .read<EntretienAdminController>()
+                            .gotoListEntretien();
+                      },
+                      child: SvgPicture.asset("assets/images/Back.svg",height: 30,width: 30,),
+                    ),
+                    const Text(
+                      'Modifier un élément de l’entretien',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF4E5394),
+                        fontSize: 30,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w700,
+                        height: 0,
+                      ),
+                    ),
+                    Container(
+                      width: 172,
+                      height: 173,
+                      decoration: const ShapeDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/logo.png"),
+                          fit: BoxFit.fill,
+                        ),
+                        shape: OvalBorder(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: 900,
+                height: 401,
+                decoration: ShapeDecoration(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    side: const BorderSide(width: 3, color: Color(0xFF4E5394)),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Nom'),
+                          Container(
+                            width: 849,
+                            height: 78,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: titreController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text('Contenu'),
+                          Container(
+                            width: 849,
+                            height: 150,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x3F000000),
+                                  blurRadius: 4,
+                                  offset: Offset(1, 1),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: TextField(
+                                controller: contenuController,
+                                decoration: const InputDecoration(
+                                  hintText: 'Saisissez ici',
+                                  border: InputBorder.none,
+                                ),
+                                maxLines: null,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 800,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<EntretienAdminController>()
+                            .gotoListEntretien();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.red, // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Annuler",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                         // Récupérez les nouvelles valeurs des champs de texte
+                        String newTitre = titreController.text;
+                        String newContenu = contenuController.text;
+
+                        // Obtenez le contrat actuel à partir du ContratAdminController
+                        ElementEntretien? elementActuel = modifier.element;
+
+                        // Créez un nouveau contrat avec les nouvelles valeurs
+                        ElementEntretien nouveauElement = ElementEntretien(
+                          // Vous devez inclure l'id du contrat lors de la mise à jour
+                          id: elementActuel?.id,
+                          titre: newTitre,
+                          contenu: newContenu, imagePath: '',
+                        );
+
+                        // Appelez la fonction de mise à jour dans le ContratAdminController
+                        await context
+                            .read<EntretienAdminController>()
+                            .updateEntretien(nouveauElement);
+
+                        // Naviguez vers la liste des contrats après la mise à jour
+                        context
+                            .read<EntretienAdminController>()
+                            .gotoListEntretien();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(
+                            0xFF4E5394), // Couleur de fond du bouton
+                      ),
+                      child: const Text(
+                        "Enregistrer",
+                        style: TextStyle(
+                          color: Colors.white, // Couleur du texte du bouton
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1752,14 +2439,14 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                             .read<EntretienAdminController>()
                             .gotoListEntretien();
                       },
-                      child: SvgPicture.asset("assets/images/Back.svg"),
+                      child: SvgPicture.asset("assets/images/Back.svg",height: 30,width: 30,),
                     ),
                     const Text(
-                      'Ajouter la préparation d’un entretien',
+                      'Ajouter un élément de l’entretien',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFF4E5394),
-                        fontSize: 40,
+                        fontSize: 30,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w700,
                         height: 0,
@@ -1963,6 +2650,7 @@ class _AjoutContratState extends State<AjoutContrat> {
     final devoirs = devoirsController;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
           child: Column(
@@ -1973,14 +2661,18 @@ class _AjoutContratState extends State<AjoutContrat> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
-                        onTap: () {},
-                        child: SvgPicture.asset('assets/images/Back.svg')),
+                        onTap: () {
+                           context
+                                .read<ContratAdminController>()
+                                .gotoListContrat();
+                        },
+                        child: SvgPicture.asset('assets/images/Back.svg',height: 30,width: 30,)),
                     const Text(
                       'Ajouter un contrat de travail',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFF4E5394),
-                        fontSize: 40,
+                        fontSize: 30,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w700,
                         height: 0,
@@ -2021,10 +2713,10 @@ class _AjoutContratState extends State<AjoutContrat> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Nom'),
+                          const Text('Type'),
                           Container(
                             width: 849,
-                            height: 78,
+                            height: 50,
                             decoration: ShapeDecoration(
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
@@ -2655,7 +3347,6 @@ class _AjouterDocState extends State<AjouterDoc> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                      
                         // await enregistrer.gotoListEntretien();
                         final doc = Documents(
                             nom: nomController.text,

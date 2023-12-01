@@ -1,14 +1,19 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:mongrh/mes_logiques/mes_classes.dart';
 import 'package:mongrh/mes_logiques/services.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
 // import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class Pdf extends StatefulWidget {
@@ -197,7 +202,7 @@ class PageInscription extends StatefulWidget {
 
 class _PageInscriptionState extends State<PageInscription> {
   bool _obscureText = true;
-
+  final _userphotoController = TextEditingController();
   final _usernameController = TextEditingController();
   final _numeroController = TextEditingController();
   final _emailController = TextEditingController();
@@ -315,6 +320,7 @@ class _PageInscriptionState extends State<PageInscription> {
                         Navigator.pop(context);
                         // Enregistrer les informations de l'utilisateur
                         Users user = Users(
+                          photo: _userphotoController.text,
                           id: userCredential.user!.uid,
                           username: _usernameController.text,
                           email: _emailController.text.trim(),
@@ -646,9 +652,76 @@ class _PrincipalState extends State<Principal> {
     // Do something when the modify item is tapped
   }
 
-  void _onImage() {
-    // Do something when the image item is tapped
+  // Future<void> _onImage() async {
+  //   print('objectsssssss');
+  //   DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .get();
+  //   Users user = Users.fromMap(userSnapshot.data() as Map<String, dynamic>);
+
+  //   // Implement logic to allow the user to pick an image
+  //   final picker = ImagePicker();
+  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //   print('object');
+  //   if (pickedFile != null) {
+  //     setState(() {
+  //       user.photo = File(pickedFile.path).path;
+  //     });
+  //     print('ssssss');
+  //     // Upload the image to Cloud Storage
+      
+  //   }
+  // }
+
+Future<void> _onImage() async {
+  print('objectsssssss');
+  DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid)
+      .get();
+
+  Users user = Users.fromMap(userSnapshot.data() as Map<String, dynamic>);
+
+  // Implement logic to allow the user to pick an image
+  final picker = ImagePicker();
+  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+  print('object');
+
+  if (pickedFile != null) {
+    // Upload the image to Cloud Storage
+    File imageFile = File(pickedFile.path);
+    String imageName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    try {
+      await FirebaseStorage.instance
+          .ref('user_images/$imageName.jpg') // you can change the path and extension as needed
+          .putFile(imageFile);
+
+      // Get the download URL from Firebase Storage
+      String downloadURL = await FirebaseStorage.instance
+          .ref('user_images/$imageName.jpg') // same path as above
+          .getDownloadURL();
+
+      // Update the user's photo URL in Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({'photo': downloadURL});
+
+      setState(() {
+        user.photo = downloadURL;
+      });
+
+      print('Image uploaded successfully');
+    } catch (error) {
+      print('Error uploading image: $error');
+    }
   }
+}
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -741,98 +814,101 @@ class _PrincipalState extends State<Principal> {
           const SizedBox(
             height: 30,
           ),
-          SizedBox(
-            width: 200,
-            height: 200,
-            child: Wrap(
-              spacing: 10,
-              runSpacing: 10,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Contrats(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/accord.png',
-                        width: 80,
-                        height: 80,
-                      ),
-                      Text(
-                        "Contrat",
-                        style: mesTextes,
-                      )
-                    ],
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
+          Center(
+            child: Container(
+              width: 200,
+              height: 200,
+              child: Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const InterfaceEntretien()));
-                  },
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/entretien.jpg',
-                        width: 80,
-                        height: 80,
-                      ),
-                      Text(
-                        "Entretien",
-                        style: mesTextes,
-                      )
-                    ],
+                          builder: (context) => const Contrats(),
+                        ),
+                      );
+                    },
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/images/accord.png',
+                          width: 80,
+                          height: 80,
+                        ),
+                        Text(
+                          "Contrat",
+                          style: mesTextes,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Cv()));
-                  },
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/Cvs.webp',
-                        width: 80,
-                        height: 80,
-                      ),
-                      Text(
-                        "Dossiers",
-                        style: mesTextes,
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const InterfaceEntretien()));
+                    },
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/images/entretien.jpg',
+                          width: 80,
+                          height: 80,
+                        ),
+                        Text(
+                          "Entretien",
+                          style: mesTextes,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const PDFViewerPage()));
-                  },
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/Cvs.webp',
-                        width: 80,
-                        height: 80,
-                      ),
-                      Text(
-                        "Loi",
-                        style: mesTextes,
-                      )
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => const Cv()));
+                    },
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/images/Cvs.webp',
+                          width: 80,
+                          height: 80,
+                        ),
+                        Text(
+                          "Dossiers",
+                          style: mesTextes,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const PdfViewerPage()));
+                    },
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/images/Cvs.webp',
+                          width: 80,
+                          height: 80,
+                        ),
+                        Text(
+                          "Loi",
+                          style: mesTextes,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -903,7 +979,11 @@ class _ContratsState extends State<Contrats> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: SvgPicture.asset('assets/images/Back.svg',height: 35,width: 35,)),
+                  child: SvgPicture.asset(
+                    'assets/images/Back.svg',
+                    height: 35,
+                    width: 35,
+                  )),
               const Image(
                 image: AssetImage('assets/images/entretien.jpg'),
                 width: 120,
@@ -1029,7 +1109,7 @@ class _ContratState extends State<AfficherContrat> {
                 child: Center(
                   child: Text(
                     contrat.type,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
@@ -1541,6 +1621,7 @@ class _ModifierProfilState extends State<ModifierProfil> {
 
                 // Mettre à jour l'objet Users avec les nouvelles informations
                 Users updatedUser = Users(
+                  photo: widget.users.photo,
                   id: widget.users.id,
                   username: newUsername,
                   email: newEmail,
@@ -1861,76 +1942,157 @@ class _AffichagedocState extends State<Affichagedoc> {
 
 //Document lettre de motivation
 
-class PDFViewerPage extends StatefulWidget {
-  const PDFViewerPage({super.key});
+// class PdfViewerPage extends StatefulWidget {
+//   const PdfViewerPage({super.key});
 
-  @override
-  State<PDFViewerPage> createState() => _PDFViewerPageState();
-}
+//   @override
+//   State<PdfViewerPage> createState() => _PDFViewerPageState();
+// }
 
-class _PDFViewerPageState extends State<PDFViewerPage> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Container(
-          child: SfPdfViewer.network(
-            // Path to the PDF file
-            'https://firebasestorage.googleapis.com/v0/b/mongrh2.appspot.com/o/codetravail.pdf?alt=media&token=bc211df8-5402-4564-9bce-fc166be4e2f9',
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class _PDFViewerPageState extends State<PdfViewerPage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         body: Container(
+//           child: SfPdfViewer.network(
+//             // Path to the PDF file
+//             'https://firebasestorage.googleapis.com/v0/b/mongrh2.appspot.com/o/codetravail.pdf?alt=media&token=bc211df8-5402-4564-9bce-fc166be4e2f9',
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-// class CodeDuTravailPage extends StatefulWidget {
+// class PdfViewerPage extends StatefulWidget {
+//   const PdfViewerPage({super.key});
+
 //   @override
 //   _CodeDuTravailPageState createState() => _CodeDuTravailPageState();
 // }
 
-// class _CodeDuTravailPageState extends State<CodeDuTravailPage> {
+// class _CodeDuTravailPageState extends State<PdfViewerPage> {
 //   Uint8List? _documentBytes;
-// String path =
-//  'https://firebasestorage.googleapis.com/v0/b/mongrh2.appspot.com/o/codetravail.pdf?alt=media&token=bc211df8-5402-4564-9bce-fc166be4e2f9';
-// @override
-// void initState() { getPdfBytes(); super.initState();
+//   String path =
+//       'https://firebasestorage.googleapis.com/v0/b/mongrh2.appspot.com/o/codetravail.pdf?alt=media&token=bc211df8-5402-4564-9bce-fc166be4e2f9';
+//   @override
+//   void initState() {
+//     getPdfBytes();
+//     super.initState();
+//   }
+
+//   void getPdfBytes() async {
+//     if (kIsWeb) {
+//       var firebaseStorage;
+//       var pdfRef = firebaseStorage.FirebaseStorage.instanceFor(
+//               bucket: 'mongrh2.appspot.com')
+//           .refFromURL(path);
+//       //size mentioned here is max size to download from firebase.
+//       await pdfRef.getData(104857600).then((value) {
+//         _documentBytes = value;
+//         setState(() {});
+//       });
+//     } else {
+//       HttpClient client = HttpClient();
+//       final Uri url = Uri.base.resolve(path);
+//       final HttpClientRequest request = await client.getUrl(url);
+//       final HttpClientResponse response = await request.close();
+//       _documentBytes = await consolidateHttpClientResponseBytes(response);
+//       setState(() {});
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     Widget child = const Center(child: CircularProgressIndicator());
+//     if (_documentBytes != null) {
+//       child = SfPdfViewer.memory(
+//         _documentBytes!,
+//       );
+//     }
+//     return Scaffold(
+//       body: child,
+
+//     );
+//   }
 // }
 
-// void getPdfBytes() async {
-//   if (kIsWeb) {
-//   firebase_storage.Reference pdfRef =
-//   firebase_storage.FirebaseStorage.instanceFor(
-//   bucket: 'mongrh2.appspot.com')
-//   .refFromURL(path);
-//    //size mentioned here is max size to download from firebase.
-//   await pdfRef.getData(104857600).then((value) {
-//   _documentBytes = value;
-//   setState(() {});
-//   });
-//   } else {
-//   HttpClient client = HttpClient();
-//   final Uri url = Uri.base.resolve(path);
-//   final HttpClientRequest request = await client.getUrl(url);
-//   final HttpClientResponse response = await request.close();
-//   _documentBytes = await consolidateHttpClientResponseBytes(response);
-//   setState(() {});
-//   }
-// }
-// @override
-// Widget build(BuildContext context) {
-//   Widget child = const Center(child: CircularProgressIndicator());
-//   if (_documentBytes != null) {
-//   child = SfPdfViewer.memory(
-//   _documentBytes!,
-//   );
-//   }
-//   return Scaffold(
-//   appBar: AppBar(title: const Text('Syncfusion Flutter PDF Viewer')),
-//   body: child,
-//   );
-// }
-// }
+class PdfViewerPage extends StatefulWidget {
+  const PdfViewerPage({Key? key}) : super(key: key);
+
+  @override
+  _CodeDuTravailPageState createState() => _CodeDuTravailPageState();
+}
+
+class _CodeDuTravailPageState extends State<PdfViewerPage> {
+  Uint8List? _documentBytes;
+  String path =
+      'https://firebasestorage.googleapis.com/v0/b/mongrh2.appspot.com/o/codetravail.pdf?alt=media&token=bc211df8-5402-4564-9bce-fc166be4e2f9';
+
+  @override
+  void initState() {
+    getPdfBytes();
+    super.initState();
+  }
+
+  void getPdfBytes() async {
+    if (kIsWeb) {
+      var firebaseStorage;
+      var pdfRef = firebaseStorage.FirebaseStorage.instanceFor(
+              bucket: 'mongrh2.appspot.com')
+          .refFromURL(path);
+      await pdfRef.getData(104857600).then((value) {
+        _documentBytes = value;
+        setState(() {});
+      });
+    } else {
+      HttpClient client = HttpClient();
+      final Uri url = Uri.parse(path);
+      final HttpClientRequest request = await client.getUrl(url);
+      final HttpClientResponse response = await request.close();
+      _documentBytes = await consolidateHttpClientResponseBytes(response);
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget child = const Center(child: CircularProgressIndicator());
+    if (_documentBytes != null) {
+      child = SfPdfViewer.memory(
+        _documentBytes!,
+      );
+    }
+
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: child,
+          ),
+          Container(
+            color: Colors.grey[300],
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Rechercher...',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onChanged: (searchTerm) {
+                // Ajoutez ici votre logique pour rechercher le terme dans le PDF.
+                // Vous pouvez utiliser le texte du terme pour effectuer une recherche dans le PDF.
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 // class Motivation extends StatefulWidget {
 //   const Motivation({super.key});

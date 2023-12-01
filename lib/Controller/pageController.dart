@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mongrh/admin.dart';
+import 'package:mongrh/mes_logiques/mes_classes.dart';
 import 'package:provider/provider.dart';
 
 class EntretienPage extends StatelessWidget {
@@ -21,6 +23,22 @@ class EntretienPage extends StatelessWidget {
 // }
 
 class EntretienAdminController extends ChangeNotifier {
+  Future<void> updateEntretien(ElementEntretien element) async {
+    try {
+      // Utilisez l'id du contrat pour mettre à jour le document correspondant dans Firestore
+      await FirebaseFirestore.instance
+          .collection('ElementEntretien')
+          .doc(element.id)
+          .update({
+        'titre': element.titre,
+        'contenu': element.contenu,
+      });
+    } catch (e) {
+      print('Erreur lors de la mise à jour de cet élément : $e');
+    }
+  }
+
+  ElementEntretien? element;
   var selectedIndex = 0;
   List<StatefulWidget> pages = [];
   StatefulWidget get page {
@@ -31,6 +49,7 @@ class EntretienAdminController extends ChangeNotifier {
     pages = [
       const EntretienAdmin(),
       const AjoutEntretien(),
+      ModifierEntretien()
     ];
   }
   gotoAddEntretien() {
@@ -40,6 +59,12 @@ class EntretienAdminController extends ChangeNotifier {
 
   gotoListEntretien() {
     selectedIndex = 0;
+    notifyListeners();
+  }
+
+  gotoUpdateElementEntretien(ElementEntretien elements) {
+    element = elements;
+    selectedIndex = 2;
     notifyListeners();
   }
 }
@@ -54,7 +79,25 @@ class ContratAdminPage extends StatelessWidget {
 }
 
 class ContratAdminController extends ChangeNotifier {
+  Future<void> updateContrat(Contrat contrat) async {
+    try {
+      // Utilisez l'id du contrat pour mettre à jour le document correspondant dans Firestore
+      await FirebaseFirestore.instance
+          .collection('Contrat')
+          .doc(contrat.id)
+          .update({
+        'type': contrat.type,
+        'description': contrat.description,
+        'droits': contrat.droits,
+        'devoirs': contrat.devoirs,
+      });
+    } catch (e) {
+      print('Erreur lors de la mise à jour du contrat : $e');
+    }
+  }
+
   var selectedIndex = 0;
+  Contrat? contrat;
   List<StatefulWidget> pages = [];
   StatefulWidget get page {
     return pages[selectedIndex];
@@ -64,6 +107,7 @@ class ContratAdminController extends ChangeNotifier {
     pages = [
       const ContratAdmin(),
       const AjoutContrat(),
+      ModifierContrat(),
     ];
   }
 
@@ -74,6 +118,12 @@ class ContratAdminController extends ChangeNotifier {
 
   gotoListContrat() {
     selectedIndex = 0;
+    notifyListeners();
+  }
+
+  modifierContrat(Contrat contrats) {
+    contrat = contrats;
+    selectedIndex = 2;
     notifyListeners();
   }
 }
