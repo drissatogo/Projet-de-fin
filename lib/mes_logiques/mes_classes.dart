@@ -7,12 +7,12 @@ class Users {
   String? photo; // Changer String en String?
 
   Users({
-    required this.photo,
     required this.id,
     required this.username,
     required this.numero,
     required this.email,
     required this.motDePasse,
+     this.photo,
   });
 
   // Constructeur nommé pour créer un utilisateur à partir d'une carte (Map)

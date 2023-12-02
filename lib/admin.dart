@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,131 +10,131 @@ import 'package:provider/provider.dart';
 
 import 'mes_logiques/mes_classes.dart';
 
-class Bienvenu extends StatefulWidget {
-  const Bienvenu({super.key});
+// class Bienvenu extends StatefulWidget {
+//   const Bienvenu({super.key});
 
-  @override
-  State<Bienvenu> createState() => _BienvenuState();
-}
+//   @override
+//   State<Bienvenu> createState() => _BienvenuState();
+// }
 
-class _BienvenuState extends State<Bienvenu> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 1359,
-      height: 600,
-      clipBehavior: Clip.antiAlias,
-      decoration: const BoxDecoration(color: Colors.white),
-      child: Stack(
-        children: [
-          Positioned(
-              left: 633,
-              top: 155,
-              child: Container(
-                width: 589,
-                height: 348,
-                decoration: const ShapeDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/milieu.png"),
-                    fit: BoxFit.fill,
-                  ),
-                  shape: RoundedRectangleBorder(
-                      // borderRadius: BorderRadius.circular(41),
-                      ),
-                ),
-              )),
-          const Positioned(
-            left: 702,
-            top: 41,
-            child: SizedBox(
-              width: 479,
-              height: 84,
-              child: Text(
-                'Vous êtes administrateur\nde “Mon GRH”',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 36,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w400,
-                    height: 0,
-                    decoration: TextDecoration.none),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 176.57,
-            top: 433,
-            child: SizedBox(
-              width: 261.15,
-              height: 49.16,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 32.43,
-                    top: 0,
-                    child: Container(
-                      width: 180,
-                      height: 42,
-                      decoration: ShapeDecoration(
-                        color: const Color(0xFF4E5394),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 0,
-                    top: 8.34,
-                    child: SizedBox(
-                        width: 261.15,
-                        height: 40.82,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ConnexionAdmin()));
-                          },
-                          child: const Text(
-                            'Commencer',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                                decoration: TextDecoration.none),
-                          ),
-                        )),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            left: 142,
-            top: 24,
-            child: Container(
-              width: 325,
-              height: 320,
-              decoration: const ShapeDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/logo.png"),
-                  fit: BoxFit.fill,
-                ),
-                shape: OvalBorder(),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+// class _BienvenuState extends State<Bienvenu> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 1359,
+//       height: 600,
+//       clipBehavior: Clip.antiAlias,
+//       decoration: const BoxDecoration(color: Colors.white),
+//       child: Stack(
+//         children: [
+//           Positioned(
+//               left: 633,
+//               top: 155,
+//               child: Container(
+//                 width: 589,
+//                 height: 348,
+//                 decoration: const ShapeDecoration(
+//                   image: DecorationImage(
+//                     image: AssetImage("assets/images/milieu.png"),
+//                     fit: BoxFit.fill,
+//                   ),
+//                   shape: RoundedRectangleBorder(
+//                       // borderRadius: BorderRadius.circular(41),
+//                       ),
+//                 ),
+//               )),
+//           const Positioned(
+//             left: 702,
+//             top: 41,
+//             child: SizedBox(
+//               width: 479,
+//               height: 84,
+//               child: Text(
+//                 'Vous êtes administrateur\nde “Mon GRH”',
+//                 textAlign: TextAlign.center,
+//                 style: TextStyle(
+//                     color: Colors.black,
+//                     fontSize: 36,
+//                     fontFamily: 'Poppins',
+//                     fontWeight: FontWeight.w400,
+//                     height: 0,
+//                     decoration: TextDecoration.none),
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             left: 176.57,
+//             top: 433,
+//             child: SizedBox(
+//               width: 261.15,
+//               height: 49.16,
+//               child: Stack(
+//                 children: [
+//                   Positioned(
+//                     left: 32.43,
+//                     top: 0,
+//                     child: Container(
+//                       width: 180,
+//                       height: 42,
+//                       decoration: ShapeDecoration(
+//                         color: const Color(0xFF4E5394),
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(10),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   Positioned(
+//                     left: 0,
+//                     top: 8.34,
+//                     child: SizedBox(
+//                         width: 261.15,
+//                         height: 40.82,
+//                         child: GestureDetector(
+//                           onTap: () {
+//                             Navigator.push(
+//                                 context,
+//                                 MaterialPageRoute(
+//                                     builder: (context) =>
+//                                         const ConnexionAdmin()));
+//                           },
+//                           child: const Text(
+//                             'Commencer',
+//                             textAlign: TextAlign.center,
+//                             style: TextStyle(
+//                                 color: Colors.white,
+//                                 fontSize: 20,
+//                                 fontFamily: 'Inter',
+//                                 fontWeight: FontWeight.w400,
+//                                 height: 0,
+//                                 decoration: TextDecoration.none),
+//                           ),
+//                         )),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             left: 142,
+//             top: 24,
+//             child: Container(
+//               width: 325,
+//               height: 320,
+//               decoration: const ShapeDecoration(
+//                 image: DecorationImage(
+//                   image: AssetImage("assets/images/logo.png"),
+//                   fit: BoxFit.fill,
+//                 ),
+//                 shape: OvalBorder(),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 // class MenuDashboard extends StatelessWidget {
 //   @override
@@ -325,177 +326,28 @@ class _DashboardFirstState extends State<DashboardFirst> {
   }
 }
 
-class ConnexionAdmin extends StatefulWidget {
-  const ConnexionAdmin({super.key});
+// class ConnexionAdmin extends StatefulWidget {
+    // Assurez-vous que vous avez défini cet argument
+  // final Users users; 
+  // Assurez-vous que vous avez défini cet argument
 
-  @override
-  State<ConnexionAdmin> createState() => _ConnexionAdminState();
-}
+  // ConnexionAdmin({Key? key, required this.users}) : super(key: key);
 
-class _ConnexionAdminState extends State<ConnexionAdmin> {
-  @override
-  Widget build(BuildContext context) {
-    // Initialise le package flutter_screenutil
-    ScreenUtil.init(context);
-    return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        clipBehavior: Clip.antiAlias,
-        decoration: const BoxDecoration(color: Colors.white),
-        child: Stack(
-          children: [
-            Positioned(
-              left: 746,
-              top: 108,
-              child: Container(
-                width: 506,
-                height: 270,
-                decoration: ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 0.50),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 785,
-              top: 170,
-              child: Container(
-                width: 431,
-                height: 52,
-                decoration: const ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 785,
-              top: 268,
-              child: Container(
-                width: 431,
-                height: 52,
-                decoration: const ShapeDecoration(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(side: BorderSide(width: 0.50)),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 808,
-              top: 182,
-              child: SizedBox(
-                width: 400,
-                height: 30,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    hintStyle: TextStyle(
-                      color: Colors.black.withOpacity(0.31),
-                      fontSize: 18,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 802,
-              top: 280,
-              child: SizedBox(
-                width: 400,
-                height: 30,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Mot de passe',
-                    hintStyle: TextStyle(
-                      color: Colors.black.withOpacity(0.31),
-                      fontSize: 18,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 196,
-              top: 82,
-              child: Container(
-                width: 387,
-                height: 385,
-                decoration: const ShapeDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/logo.png"),
-                    fit: BoxFit.fill,
-                  ),
-                  shape: OvalBorder(),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 901,
-              top: 444,
-              child: SizedBox(
-                width: 261.15,
-                height: 49.16,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 32.43,
-                      top: 0,
-                      child: Container(
-                        width: 180,
-                        height: 42,
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFF4E5394),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: 0,
-                      top: 8.34,
-                      child: SizedBox(
-                        width: 261.15,
-                        height: 40.82,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const MyHomePage()));
-                          },
-                          child: const Text(
-                            'Se connecter',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   State<ConnexionAdmin> createState() => _ConnexionAdminState();
+// }
+
+// class _ConnexionAdminState extends State<ConnexionAdmin> {
+//  final _nomController = TextEditingController();
+//   final _motDePasseController = TextEditingController();
+//   final _numeroController = TextEditingController();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(body: Placeholder()),
+//     );
+// }
 
 // class ContratAdmin extends StatefulWidget {
 //   const ContratAdmin({super.key});
@@ -830,6 +682,225 @@ class _ConnexionAdminState extends State<ConnexionAdmin> {
 //   }
 // }
 
+class ConnexionAdmin extends StatefulWidget {
+  const ConnexionAdmin({super.key});
+
+  @override
+  State<ConnexionAdmin> createState() => _ConnexionAdminState();
+}
+
+class _ConnexionAdminState extends State<ConnexionAdmin> {
+   final _emailController = TextEditingController();
+  final _motDePasseController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(body: 
+      Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+          width: 387,
+          height: 385,
+          decoration: ShapeDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/images/logo.png'),
+              fit: BoxFit.fill,
+          ),
+          shape: OvalBorder(),
+          ),
+      ),
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+          width: 506,
+          height: 270,
+          decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+              side: BorderSide(width: 2,color:  Color(0xFF4E5394)),
+              borderRadius: BorderRadius.circular(10),
+          ),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+          width: 400,
+          height: 50,
+          decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(side: BorderSide(width:2,color:  Color(0xFF4E5394))),
+          ),
+          child:
+           TextFormField(
+            controller: _emailController,
+            decoration: InputDecoration(
+                                hintText: 'exemple@gamil.com',
+                                icon: Icon(Icons.mail,size: 30,),
+                                hintStyle: TextStyle(
+                                  color: Colors.black.withOpacity(0.31),
+                                  fontSize: 18,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                              
+          ),
+      ),
+      SizedBox(height: 20,),
+      Container(
+          width: 400,
+          height: 50,
+          decoration: ShapeDecoration(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(side: BorderSide(width:2,color:  Color(0xFF4E5394))),
+          ),
+          child:
+           TextFormField(
+            controller: _motDePasseController,
+            decoration: InputDecoration(
+                                hintText: '*******',
+                                icon: Icon(Icons.lock,size: 30,),
+                                hintStyle: TextStyle(
+                                  color: Colors.black.withOpacity(0.31),
+                                  fontSize: 18,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                              
+          ),
+      )
+        ],
+          ),
+      ),
+      SizedBox(height: 30,),
+
+      Container(
+        width: 150,
+        height: 40,
+        child: ElevatedButton(onPressed: () async {
+           String userEmail = _emailController.text;
+                    String userMotdePasse = _motDePasseController.text;
+                    if ((userEmail == 'dtogo08@gmail.com' || userEmail == 'dribojo@gmail.com') && userMotdePasse.isNotEmpty) {
+                      await signInWithEmailAndPassword(
+                              userEmail, userMotdePasse)
+                          .then((value) async {
+                        /*print(FirebaseAuth.instance.currentUser!.uid);*/
+                        DocumentSnapshot userSnapshot = await FirebaseFirestore
+                            .instance
+                            .collection('users')
+                            .doc(FirebaseAuth.instance.currentUser!.uid)
+                            .get();
+
+                        Users user = Users.fromMap(
+                            userSnapshot.data() as Map<String, dynamic>);
+
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            final screenHeight =
+                                MediaQuery.of(context).size.height;
+                            final targetHeight = screenHeight * 0.25;
+                            return Center(
+                              child: AlertDialog(
+                                content: SizedBox(
+                                  height: targetHeight,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        const Image(
+                                          image: AssetImage(
+                                              "assets/images/valide.jpg"),
+                                          height: 70,
+                                          width: 70,
+                                        ),
+                                        Text(
+                                          user.username,
+                                          style: const TextStyle(
+                                              color: Colors.black),
+                                        ),
+                                        const Text(
+                                          'Vous êtes connectés entant qu\'Administrateur',
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                        Future.delayed(const Duration(seconds: 3), () async {
+                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyHomePage()
+                            ),
+                          );
+                        });
+                      });
+                    } else {
+                      print("Vous ne pouvez pas être admin");
+                            showDialog(
+                          context: context,
+                          builder: (context) {
+                            final screenHeight =
+                                MediaQuery.of(context).size.height;
+                            final targetHeight = screenHeight * 0.25;
+                            return Center(
+                              child: AlertDialog(
+                                content: SizedBox(
+                                  height: targetHeight,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [ const Image(
+                                          image: AssetImage(
+                                              "assets/images/non.jpg"),
+                                          height: 120,
+                                          width: 150,
+                                        ),
+                                        const Text(
+                                          'Vous ne pouvez pas être admin!!! ',
+                                          style: TextStyle(color: Color.fromARGB(255, 252, 42, 42)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                    }
+        },
+        style:ElevatedButton.styleFrom(
+          primary: Color(0xFF4E5394),
+        ),
+         child: 
+        Text('Se connecter',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)),
+      )
+        ],
+      )
+            ],
+          ),
+        ),
+      )),
+    );
+  }
+}
+
+
 class ContratAdmin extends StatefulWidget {
   const ContratAdmin({super.key});
 
@@ -1114,10 +1185,14 @@ class _ModifierContratState extends State<ModifierContrat> {
                     GestureDetector(
                         onTap: () {
                           context
-                                .read<ContratAdminController>()
-                                .gotoListContrat();
+                              .read<ContratAdminController>()
+                              .gotoListContrat();
                         },
-                        child: SvgPicture.asset('assets/images/Back.svg',height: 30,width: 30,)),
+                        child: SvgPicture.asset(
+                          'assets/images/Back.svg',
+                          height: 30,
+                          width: 30,
+                        )),
                     const Text(
                       'Modifier un contrat de travail',
                       textAlign: TextAlign.center,
@@ -2168,16 +2243,16 @@ class ModifierEntretien extends StatefulWidget {
 }
 
 class _ModifierEntretienState extends State<ModifierEntretien> {
- TextEditingController titreController = TextEditingController();
+  TextEditingController titreController = TextEditingController();
   TextEditingController contenuController = TextEditingController();
-   @override
+  @override
   void initState() {
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-   final modifier = context.watch<EntretienAdminController>();
+    final modifier = context.watch<EntretienAdminController>();
     // Initialisez les contrôleurs de texte avec les anciennes valeurs du contrat
     titreController.text = modifier.element?.titre ?? '';
     contenuController.text = modifier.element?.contenu ?? '';
@@ -2198,7 +2273,11 @@ class _ModifierEntretienState extends State<ModifierEntretien> {
                             .read<EntretienAdminController>()
                             .gotoListEntretien();
                       },
-                      child: SvgPicture.asset("assets/images/Back.svg",height: 30,width: 30,),
+                      child: SvgPicture.asset(
+                        "assets/images/Back.svg",
+                        height: 30,
+                        width: 30,
+                      ),
                     ),
                     const Text(
                       'Modifier un élément de l’entretien',
@@ -2351,7 +2430,7 @@ class _ModifierEntretienState extends State<ModifierEntretien> {
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                         // Récupérez les nouvelles valeurs des champs de texte
+                        // Récupérez les nouvelles valeurs des champs de texte
                         String newTitre = titreController.text;
                         String newContenu = contenuController.text;
 
@@ -2439,7 +2518,11 @@ class _AjoutEntretienState extends State<AjoutEntretien> {
                             .read<EntretienAdminController>()
                             .gotoListEntretien();
                       },
-                      child: SvgPicture.asset("assets/images/Back.svg",height: 30,width: 30,),
+                      child: SvgPicture.asset(
+                        "assets/images/Back.svg",
+                        height: 30,
+                        width: 30,
+                      ),
                     ),
                     const Text(
                       'Ajouter un élément de l’entretien',
@@ -2662,11 +2745,15 @@ class _AjoutContratState extends State<AjoutContrat> {
                   children: [
                     GestureDetector(
                         onTap: () {
-                           context
-                                .read<ContratAdminController>()
-                                .gotoListContrat();
+                          context
+                              .read<ContratAdminController>()
+                              .gotoListContrat();
                         },
-                        child: SvgPicture.asset('assets/images/Back.svg',height: 30,width: 30,)),
+                        child: SvgPicture.asset(
+                          'assets/images/Back.svg',
+                          height: 30,
+                          width: 30,
+                        )),
                     const Text(
                       'Ajouter un contrat de travail',
                       textAlign: TextAlign.center,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mongrh/Controller/pageController.dart';
 import 'package:mongrh/admin.dart';
 import 'package:mongrh/firebase_options.dart';
+import 'package:mongrh/mes_logiques/mes_classes.dart';
 import 'package:mongrh/utilisateur.dart';
 import 'package:provider/provider.dart';
 
@@ -25,9 +26,9 @@ void main() async {
           create: (_) => DocumentController(),
         ),
       ],
-      child: const MaterialApp(
+      child:  MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(body: MyHomePage()),
+        home: Scaffold(body: ConnexionAdmin()),
       ),
     ),
   );
@@ -134,6 +135,8 @@ class Demarrage extends StatefulWidget {
 }
 
 class _DemarrageState extends State<Demarrage> {
+  // late final Users user;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -164,11 +167,13 @@ class _DemarrageState extends State<Demarrage> {
                     ..translate(0.0, 0.0)
                     ..rotateZ(0.03),
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.3,
                     height: MediaQuery.of(context).size.height * 0.4,
                     decoration: ShapeDecoration(
                       image: const DecorationImage(
-                        image: AssetImage("assets/images/milieu.png"),
+                        image: AssetImage(
+                          "assets/images/milieu.png",
+                        ),
                         fit: BoxFit.fill,
                       ),
                       shape: RoundedRectangleBorder(
@@ -183,11 +188,14 @@ class _DemarrageState extends State<Demarrage> {
                     children: [
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
-                        onTap: () {
+                        onTap: () async {
+                         
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Bienvenu()));
+                                  builder: (context) => ConnexionAdmin(
+                                        // users: user,
+                                      )));
                         },
                         child: const Text(
                           'Continuer en tant qu’Admin',
@@ -254,8 +262,7 @@ class SplashPage extends StatefulWidget {
   _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
-    with TickerProviderStateMixin {
+class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
 
@@ -308,7 +315,7 @@ class _SplashPageState extends State<SplashPage>
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               AnimatedBuilder(
                 animation: _animationController,
                 builder: (context, child) {

@@ -609,7 +609,25 @@ class Principal extends StatefulWidget {
   State<Principal> createState() => _PrincipalState();
 }
 
+class ImageUploader {
+  static Future<String?> uploadImage(File imageFile, String userId) async {
+    try {
+      String imageName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference storageReference =
+          FirebaseStorage.instance.ref('user_images/$userId/$imageName.jpg');
+      await storageReference.putFile(imageFile);
+
+      String downloadURL = await storageReference.getDownloadURL();
+      return downloadURL;
+    } catch (error) {
+      print('Erreur lors du téléversement de l\'image : $error');
+      return null;
+    }
+  }
+}
+
 class _PrincipalState extends State<Principal> {
+   ImageProvider<Object>? _avatarImage;
   void _onDetail() async {
     DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
         .collection('users')
@@ -652,74 +670,58 @@ class _PrincipalState extends State<Principal> {
     // Do something when the modify item is tapped
   }
 
-  // Future<void> _onImage() async {
-  //   print('objectsssssss');
-  //   DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-  //       .collection('users')
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .get();
-  //   Users user = Users.fromMap(userSnapshot.data() as Map<String, dynamic>);
-
-  //   // Implement logic to allow the user to pick an image
-  //   final picker = ImagePicker();
-  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //   print('object');
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       user.photo = File(pickedFile.path).path;
-  //     });
-  //     print('ssssss');
-  //     // Upload the image to Cloud Storage
-      
-  //   }
-  // }
-
-Future<void> _onImage() async {
-  print('objectsssssss');
-  DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser!.uid)
-      .get();
-
-  Users user = Users.fromMap(userSnapshot.data() as Map<String, dynamic>);
-
-  // Implement logic to allow the user to pick an image
-  final picker = ImagePicker();
-  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-  print('object');
-
-  if (pickedFile != null) {
-    // Upload the image to Cloud Storage
-    File imageFile = File(pickedFile.path);
-    String imageName = DateTime.now().millisecondsSinceEpoch.toString();
-
+  Users user = Users(
+      id: 'id',
+      username: 'username',
+      numero: 0,
+      email: 'email',
+      motDePasse: 'motDePasse',
+      photo: '');
+  Future<void> _onImage() async {
     try {
-      await FirebaseStorage.instance
-          .ref('user_images/$imageName.jpg') // you can change the path and extension as needed
-          .putFile(imageFile);
-
-      // Get the download URL from Firebase Storage
-      String downloadURL = await FirebaseStorage.instance
-          .ref('user_images/$imageName.jpg') // same path as above
-          .getDownloadURL();
-
-      // Update the user's photo URL in Firestore
-      await FirebaseFirestore.instance
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({'photo': downloadURL});
+          .get();
 
-      setState(() {
-        user.photo = downloadURL;
-      });
+      Users user = Users.fromMap(userSnapshot.data() as Map<String, dynamic>);
 
-      print('Image uploaded successfully');
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        File imageFile = File(pickedFile.path);
+
+        try {
+          String? downloadURL = await ImageUploader.uploadImage(
+            imageFile,
+            FirebaseAuth.instance.currentUser!.uid,
+          );
+
+          if (downloadURL != null) {
+            await FirebaseFirestore.instance
+                .collection('users')
+                .doc(FirebaseAuth.instance.currentUser!.uid)
+                .update({'photo': downloadURL});
+
+            setState(() {
+              user.photo = downloadURL;
+            _avatarImage = NetworkImage(downloadURL) as ImageProvider<Object>;
+            });
+
+            print('Image téléversée avec succès');
+          }
+        } catch (error) {
+          print('Erreur lors du téléversement de l\'image : $error');
+        }
+      }
     } catch (error) {
-      print('Error uploading image: $error');
+      print('Erreur lors de la récupération des données utilisateur : $error');
+      setState(() {
+        // user.photo = 'assets/images/profil.png';
+      });
     }
   }
-}
 
 
 
@@ -730,7 +732,6 @@ Future<void> _onImage() async {
         fontWeight: FontWeight.normal,
         decoration: TextDecoration.none,
         color: Colors.black);
-
     return Container(
       color: Colors.white,
       child: Column(
@@ -802,11 +803,12 @@ Future<void> _onImage() async {
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(color: Colors.grey, width: 3)),
-              child: const CircleAvatar(
-                backgroundColor: Colors.white,
-                foregroundImage: AssetImage('assets/images/profil.png'),
-                radius: 50,
-              ),
+              child:
+                CircleAvatar(
+      backgroundColor: Colors.white,
+      foregroundImage: _avatarImage ?? const AssetImage('assets/images/profil.png'),
+      radius: 50,
+    ),
             ),
           ),
           // SvgPicture.asset("assets/images/prof.svg"),
@@ -815,7 +817,7 @@ Future<void> _onImage() async {
             height: 30,
           ),
           Center(
-            child: Container(
+            child: SizedBox(
               width: 200,
               height: 200,
               child: Wrap(
@@ -2077,7 +2079,7 @@ class _CodeDuTravailPageState extends State<PdfViewerPage> {
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Rechercher...',
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
