@@ -1161,7 +1161,7 @@ class _ContratState extends State<AfficherContrat> {
                     )
                   ],
                 ),
-                child: Text(contrat.description),
+                child: SingleChildScrollView(child: Text(contrat.description)),
               ),
               const SizedBox(
                 height: 20,
@@ -1184,7 +1184,7 @@ class _ContratState extends State<AfficherContrat> {
                     )
                   ],
                 ),
-                child: Text(contrat.droits),
+                child: SingleChildScrollView(child: Text(contrat.droits)),
               ),
               const SizedBox(
                 height: 20,
@@ -1207,7 +1207,7 @@ class _ContratState extends State<AfficherContrat> {
                     )
                   ],
                 ),
-                child: Text(contrat.devoirs),
+                child: SingleChildScrollView(child: Text(contrat.devoirs)),
               ),
             ],
           ),
@@ -1729,22 +1729,23 @@ class _CvState extends State<Cv> {
         const SizedBox(
           height: 40,
         ),
-        Container(
-          width: 250,
-          height: 400, // Ajustez la hauteur selon vos besoins
-          decoration: ShapeDecoration(
-            color: Colors.white,
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(width: 0.50),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          child: Column(
+        // Container(
+        //   width: 250,
+        //   height: 400, // Ajustez la hauteur selon vos besoins
+        //   decoration: ShapeDecoration(
+        //     color: Colors.white,
+        //     shape: RoundedRectangleBorder(
+        //       side: const BorderSide(width: 0.50),
+        //       borderRadius: BorderRadius.circular(10),
+        //     ),
+        //   ),
+        //   child:
+           Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                width: 200,
-                height: 50,
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.height * 0.6,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -1768,7 +1769,7 @@ class _CvState extends State<Cv> {
               ),
             ],
           ),
-        ),
+        // ),
         // Spacer(),
         //    Container(
         // height: 40,
@@ -3365,11 +3366,13 @@ class _ContenuEntretienState extends State<ContenuEntretien> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text(
-                    widget.elementEntretien.contenu,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
+                  child: SingleChildScrollView(
+                    child: Text(
+                      widget.elementEntretien.contenu,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 )

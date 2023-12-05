@@ -326,362 +326,6 @@ class _DashboardFirstState extends State<DashboardFirst> {
   }
 }
 
-// class ConnexionAdmin extends StatefulWidget {
-    // Assurez-vous que vous avez défini cet argument
-  // final Users users; 
-  // Assurez-vous que vous avez défini cet argument
-
-  // ConnexionAdmin({Key? key, required this.users}) : super(key: key);
-
-//   @override
-//   State<ConnexionAdmin> createState() => _ConnexionAdminState();
-// }
-
-// class _ConnexionAdminState extends State<ConnexionAdmin> {
-//  final _nomController = TextEditingController();
-//   final _motDePasseController = TextEditingController();
-//   final _numeroController = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(body: Placeholder()),
-//     );
-// }
-
-// class ContratAdmin extends StatefulWidget {
-//   const ContratAdmin({super.key});
-
-//   @override
-//   State<ContratAdmin> createState() => _ContratAdminState();
-// }
-
-// class _ContratAdminState extends State<ContratAdmin> {
-
-//  List<Contrat> lescontrats = [];
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     fetchData();
-//   }
-
-//   void fetchData() async {
-//     try {
-//       CollectionReference<Map<String, dynamic>> lescontratsCollection =
-//           FirebaseFirestore.instance.collection('Contrat');
-
-//       QuerySnapshot<Map<String, dynamic>> lescontratsSnapshot =
-//           await lescontratsCollection.get();
-
-//       List<Contrat> items = lescontratsSnapshot.docs
-//           .map((QueryDocumentSnapshot<Map<String, dynamic>> doc) {
-//         Map<String, dynamic> data = doc.data();
-//         return Contrat(
-//           // sigle: data['sigle'] as String,
-//           type: data['type'] as String,
-//           description: data['description'] as String,
-//           droits: data['droits'] as String,
-//           devoirs: data['devoirs'] as String,
-//         );
-//       }).toList();
-
-//       setState(() {
-//         lescontrats = items;
-//       });
-//     } catch (e) {
-//       print('Erreur lors de la récupération des données : $e');
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // final ajouterContrat = context.watch<ContratAdminController>();
-
-//     return Scaffold(
-//       body: Directionality(
-//         textDirection: TextDirection.ltr,
-//         child: SizedBox(
-//           width: 1300,
-//           height: 600,
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Row(
-//                 children: [
-//                   Container(),
-//                   const Expanded(
-//                     child: Text(
-//                       'Les types de contrat du travail',
-//                       textAlign: TextAlign.center,
-//                       style: TextStyle(
-//                         color: Color(0xFF4E5394),
-//                         fontSize: 40,
-//                         fontFamily: 'Poppins',
-//                         fontWeight: FontWeight.w700,
-//                         height: 0,
-//                       ),
-//                     ),
-//                   ),
-//                   Container(
-//                     width: 172,
-//                     height: 173,
-//                     decoration: const ShapeDecoration(
-//                       image: DecorationImage(
-//                         image: AssetImage("assets/images/logo.png"),
-//                         fit: BoxFit.fill,
-//                       ),
-//                       shape: OvalBorder(),
-//                     ),
-//                   )
-//                 ],
-//               ),
-//               Expanded(
-//                 child: Container(
-//                   width: 1039,
-//                   height: 408,
-//                   decoration: ShapeDecoration(
-//                     color: Colors.white,
-//                     shape: RoundedRectangleBorder(
-//                       side:
-//                           const BorderSide(width: 3, color: Color(0xFF4E5394)),
-//                       borderRadius: BorderRadius.circular(20),
-//                     ),
-//                   ),
-//                   child: Column(
-//                     children: [
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                         children: [
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 width: 138,
-//                                 height: 152,
-//                                 decoration: const BoxDecoration(
-//                                   image: DecorationImage(
-//                                     image:
-//                                         AssetImage("assets/images/contrat.jpg"),
-//                                     fit: BoxFit.fill,
-//                                   ),
-//                                 ),
-//                               ),
-//                               const Row(
-//                                 children: [
-//                                   Text(
-//                                     'CDD',
-//                                     textAlign: TextAlign.center,
-//                                     style: TextStyle(
-//                                       color: Color(0xFF4E5394),
-//                                       fontSize: 20,
-//                                       fontFamily: 'Poppins',
-//                                       fontWeight: FontWeight.w500,
-//                                       height: 0,
-//                                     ),
-//                                   ),
-//                                   Icon(Icons.delete,color: Colors.red,),
-//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
-//                                 ],
-//                               )
-//                             ],
-//                           ),
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 width: 138,
-//                                 height: 152,
-//                                 decoration: const BoxDecoration(
-//                                   image: DecorationImage(
-//                                     image:
-//                                         AssetImage("assets/images/contrat.jpg"),
-//                                     fit: BoxFit.fill,
-//                                   ),
-//                                 ),
-//                               ),
-//                               const Row(
-//                                 children: [
-//                                   Text(
-//                                     'CDD',
-//                                     textAlign: TextAlign.center,
-//                                     style: TextStyle(
-//                                       color: Color(0xFF4E5394),
-//                                       fontSize: 20,
-//                                       fontFamily: 'Poppins',
-//                                       fontWeight: FontWeight.w500,
-//                                       height: 0,
-//                                     ),
-//                                   ),
-//                                   Icon(Icons.delete,color: Colors.red,),
-//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
-//                                 ],
-//                               )
-//                             ],
-//                           ),
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 width: 138,
-//                                 height: 152,
-//                                 decoration: const BoxDecoration(
-//                                   image: DecorationImage(
-//                                     image:
-//                                         AssetImage("assets/images/contrat.jpg"),
-//                                     fit: BoxFit.fill,
-//                                   ),
-//                                 ),
-//                               ),
-//                               const Row(
-//                                 children: [
-//                                   Text(
-//                                     'CDD',
-//                                     textAlign: TextAlign.center,
-//                                     style: TextStyle(
-//                                       color: Color(0xFF4E5394),
-//                                       fontSize: 20,
-//                                       fontFamily: 'Poppins',
-//                                       fontWeight: FontWeight.w500,
-//                                       height: 0,
-//                                     ),
-//                                   ),
-//                                   Icon(Icons.delete,color: Colors.red,),
-//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
-//                                 ],
-//                               )
-//                             ],
-//                           )
-//                         ],
-//                       ),
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                         children: [
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 width: 138,
-//                                 height: 152,
-//                                 decoration: const BoxDecoration(
-//                                   image: DecorationImage(
-//                                     image:
-//                                         AssetImage("assets/images/contrat.jpg"),
-//                                     fit: BoxFit.fill,
-//                                   ),
-//                                 ),
-//                               ),
-//                               const Row(
-//                                 children: [
-//                                   Text(
-//                                     'CDD',
-//                                     textAlign: TextAlign.center,
-//                                     style: TextStyle(
-//                                       color: Color(0xFF4E5394),
-//                                       fontSize: 20,
-//                                       fontFamily: 'Poppins',
-//                                       fontWeight: FontWeight.w500,
-//                                       height: 0,
-//                                     ),
-//                                   ),
-//                                   Icon(Icons.delete,color: Colors.red,),
-//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
-//                                 ],
-//                               )
-//                             ],
-//                           ),
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 width: 138,
-//                                 height: 152,
-//                                 decoration: const BoxDecoration(
-//                                   image: DecorationImage(
-//                                     image:
-//                                         AssetImage("assets/images/contrat.jpg"),
-//                                     fit: BoxFit.fill,
-//                                   ),
-//                                 ),
-//                               ),
-//                               const Row(
-//                                 children: [
-//                                   Text(
-//                                     'CDD',
-//                                     textAlign: TextAlign.center,
-//                                     style: TextStyle(
-//                                       color: Color(0xFF4E5394),
-//                                       fontSize: 20,
-//                                       fontFamily: 'Poppins',
-//                                       fontWeight: FontWeight.w500,
-//                                       height: 0,
-//                                     ),
-//                                   ),
-//                                   Icon(Icons.delete,color: Colors.red,),
-//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
-//                                 ],
-//                               )
-//                             ],
-//                           ),
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 width: 138,
-//                                 height: 152,
-//                                 decoration: const BoxDecoration(
-//                                   image: DecorationImage(
-//                                     image:
-//                                         AssetImage("assets/images/contrat.jpg"),
-//                                     fit: BoxFit.fill,
-//                                   ),
-//                                 ),
-//                               ),
-//                               const Row(
-//                                 children: [
-//                                   Text(
-//                                     'CDD',
-//                                     textAlign: TextAlign.center,
-//                                     style: TextStyle(
-//                                       color: Color(0xFF4E5394),
-//                                       fontSize: 20,
-//                                       fontFamily: 'Poppins',
-//                                       fontWeight: FontWeight.w500,
-//                                       height: 0,
-//                                     ),
-//                                   ),
-//                                   Icon(Icons.delete,color: Colors.red,),
-//                                   Icon(Icons.edit_square, color: Color(0xFF4E5394),)
-//                                 ],
-//                               )
-//                             ],
-//                           )
-//                         ],
-//                       ),
-//                       Row(
-//                         mainAxisAlignment: MainAxisAlignment.end,
-//                         children: [
-//                           GestureDetector(
-//                             onTap: () async {
-//                               // await ajouterContrat.gotoAddContrat();
-//                               context
-//                                   .read<ContratAdminController>()
-//                                   .gotoAddContrat();
-//                             },
-//                             child: const Icon(
-//                               Icons.add_circle,
-//                               color: Color.fromARGB(255, 3, 57, 102),
-//                               size: 40,
-//                             ),
-//                           )
-//                         ],
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               )
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class ConnexionAdmin extends StatefulWidget {
   const ConnexionAdmin({super.key});
 
@@ -958,100 +602,100 @@ class _ContratAdminState extends State<ContratAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Directionality(
-        textDirection: TextDirection.ltr,
-        child: SizedBox(
-          width: 1300,
-          height: 600,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.75,
-                child: Row(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () async {
-                            // await ajouterContrat.gotoAddContrat();
-                            context
-                                .read<ContratAdminController>()
-                                .gotoAddContrat();
-                          },
-                          child: const Icon(
-                            Icons.add_circle,
-                            color: Color.fromARGB(255, 3, 57, 102),
-                            size: 40,
+    return  Scaffold(
+        body: Directionality(
+          textDirection: TextDirection.ltr,
+          child: SizedBox(
+            width: 1300,
+            height: 600,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.75,
+                  child: Row(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              // await ajouterContrat.gotoAddContrat();
+                              context
+                                  .read<ContratAdminController>()
+                                  .gotoAddContrat();
+                            },
+                            child: const Icon(
+                              Icons.add_circle,
+                              color: Color.fromARGB(255, 3, 57, 102),
+                              size: 40,
+                            ),
+                          )
+                        ],
+                      ),
+                      const Expanded(
+                        child: Text(
+                          'Les types de contrat du travail',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color(0xFF4E5394),
+                            fontSize: 30,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w700,
+                            height: 0,
                           ),
-                        )
-                      ],
-                    ),
-                    const Expanded(
-                      child: Text(
-                        'Les types de contrat du travail',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xFF4E5394),
-                          fontSize: 30,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w700,
-                          height: 0,
                         ),
                       ),
-                    ),
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: const ShapeDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("assets/images/logo.png"),
-                          fit: BoxFit.fill,
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: const ShapeDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/logo.png"),
+                            fit: BoxFit.fill,
+                          ),
+                          shape: OvalBorder(),
                         ),
-                        shape: OvalBorder(),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  width: 1039,
-                  height: 408,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side:
-                          const BorderSide(width: 3, color: Color(0xFF4E5394)),
-                      borderRadius: BorderRadius.circular(20),
+                Expanded(
+                  child: Container(
+                    width: 1039,
+                    height: 408,
+                    decoration: ShapeDecoration(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        side:
+                            const BorderSide(width: 3, color: Color(0xFF4E5394)),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: ListView.builder(
+                      itemCount: (lescontrats.length / 3).ceil(),
+                      itemBuilder: (context, index) {
+                        int startIndex = index * 3;
+                        int endIndex = (index + 1) * 3;
+                        endIndex = endIndex > lescontrats.length
+                            ? lescontrats.length
+                            : endIndex;
+    
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: List.generate(endIndex - startIndex, (i) {
+                            var contrat = lescontrats[startIndex + i];
+                            return buildContratWidget(contrat);
+                          }),
+                        );
+                      },
                     ),
                   ),
-                  child: ListView.builder(
-                    itemCount: (lescontrats.length / 3).ceil(),
-                    itemBuilder: (context, index) {
-                      int startIndex = index * 3;
-                      int endIndex = (index + 1) * 3;
-                      endIndex = endIndex > lescontrats.length
-                          ? lescontrats.length
-                          : endIndex;
-
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: List.generate(endIndex - startIndex, (i) {
-                          var contrat = lescontrats[startIndex + i];
-                          return buildContratWidget(contrat);
-                        }),
-                      );
-                    },
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
-      ),
     );
   }
 
@@ -2988,7 +2632,9 @@ class _AjoutContratState extends State<AjoutContrat> {
                         );
                         print("half");
                         await service.ajouterContrat(contrat);
-                        print("hell");
+context
+                                  .read<ContratAdminController>()
+                                  .gotoListContrat();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(

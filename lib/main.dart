@@ -28,7 +28,7 @@ void main() async {
       ],
       child:  MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(body: ConnexionAdmin()),
+        home: Scaffold(body: MyApp()),
       ),
     ),
   );
